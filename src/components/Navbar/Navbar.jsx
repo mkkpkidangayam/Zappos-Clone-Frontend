@@ -1,13 +1,17 @@
+import { useState } from "react";
 import logo from "../Assets/zappos-logo-black.svg";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 const Navbar = () => {
+  const [menu, setMenu] = useState('')
+
+  
   return (
     <>
       <div className="">
         <div className="container mx-auto py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
+            <div className="flex items-center translate-x-5">
               <div className="ml-3 mr-10">
                 <img
                   src={logo}
@@ -16,14 +20,21 @@ const Navbar = () => {
                 />
               </div>
               <div className="flex items-center  rounded-full border border-black">
-                <span> <SearchIcon/> </span>
+                <span className="translate-x-2">
+                  <SearchIcon />
+                </span>
+                <form action="search">
                 <input
-                  action="/search"
+                 
                   type="text"
+                  // value={''}
                   placeholder="Search for shoes, clothes, etc."
-                  className=" w-[400px] rounded-full px-4 py-2 border focus:none"
+                  className=" w-[400px] rounded-full px-4 py-2 border-none focus:outline-none"
                 />
+                <button className="w-24 border-l border-black py-2" type="submit"><b>Search</b></button>
+                </form>
               </div>
+
             </div>
             <div className="flex items-center mr-2">
               <svg
@@ -49,16 +60,16 @@ const Navbar = () => {
               </svg>
             </div>
           </div>
-          <div className="flex justify-between mt-4 ml-3">
+          <div className="flex justify-between mt-4 translate-x-4">
             <ul className="flex text-dark font-bold ">
-              <li className="mr-6 hover:bg-zinc-300">Women</li>
-              <li className="mr-6 hover:bg-zinc-300">Men</li>
-              <li className="mr-6 hover:bg-zinc-300">Kids</li>
-              <li className="mr-6 hover:bg-zinc-300">Collections</li>
-              <li className="mr-6 hover:bg-zinc-300">Brands</li>
-              <li className="mr-6 hover:bg-zinc-300">Sale</li>
+              <li onClick={()=> {setMenu('Women')}} className="  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1">Women <br />{menu === 'Women' ? <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" /> : <> </>}</li>
+              <li onClick={()=> {setMenu('Men')}} className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1">Men {menu === 'Men' ? <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" /> : <> </>}</li>
+              <li onClick={()=> {setMenu('Kids')}} className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1 text-center">Kids {menu === 'Kids' ? <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" /> : <> </>}</li>
+              <li onClick={()=> {setMenu('Collections')}} className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1">Collections {menu === 'Collections' ? <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" /> : <> </>}</li>
+              <li onClick={()=> {setMenu('Brands')}} className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1">Brands {menu === 'Brands' ? <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" /> : <> </>}</li>
+              <li onClick={()=> {setMenu('Sale')}} className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1 transition-transform">Sale {menu === 'Sale' ? <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" /> : <> </>}</li>
             </ul>
-            <div className="text-black font-bold mr-5">Help & Support</div>
+            <a className="text-black font-bold mr-9">Help & Support</a>
           </div>
         </div>
       </div>
