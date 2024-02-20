@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../Assets/zappos-logo-black.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, Outlet } from "react-router-dom";
+import { Tooltip } from "react-tooltip"; 
 
 const Navbar = () => {
   const [menu, setMenu] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
+  useEffect(() => {
+    // Close tooltip after 3 seconds
+    const timer = setTimeout(() => {
+      setShowTooltip(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [showTooltip]);
 
   return (
     <>
@@ -59,6 +68,8 @@ const Navbar = () => {
                   viewBox="0 0 32 32"
                   fill="none"
                   stroke="currentColor"
+                  data-tip="Click to login"
+                  onClick={() => setShowTooltip(true)}
                 >
                   <path d="M8.9993 25.1863C8.99977 25.1802 9.00024 25.1741 9.00118 25.168M9.00118 25.168C9.34102 21.6017 12.3447 18.8127 16.0001 18.8127C19.6554 18.8127 22.6586 21.6012 22.9995 25.1675M9.00118 25.168C10.9413 26.6511 13.367 27.5313 16 27.5313C18.6334 27.5313 21.0593 26.6506 22.9995 25.1675M9.00118 25.168C6.24535 23.0623 4.46875 19.7406 4.46875 16C4.46875 9.62688 9.62594 4.46875 16 4.46875C18.6658 4.46875 21.1191 5.37109 23.0711 6.88741M22.9995 25.1675C25.7552 23.0619 27.5313 19.7402 27.5313 16C27.5313 13.8093 26.922 11.7624 25.8635 10.0191M16 16.9375C13.9323 16.9375 12.25 15.2552 12.25 13.1875C12.25 11.1198 13.9323 9.43751 16 9.43751C18.0677 9.43751 19.75 11.1198 19.75 13.1875C19.75 15.2552 18.0677 16.9375 16 16.9375Z" />
                   <path
@@ -67,6 +78,7 @@ const Navbar = () => {
                   />
                 </svg>
               </Link>
+              
               <Link to="/cart">
                 <svg
                   className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 "
@@ -84,6 +96,15 @@ const Navbar = () => {
                 </svg>
               </Link>
             </div>
+            {showTooltip && (
+                <Tooltip
+                  place="bottom"
+                  effect="solid"
+                  className="bg-gray-800 text-white p-2 rounded-md absolute top-16 left-6"
+                >
+                  Click to login
+                </Tooltip>
+              )}
           </div>
           <div className="flex justify-between mt-4 translate-x-4">
             <ul className="flex text-dark font-bold ">

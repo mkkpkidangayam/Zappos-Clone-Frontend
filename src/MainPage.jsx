@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Brands from "./pages/Brands";
@@ -8,10 +8,22 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar/Navbar";
 import Cart from "./pages/Cart";
+import myContext from "./context/myContextxt";
+import UsersData from "./components/Data/UserData";
+// import ProductData from './components/Data/ProductData'
 
 const MainPage = () => {
+  const [userData, setUserData] = useState(UsersData);
+  const [email, setEmail] = useState("");
+
+  const details = {
+    userData,
+    setUserData,
+    email,
+    setEmail,
+  };
   return (
-    <BrowserRouter>
+    <myContext.Provider value={details}>
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />} />
@@ -28,7 +40,7 @@ const MainPage = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-    </BrowserRouter>
+    </myContext.Provider>
   );
 };
 

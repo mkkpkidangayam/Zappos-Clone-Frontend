@@ -1,11 +1,11 @@
+import { BrowserRouter } from "react-router-dom";
 import MainPage from "./MainPage";
-
 
 function App() {
   return (
-    <div>
-     <MainPage/>
-    </div>
+    <BrowserRouter>
+      <MainPage />
+    </BrowserRouter>
   );
 }
 
