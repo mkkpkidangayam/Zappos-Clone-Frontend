@@ -15,12 +15,15 @@ import UsersData from "./components/Data/UserData";
 const MainPage = () => {
   const [userData, setUserData] = useState(UsersData);
   const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
 
   const details = {
     userData,
     setUserData,
     email,
     setEmail,
+    userName,
+    setUserName,
   };
   return (
     <myContext.Provider value={details}>

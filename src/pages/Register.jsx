@@ -1,10 +1,20 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 
 function Register() {
   const navigate = useNavigate();
+
+  const generateOtp = () => {
+    let OTP = "";
+    let digits = "1234567890";
+    for (let i = 0; i < 4; i++) {
+      OTP += digits[Math.floor(Math.random() * 10)];
+    }
+    return OTP;
+  };
+  console.log(generateOtp());
 
   const initialFormData = {
     name: "",

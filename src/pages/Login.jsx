@@ -6,7 +6,7 @@ import UsersData from "../components/Data/UserData";
 
 function Login() {
   const navigate = useNavigate();
-  const { email, setEmail } = useContext(myContext);
+  const { email, setEmail, setUserName } = useContext(myContext);
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
@@ -23,7 +23,7 @@ function Login() {
 
     if (user) {
       alert('Sign in succesfully start shoping')
-
+      setUserName(user.name)
       navigate('/')
     }else{
       alert("Cant't sign in, Email or password is not correct")
