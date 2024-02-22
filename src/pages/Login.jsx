@@ -3,17 +3,18 @@ import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import UsersData from "../components/Data/UserData";
+import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
-  const { email, setEmail, setUserName } = useContext(myContext);
+  const { email, setEmail, setUserName} = useContext(myContext);
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Please fill in both email and password fields.");
+      toast.error("Please fill in both email and password fields.");
       return;
     }
 
@@ -22,11 +23,11 @@ function Login() {
     );
 
     if (user) {
-      alert('Sign in succesfully start shoping')
+      toast.success(user.name +' Sign in succesful start shoping')
       setUserName(user.name)
       navigate('/')
     }else{
-      alert("Cant't sign in, Email or password is not correct")
+      toast.error("Cant't sign in, Email or password is not correct")
     }
   };
 
@@ -52,7 +53,7 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border mb-5 border-black w-[296px] h-[31px] rounded"
+              className="border mb-5 pl-2 border-black w-[296px] h-[31px] rounded"
             />
             <label className="font-bold text-sm" htmlFor="password">
               Password
@@ -64,7 +65,7 @@ function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border border-black w-[296px] h-[31px] rounded"
+              className="border pl-2 border-black w-[296px] h-[31px] rounded"
             />
             <button
               type="submit"

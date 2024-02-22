@@ -1,11 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import myContext from "../../context/myContextxt";
+import { FaUser } from "react-icons/fa";
+import { useClickAway } from "react-use";
+import toast from "react-hot-toast";
+
+
 
 const DropdownLogin = () => {
-  const { userName } = useContext(myContext);
+  const ref = useRef(null)
+  const { userName, setUserName, setEmail, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
+
+  const handleClickAway = () => {
+    SetIsMenuOpen(false)
+  };
+  useClickAway(ref, handleClickAway)
+
+  const handleLogout = () => {
+    SetIsMenuOpen(!isMenuOpen)
+    setUserName('');
+    setEmail('');
+    toast.success(userName + ' Sign-out your account successful');
+
+  };
   return (
     <div
+    ref={ref}
       data-side="bottom"
       data-align="end"
       role="menu"
@@ -47,20 +67,11 @@ const DropdownLogin = () => {
       }}
     >
       <div role="group" className="flex flex-col gap-y-1">
-        <h2
-          aria-disabled="true"
-          aria-label="Account Overview"
-          className="flex w-40 items-center justify-between p-2 rounded-xl font-bold transition-colors "
-          role="menuitem"
-          tabIndex="-1"
-          data-orientation="vertical"
-          data-radix-collection-item=""
-        >
-          {userName}
+        <h2 className="flex w-40 items-center p-2 justify-start gap-1  rounded-xl font-bold transition-colors ">
+          <FaUser /> {userName}
         </h2>
         <hr className="border-t-2 border-t-black" />
 
-        {/* <hr className="border-black"/> */}
         <Link
           aria-disabled="true"
           aria-label="Account Overview"
@@ -86,11 +97,10 @@ const DropdownLogin = () => {
         >
           <span>View Orders/Return</span>
         </Link>
-        <Link
-          aria-disabled="true"
+        <button
           aria-label="Sign Out"
           className="flex w-40 items-center justify-between p-2 rounded-xl transition-colors border hover:bg-slate-300 hover:border-blue-700"
-          to="/logout"
+          onClick={handleLogout}
           role="menuitem"
           tabIndex="-1"
           data-orientation="vertical"
@@ -112,7 +122,7 @@ const DropdownLogin = () => {
               strokeLinejoin="round"
             ></path>
           </svg>
-        </Link>
+        </button>
       </div>
     </div>
   );

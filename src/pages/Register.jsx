@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
+import toast from "react-hot-toast";
 
 function Register() {
   const navigate = useNavigate();
@@ -70,8 +71,9 @@ function Register() {
     setError(newErrors);
     if (Object.keys(newErrors).length === 0) {
       userHandler();
-      alert(
-        "Thanks for coming to our party!  Please sign in your with email and password"
+      toast.success(
+        formData.name +
+          ", Welcome to our party! To unlock a wonderful shopping experience, please sign in with your email and password. Thanks for choosing to join us! "
       );
       navigate("/login");
     }
@@ -151,28 +153,6 @@ function Register() {
               {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
             </div>
           )}
-          {/* <div
-            className={
-              !errors
-                ? "text-red-600 font-semibold mb-3 "
-                : "text-red-600 font-semibold mb-3 "
-            }
-          >
-            {errors.name}
-            <br />
-            {errors.email}
-            <br />
-            {errors.password}
-            <br />
-            {errors.confirmPassword}
-          </div> */}
-
-          <br />
-          {/* <span className="text-red-600 font-semibold">{errors.email}</span>
-          <br />
-          <span className="text-red-600 font-semibold">{errors.password}</span>
-          <br />
-          <span className="text-red-600 font-semibold">{errors.confirmPassword}</span> */}
 
           <p className="text-[12px]">
             Registering means you agree to the Zappos terms of use and
