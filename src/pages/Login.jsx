@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
-import UsersData from "../components/Data/UserData";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const { email, setEmail, setUserName} = useContext(myContext);
+  const { email, setEmail, setUserName } = useContext(myContext);
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
@@ -18,20 +18,34 @@ function Login() {
       return;
     }
 
-    const user = UsersData.find(
-      (user) => user.email === email && user.password === password
-    );
+    axios
+      .post("http://localhost:4323/login", { email, password })
+      .then((response) => {
+        const { status, userName } = response.data;
+        if (status === "success") {
+          toast.success(`${userName}, sign in successful. Start shopping...`);
+          setUserName(userName);
+          navigate("/");
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging in:", error);
+        toast.error("Unable to sign in. Please try again later.");
+      });
 
-    if (user) {
-      toast.success(user.name +' Sign in succesful start shoping')
-      setUserName(user.name)
-      navigate('/')
-    }else{
-      toast.error("Cant't sign in, Email or password is not correct")
-    }
+    // const user = UsersData.find(
+    //   (user) => user.email === email && user.password === password
+    // );
+
+    // if (user) {
+    //   toast.success(user.name + ", sign in succesful. Start shoping...");
+    // } else {
+    //   toast.error("Cant't sign in, Email or password is not correct");
+    // }
   };
 
-  
   return (
     <div className="container ">
       <div className="h-24  flex justify-center items-center ">
@@ -81,7 +95,7 @@ function Login() {
           <br />
           <button
             onClick={() => navigate("/register")}
-            className="w-[296px] h-[31px] mt-3 border-2 font-bold text-[#003953] border-[#003953]"
+            className="w-[296px] h-[31px] mt-3 border-2 font-bold rounded text-[#003953] border-[#003953]"
           >
             Create your Zappos account
           </button>

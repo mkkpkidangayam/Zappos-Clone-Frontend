@@ -5,86 +5,35 @@ import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-function Register() {
+function Registeration() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [conformPassword, setConformPassword] = useState("");
 
-  const initialFormData = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-  const [formData, setFormData] = useState(initialFormData);
-  const [errors, setErrors] = useState({});
+  //   const initialFormData = {
+  //     name: "",
+  //     email: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //   };
+  //   const [formData, setFormData] = useState(initialFormData);
 
-  const generateOtp = () => {
-    let OTP = "";
-    let digits = "1234567890";
-    for (let i = 0; i < 4; i++) {
-      OTP += digits[Math.floor(Math.random() * 10)];
-    }
-    return OTP;
-  };
-  console.log(generateOtp());
-
-  
-
-  const handleChange = (e) => {
-    // const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-  
-
-  // const userHandler = () => {
-  //   userData.push({
-  //     name: formData.name,
-  //     email: formData.email,
-  //     password: formData.password,
-  //   });
-  //   setUserData(userData.slice());
-  // };
-  // console.log(userData);
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newErrors = {};
-    try {
-      const response = await axios.post('http://localhost:4323/api/register', formData)
-      console.log(response.data);
-      navigate('/login')
-    } catch (error) {
-      console.error(error.response.data)
-      setErrors(err.response.data);
 
-    }
-    
+    axios
+      .post("http://localhost:4323/register", {
+        name,
+        email,
+        password,
+        conformPassword,
+      })
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
 
-    if (formData.name === "") {
-      newErrors.name = "Name is required";
-    }
-    if (formData.email === "") {
-      newErrors.email = "Email is required";
-    }
-    if (formData.password === "") {
-      newErrors.password = "Password is required";
-    }
-    if (formData.confirmPassword === "") {
-      newErrors.confirmPassword = "Re enter the password";
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    setError(newErrors);
-    if (Object.keys(newErrors).length === 0) {
-      toast.success(
-        formData.name +
-          ", Welcome to our party! To unlock a wonderful shopping experience, please sign in with your email and password. Thanks for choosing to join us! "
-      );
-      navigate("/login");
-    }
+    navigate("/login");
   };
   return (
     <div className="container ">
@@ -105,11 +54,9 @@ function Register() {
             <br />
             <input
               type="text"
-              maxLength="15"
               name="name"
               placeholder="First and last name"
-              value={formData.name}
-              onChange={handleChange}
+              onChange={(e) => setName(e.target.value)}
               className="border pl-2 border-black w-[296px] h-[31px] rounded "
             />
             <br />
@@ -120,8 +67,7 @@ function Register() {
             <input
               type="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
               className="border pl-2 mb-5 border-black w-[296px] h-[31px] rounded"
             />
             <label className="font-bold text-sm" htmlFor="password">
@@ -131,8 +77,7 @@ function Register() {
               type="password"
               minLength="6"
               name="password"
-              value={formData.password}
-              onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="At least 6 characters"
               className="border pl-2 mb-2 border-black w-[296px] h-[31px] rounded"
             />
@@ -143,8 +88,7 @@ function Register() {
             <input
               type="password"
               name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
+              onChange={(e) => setConformPassword(e.target.value)}
               className="border border-black w-[296px] h-[31px] rounded"
             />
             <button
@@ -154,14 +98,14 @@ function Register() {
               Create your Zappose account
             </button>
           </form>
-          {Object.keys(errors).length > 0 && (
+          {/* {Object.keys(errors).length > 0 && (
             <div className="text-red-600 font-semibold mb-3">
-              {errors.name && <p className="error">{errors.name}</p>}
+              {errors.name && <p>{errors.name}</p>}
               {errors.email && <p>{errors.email}</p>}
               {errors.password && <p>{errors.password}</p>}
               {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
             </div>
-          )}
+          )} */}
 
           <p className="text-[12px]">
             Registering means you agree to the Zappos terms of use and
@@ -187,4 +131,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Registeration;

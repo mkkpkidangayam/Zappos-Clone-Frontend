@@ -20,7 +20,7 @@ const DropdownLogin = () => {
     SetIsMenuOpen(!isMenuOpen)
     setUserName('');
     setEmail('');
-    toast.success(userName + ' Sign-out your account successful');
+    toast.success(userName + ', sign-out your account successful');
 
   };
   return (

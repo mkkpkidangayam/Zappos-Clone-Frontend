@@ -9,21 +9,18 @@ import Register from "./pages/Register";
 import Navbar from "./components/Navbar/Navbar";
 import Cart from "./pages/Cart";
 import myContext from "./context/myContextxt";
-import UsersData from "./components/Data/UserData";
 import UserAccount from "./pages/UserAccount";
 import ForgotPassword from "./pages/ForgotPassword";
 import { Toaster } from "react-hot-toast";
+import Registeration from "./pages/Registration2";
 // import ProductData from './components/Data/ProductData'
 
 const MainPage = () => {
-  const [userData, setUserData] = useState(UsersData);
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
 
   const details = {
-    userData,
-    setUserData,
     email,
     setEmail,
     userName,
@@ -52,6 +49,7 @@ const MainPage = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
+          {/* <Route path="/register" element={<Registeration />} /> */}
         </Routes>
       </myContext.Provider>
     </>
