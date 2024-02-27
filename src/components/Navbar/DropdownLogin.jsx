@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 
 const DropdownLogin = () => {
   const ref = useRef(null)
-  const { userName, setUserName, setEmail, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
-
+  const { userData, setUserData, setEmail, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
+  
   const handleClickAway = () => {
     SetIsMenuOpen(false)
   };
@@ -18,9 +18,9 @@ const DropdownLogin = () => {
 
   const handleLogout = () => {
     SetIsMenuOpen(!isMenuOpen)
-    setUserName('');
+    setUserData('');
     setEmail('');
-    toast.success(userName + ', sign-out your account successful');
+    toast.success(userData.name + ', sign-out your account successful');
 
   };
   return (
@@ -68,7 +68,7 @@ const DropdownLogin = () => {
     >
       <div role="group" className="flex flex-col gap-y-1">
         <h2 className="flex w-40 items-center p-2 justify-start gap-1  rounded-xl font-bold transition-colors ">
-          <FaUser /> {userName}
+          <FaUser /> {userData.name}
         </h2>
         <hr className="border-t-2 border-t-black" />
 

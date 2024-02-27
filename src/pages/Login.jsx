@@ -7,7 +7,7 @@ import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const { email, setEmail, setUserName } = useContext(myContext);
+  const { email, setEmail, setUserData } = useContext(myContext);
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
@@ -19,12 +19,12 @@ function Login() {
     }
 
     axios
-      .post("http://localhost:4323/login", { email, password })
+      .post("http://localhost:4323/api/login", { email, password })
       .then((response) => {
-        const { status, userName } = response.data;
+        const { status, userData } = response.data;
         if (status === "success") {
-          toast.success(`${userName}, sign in successful. Start shopping...`);
-          setUserName(userName);
+          toast.success(`${userData.name}, sign in successful. Start shopping...`);
+          setUserData(userData);
           navigate("/");
         } else {
           toast.error(response.data);
@@ -35,15 +35,7 @@ function Login() {
         toast.error("Unable to sign in. Please try again later.");
       });
 
-    // const user = UsersData.find(
-    //   (user) => user.email === email && user.password === password
-    // );
-
-    // if (user) {
-    //   toast.success(user.name + ", sign in succesful. Start shoping...");
-    // } else {
-    //   toast.error("Cant't sign in, Email or password is not correct");
-    // }
+   
   };
 
   return (

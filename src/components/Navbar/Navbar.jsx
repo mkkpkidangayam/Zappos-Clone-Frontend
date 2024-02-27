@@ -7,9 +7,9 @@ import myContext from "../../context/myContextxt";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { userName, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
+  const { userData, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
   const [menu, setMenu] = useState("");
-
+  const userName = userData.name
   const toggleMenu = () => {
     if (userName) {
       SetIsMenuOpen(!isMenuOpen);

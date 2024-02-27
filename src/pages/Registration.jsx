@@ -7,6 +7,7 @@ import axios from "axios";
 
 function Register() {
   const navigate = useNavigate();
+  const { setUserData } = useContext(myContext);
 
   const initialFormData = {
     name: "",
@@ -17,63 +18,58 @@ function Register() {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
 
-  
-
-  
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-  
 
-
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    
-    
 
     if (formData.name.trim() === "") {
-    newErrors.name = "Name is required";
-  }
-    if (formData.email === "") {
+      newErrors.name = "Name is required";
+    }
+    if (formData.email.trim() === "") {
       newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
     }
-    if (formData.password === "") {
+    if (formData.password.trim() === "") {
       newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
     }
-    if (formData.confirmPassword === "") {
-      newErrors.confirmPassword = "Re enter the password";
+    if (formData.confirmPassword.trim() === "") {
+      newErrors.confirmPassword = "Confirm password is required";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
 
-
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      toast.success(
-        formData.name +
-          ", Welcome to our party! please sign in with your email and password. "
-      );
+      console.log("hellow");
+      try {
+        const response = await axios.post(
+          "http://localhost:4323/api/otpsend",
+          formData,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setUserData(formData);
+        toast(response.data.message);
+        navigate(`/otp-verify?email=${formData.email}`);
+      } catch (error) {
+        console.log("there is an errror happened");
+      }
+    }else{
+      toast.error('Please fill all data')
     }
-
-    try {
-      const response = await axios.post('http://localhost:4323/api/register', formData)
-      console.log(response.data);
-      navigate('/login')
-    } catch (error) {
-      console.error(error.response.data)
-      setErrors(error.response.data);
-
-    }
-
-    
-   
   };
   return (
     <div className="container ">
@@ -100,7 +96,7 @@ function Register() {
               value={formData.name}
               onChange={handleChange}
               className="border pl-2 border-black w-[296px] h-[31px] rounded "
-            /> 
+            />
             <br />
             <label className="font-bold text-sm mt-5" htmlFor="email">
               Email
@@ -134,7 +130,7 @@ function Register() {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="border border-black w-[296px] h-[31px] rounded"
+              className="border pl-2 border-black w-[296px] h-[31px] rounded"
             />
             <button
               type="submit"

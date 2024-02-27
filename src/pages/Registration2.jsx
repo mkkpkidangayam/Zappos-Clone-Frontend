@@ -1,118 +1,138 @@
-import { useContext, useState } from "react";
-import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
-import { Link, useNavigate } from "react-router-dom";
-import myContext from "../context/myContextxt";
-import toast from "react-hot-toast";
+// Register.js
+import { useState } from "react";
+import OtpVerificationModal from "./OtpVerificationModal";
 import axios from "axios";
+import toast from "react-hot-toast";
+import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
+import { Link } from "react-router-dom";
 
-function Registeration() {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [conformPassword, setConformPassword] = useState("");
+function Register() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({});
 
-  //   const initialFormData = {
-  //     name: "",
-  //     email: "",
-  //     password: "",
-  //     confirmPassword: "",
-  //   };
-  //   const [formData, setFormData] = useState(initialFormData);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    axios
-      .post("http://localhost:4323/register", {
-        name,
-        email,
-        password,
-        conformPassword,
-      })
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
-
-    navigate("/login");
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
   };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOtpSubmit = async (otp) => {
+    try {
+      const response = await axios.post('http://localhost:4323/api/verify-otp', { email: formData.email, otp });
+      toast.success(response.data.message);
+      setIsModalOpen(false);
+      // Navigate to login page or perform other actions upon successful OTP verification
+    } catch (error) {
+      console.error(error.response.data);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+
+    // Validation logic
+    if (formData.name.trim() === "") {
+      newErrors.name = "Name is required";
+    }
+    if (formData.email.trim() === "") {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+    if (formData.password.trim() === "") {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+    }
+    if (formData.confirmPassword.trim() === "") {
+      newErrors.confirmPassword = "Confirm password is required";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        // Send registration data to backend
+        const response = await axios.post('http://localhost:4323/api/register', formData);
+        toast.success(response.data.message);
+        // Open OTP verification modal upon successful registration
+        handleOpenModal();
+      } catch (error) {
+        console.error(error.response.data);
+        toast.error(error.response.data.message);
+      }
+    }
+  };
+
   return (
-    <div className="container ">
-      <div className="h-24  flex justify-center items-center ">
-        <Link to="/">
-          <img src={logo} alt="Logo" />
-        </Link>
+    <div className="container">
+      <div className="h-24 flex justify-center items-center">
+        <img src={logo} alt="Logo" />
       </div>
-      <div className="w-[650px] flex justify-center translate-x-[440px] ">
+      <div className="w-[650px] flex justify-center translate-x-[440px]">
         <div className="w-[348px] rounded p-6 border border-black">
-          <h1 className="text-2xl mb-4">
-            <b>Create account </b>
-          </h1>
+          <h1 className="text-2xl mb-4"><b>Create account</b></h1>
           <form onSubmit={handleSubmit}>
-            <label className="font-bold text-sm" htmlFor="email">
-              Your name
-            </label>
-            <br />
             <input
               type="text"
               name="name"
-              placeholder="First and last name"
-              onChange={(e) => setName(e.target.value)}
-              className="border pl-2 border-black w-[296px] h-[31px] rounded "
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="border pl-2 border-black w-[296px] h-[31px] rounded"
             />
-            <br />
-            <label className="font-bold text-sm mt-5" htmlFor="email">
-              Email
-            </label>
-            <br />
+            {errors.name && <p className="text-red-600">{errors.name}</p>}
             <input
               type="email"
               name="email"
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
               className="border pl-2 mb-5 border-black w-[296px] h-[31px] rounded"
             />
-            <label className="font-bold text-sm" htmlFor="password">
-              Password
-            </label>
+            {errors.email && <p className="text-red-600">{errors.email}</p>}
             <input
               type="password"
-              minLength="6"
               name="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
               className="border pl-2 mb-2 border-black w-[296px] h-[31px] rounded"
             />
-
-            <label className="font-bold text-sm" htmlFor="password">
-              Re-enter password
-            </label>
+            {errors.password && <p className="text-red-600">{errors.password}</p>}
             <input
               type="password"
               name="confirmPassword"
-              onChange={(e) => setConformPassword(e.target.value)}
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
               className="border border-black w-[296px] h-[31px] rounded"
             />
-            <button
-              type="submit"
-              className="bg-[#153e51] text-white text-sm font-semibold my-5 w-[296px] h-[31px] rounded"
-            >
-              Create your Zappose account
-            </button>
+            {errors.confirmPassword && <p className="text-red-600">{errors.confirmPassword}</p>}
+            <button type="submit" className="bg-[#153e51] text-white text-sm font-semibold my-5 w-[296px] h-[31px] rounded">Create your Zappose account</button>
           </form>
-          {/* {Object.keys(errors).length > 0 && (
-            <div className="text-red-600 font-semibold mb-3">
-              {errors.name && <p>{errors.name}</p>}
-              {errors.email && <p>{errors.email}</p>}
-              {errors.password && <p>{errors.password}</p>}
-              {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-            </div>
-          )} */}
-
           <p className="text-[12px]">
             Registering means you agree to the Zappos terms of use and
-            <a target="h" href="https://www.zappos.com/privacy-policy">
-              {" "}
-              privacy policy
-            </a>
+            <a target="_blank" href="https://www.zappos.com/privacy-policy"> privacy policy</a>
           </p>
           <br />
           <hr className="border border-black-300" />
@@ -120,15 +140,16 @@ function Registeration() {
             <p className="text-[12px]">
               Already have an account?
               <Link to="/login">
-                {" "}
                 <b>Sign in</b>
               </Link>
             </p>
           </div>
         </div>
       </div>
+      <OtpVerificationModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleOtpSubmit} />
     </div>
   );
 }
 
-export default Registeration;
+export default Register;
+
