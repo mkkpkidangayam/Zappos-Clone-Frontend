@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
@@ -7,10 +7,11 @@ import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const { email, setEmail, setUserData } = useContext(myContext);
+  const { userData, setIsLogin, setUserData } = useContext(myContext);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -19,24 +20,55 @@ function Login() {
     }
 
     axios
-      .post("http://localhost:4323/api/login", { email, password })
+      .post("http://localhost:4323/api/login", {
+        email,
+        password,
+      })
       .then((response) => {
-        const { status, userData } = response.data;
-        if (status === "success") {
-          toast.success(`${userData.name}, sign in successful. Start shopping...`);
-          setUserData(userData);
-          navigate("/");
-        } else {
-          toast.error(response.data);
-        }
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+        console.log("response", response);
+        const userInfo = JSON.stringify(response.data.userData);
+        localStorage.setItem("userInfo", userInfo);
+        setIsLogin(true);
+        navigate("/");
+        const userDetails = response.data.userData;
+        toast.success(`${userDetails?.name}, ${response.data.message}`);
       })
       .catch((error) => {
-        console.error("Error logging in:", error);
-        toast.error("Unable to sign in. Please try again later.");
+        toast.error("Invalid email or password");
+        console.log("Login error:", error);
       });
-
-   
   };
+  // try {
+  //   const response = await axios.post("http://localhost:4323/api/login", {
+  //     email,
+  //     password,
+  //   });
+  //   const { token } = response.data;
+  //   localStorage.setItem("token", token);
+  //   console.log("response",response);
+  //   const userInfo = JSON.stringify(response.data.userData);
+  //   localStorage.setItem("userInfo", userInfo);
+  //   navigate("/");
+  //   toast.success(`${userData?.name}, ${response.data.message}`);
+
+  // } catch (error) {
+  //   toast.error("Invalid email or password");
+  //   console.log("Login error:", error);
+  // }
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     setIsLogin(true);
+  //   }
+
+  //   const userInfoString = localStorage.getItem('userInfo')
+  //   if (userInfoString) {
+  //     const userData = JSON.parse(userInfoString)
+  //     setUserData(userData)
+  //   }
+  // },[setIsLogin, setUserData])
 
   return (
     <div className="container ">

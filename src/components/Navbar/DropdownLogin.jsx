@@ -1,31 +1,37 @@
 import React, { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import myContext from "../../context/myContextxt";
 import { FaUser } from "react-icons/fa";
 import { useClickAway } from "react-use";
 import toast from "react-hot-toast";
 
-
-
 const DropdownLogin = () => {
-  const ref = useRef(null)
-  const { userData, setUserData, setEmail, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
-  
+  const ref = useRef(null);
+  const navigate = useNavigate();
+  const { userData, setUserData, isMenuOpen, SetIsMenuOpen, setIsLogin } =
+    useContext(myContext);
+
   const handleClickAway = () => {
-    SetIsMenuOpen(false)
+    SetIsMenuOpen(!isMenuOpen);
   };
-  useClickAway(ref, handleClickAway)
+
+  useClickAway(ref, handleClickAway);
+
 
   const handleLogout = () => {
-    SetIsMenuOpen(!isMenuOpen)
-    setUserData('');
-    setEmail('');
-    toast.success(userData.name + ', sign-out your account successful');
-
+    SetIsMenuOpen(!isMenuOpen);
+    const userName = userData ? userData.name : "User";
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    setIsLogin(false);
+    setUserData(null);
+    toast.success(`${userName}, sign-out successful`);
   };
+
+
   return (
     <div
-    ref={ref}
+      ref={ref}
       data-side="bottom"
       data-align="end"
       role="menu"
@@ -72,31 +78,37 @@ const DropdownLogin = () => {
         </h2>
         <hr className="border-t-2 border-t-black" />
 
-        <Link
+        <span
           aria-disabled="true"
           aria-label="Account Overview"
-          className="flex w-40 items-center justify-between p-2 rounded-xl transition-colors border hover:bg-slate-300 hover:border-blue-700"
-          to="/account"
+          className="flex w-40 items-center justify-between p-2 cursor-pointer rounded-xl transition-colors border hover:bg-slate-300 hover:border-blue-700"
+          onClick={() => {
+            navigate("/useraccount");
+            SetIsMenuOpen(!isMenuOpen);
+          }}
           role="menuitem"
           tabIndex="-1"
           data-orientation="vertical"
           data-radix-collection-item=""
         >
           <span>Account Overview</span>
-        </Link>
+        </span>
 
-        <Link
+        <span
           aria-disabled="true"
           aria-label="View Orders/Return"
           className="flex w-40 items-center justify-between p-2 rounded-xl transition-colors border hover:bg-slate-300 hover:border-blue-700"
-          to="/orders"
+          onClick={() => {
+            navigate("/useraccount");
+            SetIsMenuOpen(!isMenuOpen);
+          }}
           role="menuitem"
           tabIndex="-1"
           data-orientation="vertical"
           data-radix-collection-item=""
         >
           <span>View Orders/Return</span>
-        </Link>
+        </span>
         <button
           aria-label="Sign Out"
           className="flex w-40 items-center justify-between p-2 rounded-xl transition-colors border hover:bg-slate-300 hover:border-blue-700"

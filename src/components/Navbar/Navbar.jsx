@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import logo from "../Assets/zappos-logo-black.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -7,11 +7,37 @@ import myContext from "../../context/myContextxt";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { userData, isMenuOpen, SetIsMenuOpen } = useContext(myContext);
+  const {
+    userData,
+    isMenuOpen,
+    isLogin,
+    SetIsMenuOpen,
+    setIsLogin,
+    setUserData,
+  } = useContext(myContext);
   const [menu, setMenu] = useState("");
-  const userName = userData.name
+  console.log(userData);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsLogin(true);
+    }
+
+    const userInfoString = localStorage.getItem("userInfo");
+    if (userInfoString) {
+      const userData = JSON.parse(userInfoString);
+      setUserData(userData);
+    }
+  }, [setIsLogin, setUserData]);
+
+  const userName = userData && userData.name ? userData.name : false;
+  let firstName = "";
+  if (userName) {
+    firstName = userName?.substring(0, 8).toUpperCase();
+  }
+
   const toggleMenu = () => {
-    if (userName) {
+    if (isLogin) {
       SetIsMenuOpen(!isMenuOpen);
     } else {
       navigate("/login");
@@ -42,7 +68,7 @@ const Navbar = () => {
                   <input
                     type="text"
                     placeholder={`${
-                      userName ? `${userName}, search` : "Search"
+                      userName ? `${firstName}, search` : "Search"
                     } for shoes, clothes, etc.`}
                     className=" w-[400px] rounded-full px-4 py-2 border-none focus:outline-none"
                   />
@@ -56,7 +82,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="flex items-center mr-2">
-              {userName && (
+              {isLogin && (
                 <Link to="/wishlist">
                   <svg
                     className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300"
@@ -83,6 +109,7 @@ const Navbar = () => {
                   fill="currentColor"
                 />
               </svg>
+              {firstName}
               {isMenuOpen && <DropdownLogin />}
 
               <Link to="/cart">
