@@ -5,7 +5,6 @@ const UserAccount = () => {
   
   const {userData} = useContext(myContext)
   const userAddress = userData.address
-  console.log("Address: ", userAddress);
 
   return ( 
     <div className="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100">
@@ -60,7 +59,7 @@ const UserAccount = () => {
                 <ol className="list-decimal list-inside">
                   <li>
                     <a
-                      href=""
+                      href="/"
                       className="text-blue-600 hover:underline"
                     >
                       Manage Account Info

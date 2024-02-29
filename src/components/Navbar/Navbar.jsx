@@ -4,6 +4,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import DropdownLogin from "./DropdownLogin";
 import myContext from "../../context/myContextxt";
+import Footer from "../Footer/FooterMain";
+import TopBar from "./TopBar";
+import WomenMenu from "../SubCategory/WomenMenu";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -46,6 +49,7 @@ const Navbar = () => {
 
   return (
     <>
+      <TopBar />
       <div>
         <div className="container mx-auto py-4">
           <div className="flex justify-between items-center">
@@ -94,22 +98,27 @@ const Navbar = () => {
                   </svg>
                 </Link>
               )}
-
-              <svg
-                className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 relative"
-                viewBox="0 0 32 32"
-                fill="none"
-                stroke="currentColor"
-                data-tip="Click to login"
+              <button
                 onClick={toggleMenu}
+                className="flex items-center gap-x-1 px-1 rounded-full hover:bg-zinc-300 relative"
               >
-                <path d="M8.9993 25.1863C8.99977 25.1802 9.00024 25.1741 9.00118 25.168M9.00118 25.168C9.34102 21.6017 12.3447 18.8127 16.0001 18.8127C19.6554 18.8127 22.6586 21.6012 22.9995 25.1675M9.00118 25.168C10.9413 26.6511 13.367 27.5313 16 27.5313C18.6334 27.5313 21.0593 26.6506 22.9995 25.1675M9.00118 25.168C6.24535 23.0623 4.46875 19.7406 4.46875 16C4.46875 9.62688 9.62594 4.46875 16 4.46875C18.6658 4.46875 21.1191 5.37109 23.0711 6.88741M22.9995 25.1675C25.7552 23.0619 27.5313 19.7402 27.5313 16C27.5313 13.8093 26.922 11.7624 25.8635 10.0191M16 16.9375C13.9323 16.9375 12.25 15.2552 12.25 13.1875C12.25 11.1198 13.9323 9.43751 16 9.43751C18.0677 9.43751 19.75 11.1198 19.75 13.1875C19.75 15.2552 18.0677 16.9375 16 16.9375Z" />
-                <path
-                  d="M25.0938 8.3125C25.0938 8.57139 24.8838 8.78125 24.625 8.78125C24.3662 8.78125 24.1562 8.57139 24.1562 8.3125C24.1562 8.05361 24.3662 7.84375 24.625 7.84375C24.8838 7.84375 25.0938 8.05361 25.0938 8.3125Z"
-                  fill="currentColor"
-                />
-              </svg>
-              {firstName}
+                <svg
+                  className="h-10 w-10 cursor-pointer rounded-full hover:bg-zinc-300"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  stroke="currentColor"
+                  data-tip="Click to login"
+                >
+                  <path d="M8.9993 25.1863C8.99977 25.1802 9.00024 25.1741 9.00118 25.168M9.00118 25.168C9.34102 21.6017 12.3447 18.8127 16.0001 18.8127C19.6554 18.8127 22.6586 21.6012 22.9995 25.1675M9.00118 25.168C10.9413 26.6511 13.367 27.5313 16 27.5313C18.6334 27.5313 21.0593 26.6506 22.9995 25.1675M9.00118 25.168C6.24535 23.0623 4.46875 19.7406 4.46875 16C4.46875 9.62688 9.62594 4.46875 16 4.46875C18.6658 4.46875 21.1191 5.37109 23.0711 6.88741M22.9995 25.1675C25.7552 23.0619 27.5313 19.7402 27.5313 16C27.5313 13.8093 26.922 11.7624 25.8635 10.0191M16 16.9375C13.9323 16.9375 12.25 15.2552 12.25 13.1875C12.25 11.1198 13.9323 9.43751 16 9.43751C18.0677 9.43751 19.75 11.1198 19.75 13.1875C19.75 15.2552 18.0677 16.9375 16 16.9375Z" />
+                  <path
+                    d="M25.0938 8.3125C25.0938 8.57139 24.8838 8.78125 24.625 8.78125C24.3662 8.78125 24.1562 8.57139 24.1562 8.3125C24.1562 8.05361 24.3662 7.84375 24.625 7.84375C24.8838 7.84375 25.0938 8.05361 25.0938 8.3125Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                {firstName && (
+                  <span className="text-sm font-bold">{firstName}</span>
+                )}
+              </button>
               {isMenuOpen && <DropdownLogin />}
 
               <Link to="/cart">
@@ -147,7 +156,7 @@ const Navbar = () => {
                   )}
                 </li>
               </Link>
-              <Link to="/women">
+              <Link to="/">
                 {" "}
                 <li
                   onClick={() => {
@@ -247,11 +256,24 @@ const Navbar = () => {
               Help & Support
             </a>
           </div>
+          <div className="container mx-auto py-4">
+            {/* Submenu components for Women, Men, Kids */}
+            {menu === "Women" && <WomenMenu />}
+            {/* {menu === "Men" && <MenMenu />}
+          {menu === "Kids" && <KidsMenu />}
+          */}
+          </div>
         </div>
       </div>
       <hr />
-      <div>
+      <div
+        style={menu === "Women" ? { backgroundColor: "rgba(0,0,0,0.5)" , zIndex:"-1", position: "relative"} : {}}
+      >
         <Outlet />
+      </div>
+
+      <div>
+        <Footer />
       </div>
     </>
   );

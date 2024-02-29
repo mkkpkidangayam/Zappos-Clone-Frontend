@@ -43,8 +43,8 @@ const DropdownLogin = () => {
       aria-labelledby="radix-1"
       className="
         absolute
-        top-16
-        right-2
+        top-24
+        right-5
         isolate
         z-50
        bg-slate-100
