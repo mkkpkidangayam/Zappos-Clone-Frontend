@@ -15,7 +15,7 @@ const FooterSecond = () => {
             <a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=202075050&amp;ref_=footer_ca" className="hover:text-gray-700">Interest-Based Ads</a>
           </li>
           <li>
-            <span className="icp-nav-link-inner">
+            <span className="icp-nav-link-inne">
               <span className="nav-line-1">Choose a language for shopping.</span>
               <span className="nav-line-2">United States</span>
             </span>

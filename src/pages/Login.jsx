@@ -71,14 +71,14 @@ function Login() {
   // },[setIsLogin, setUserData])
 
   return (
-    <>
-      <div className="container ">
-        <div className="h-24  flex justify-center items-center ">
-          <Link to="/">
-            <img src={logo} alt="Logo" />
-          </Link>
-        </div>
-        <div className="w-[650px] flex justify-center translate-x-[440px] ">
+    <div>
+      <div className="h-24 flex justify-center items-center ">
+        <Link to="/">
+          <img src={logo} alt="Logo" />
+        </Link>
+      </div>
+      <div className="mb-32 flex justify-center">
+        <div className="w-[650px] flex justify-center  ">
           <div className="w-[348px] h-[384px] rounded p-6 border border-black">
             <h1 className="text-2xl mb-4">
               <b>Sign in</b>
@@ -127,11 +127,11 @@ function Login() {
           </div>
         </div>
       </div>
-      <div className="w-full absolute bottom-0">
+      <div>
         <hr />
         <FooterSecond />
       </div>
-    </>
+    </div>
   );
 }
 

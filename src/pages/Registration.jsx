@@ -9,6 +9,7 @@ import FooterSecond from "../components/Footer/FooterSecond";
 function Register() {
   const navigate = useNavigate();
   const { setUserData } = useContext(myContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const initialFormData = {
     name: "",
@@ -52,8 +53,8 @@ function Register() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("hellow");
       try {
+        setIsLoading(true)
         const response = await axios.post(
           "http://localhost:4323/api/otpsend",
           formData,
@@ -62,10 +63,42 @@ function Register() {
           }
         );
 
+
+        const saveSettings = async (response) => {
+          return new Promise((resolve, reject) => {
+            if (response.status === 200) {
+              // Handle success
+              console.log("Success:", response.data);
+              resolve(response.data); // Resolve the promise with response data
+            } else {
+              // Handle error
+              console.error("Error:", response.error);
+              reject(response.error); // Reject the promise with error message
+            }
+          });
+        };
+        
+        toast.promise(
+          saveSettings(response),
+          {
+            loading: 'OTP sending...',
+            success: (data) => {
+              console.log("Success:", data);
+              return <b>Success...!</b>; // Return JSX for success toast
+            },
+            error: (error) => {
+              console.error("Error:", error);
+              return <b>Can't send OTP.</b>; // Return JSX for error toast
+            }
+          }
+        );
+
+        setIsLoading(false)
         setUserData(formData);
         toast(response.data.message);
         navigate(`/otp-verify?email=${formData.email}`);
       } catch (error) {
+        setIsLoading(false);
         console.log("there is an errror happened");
       }
     } else {
@@ -74,13 +107,13 @@ function Register() {
   };
   return (
     <>
-      <div className="container ">
         <div className="h-24  flex justify-center items-center ">
           <Link to="/">
             <img src={logo} alt="Logo" />
           </Link>
         </div>
-        <div className="w-[650px] flex justify-center translate-x-[440px] ">
+      <div className="mb-10 flex justify-center">
+        <div className="w-[650px] flex justify-center  ">
           <div className="w-[348px] rounded p-6 border border-black">
             <h1 className="text-2xl mb-4">
               <b>Create account </b>
@@ -138,7 +171,7 @@ function Register() {
                 type="submit"
                 className="bg-[#153e51] text-white text-sm font-semibold my-5 w-[296px] h-[31px] rounded"
               >
-                Create your Zappose account
+                {isLoading ? "Sending OTP..." :"Create your Zappose account"}
               </button>
             </form>
             {Object.keys(errors).length > 0 && (
@@ -171,7 +204,7 @@ function Register() {
           </div>
         </div>
       </div>
-      <div className="w-full absolute bottom-0">
+      <div >
         <hr />
         <FooterSecond />
       </div>

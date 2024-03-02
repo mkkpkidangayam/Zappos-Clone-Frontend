@@ -21,6 +21,9 @@ const Navbar = () => {
   const [menu, setMenu] = useState("");
   console.log(userData);
 
+
+
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsLogin(true);
@@ -50,8 +53,9 @@ const Navbar = () => {
   return (
     <>
       <TopBar />
+      <hr />
       <div>
-        <div className="container mx-auto py-4">
+        <div className="container mx-auto pt-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center translate-x-5">
               <div className="ml-3 mr-10">
@@ -121,7 +125,7 @@ const Navbar = () => {
               </button>
               {isMenuOpen && <DropdownLogin />}
 
-              <Link to="/cart">
+              <button onClick={''}>
                 <svg
                   className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 "
                   viewBox="0 0 32 34"
@@ -136,7 +140,7 @@ const Navbar = () => {
                     stroke-linejoin="round"
                   ></path>
                 </svg>
-              </Link>
+              </button>
             </div>
           </div>
           <div className="flex justify-between mt-4 translate-x-4">
@@ -256,7 +260,7 @@ const Navbar = () => {
               Help & Support
             </a>
           </div>
-          <div className="container mx-auto py-4">
+          <div className=" mx-auto">
             {/* Submenu components for Women, Men, Kids */}
             {menu === "Women" && <WomenMenu />}
             {/* {menu === "Men" && <MenMenu />}
@@ -267,7 +271,15 @@ const Navbar = () => {
       </div>
       <hr />
       <div
-        style={menu === "Women" ? { backgroundColor: "rgba(0,0,0,0.5)" , zIndex:"-1", position: "relative"} : {}}
+        style={
+          menu === "Women"
+            ? {
+                backgroundColor: "rgba(0,0,0,0.5)",
+                zIndex: "-1",
+                position: "",
+              }
+            : {}
+        }
       >
         <Outlet />
       </div>
