@@ -7,6 +7,7 @@ import myContext from "../../context/myContextxt";
 import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
 import WomenMenu from "../SubCategory/WomenMenu";
+import MenMenu from "../SubCategory/MenMenu";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,12 +18,11 @@ const Navbar = () => {
     SetIsMenuOpen,
     setIsLogin,
     setUserData,
+    showModal,
+    setShowModal,
   } = useContext(myContext);
   const [menu, setMenu] = useState("");
   console.log(userData);
-
-
-
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -50,10 +50,14 @@ const Navbar = () => {
     }
   };
 
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <>
       <TopBar />
-      <hr />
+      {/* <hr /> */}
       <div>
         <div className="container mx-auto pt-4">
           <div className="flex justify-between items-center">
@@ -125,7 +129,7 @@ const Navbar = () => {
               </button>
               {isMenuOpen && <DropdownLogin />}
 
-              <button onClick={''}>
+              <button onClick={""}>
                 <svg
                   className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 "
                   viewBox="0 0 32 34"
@@ -143,124 +147,110 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between mt-4 translate-x-4">
-            <ul className="flex text-dark font-bold ">
-              <Link to="/">
+          <div className="flex justify-between mt-4 ">
+            <ul className="flex text-dark font-bold pl-5">
+              <button
+                onClick={() => {
+                  setMenu("new");
+                  navigate("/");
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("home");
-                  }}
-                  className="  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "new" ? "bg-black text-white" : null
+                  }`}
                 >
-                  Home
-                  {menu === "home" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
+                  New
                 </li>
-              </Link>
-              <Link to="/">
-                {" "}
+              </button>
+              <button
+                onClick={() => {
+                  setMenu("women");
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("Women");
-                  }}
-                  className="  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "women" ? "bg-black text-white" : null
+                  }`}
                 >
                   Women
-                  {menu === "Women" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
                 </li>
-              </Link>
-              <Link to="/men">
-                {" "}
+              </button>
+              <button
+                onClick={() => {
+                  setMenu("men");
+                  toggleModal();
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("Men");
-                  }}
-                  className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "men" ? "bg-black text-white" : null
+                  }`}
                 >
                   Men
-                  {menu === "Men" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
                 </li>
-              </Link>
-              <Link to="/kids">
+              </button>
+              <button
+                onClick={() => {
+                  setMenu("kids");
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("Kids");
-                  }}
-                  className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1 text-center"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "kids" ? "bg-black text-white" : null
+                  }`}
                 >
                   Kids
-                  {menu === "Kids" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
                 </li>
-              </Link>
-              <Link to="/collections">
+              </button>
+              <button
+                onClick={() => {
+                  setMenu("collections");
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("Collections");
-                  }}
-                  className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "collections" ? "bg-black text-white" : null
+                  }`}
                 >
                   Collections
-                  {menu === "Collections" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
                 </li>
-              </Link>
-              <Link to="/brands">
+              </button>
+              <button
+                onClick={() => {
+                  setMenu("brands");
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("Brands");
-                  }}
-                  className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "brands" ? "bg-black text-white" : null
+                  }`}
                 >
                   Brands
-                  {menu === "Brands" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
                 </li>
-              </Link>
-              <Link to="/sale">
+              </button>
+              <button
+                onClick={() => {
+                  setMenu("sale");
+                }}
+              >
                 <li
-                  onClick={() => {
-                    setMenu("Sale");
-                  }}
-                  className=" hover:bg-zinc-300 cursor-pointer relative rounded-full px-4 overflow-hidden py-1 transition-transform"
+                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                    menu === "sale" ? "bg-black text-white" : null
+                  }`}
                 >
                   Sale
-                  {menu === "Sale" ? (
-                    <hr className="absolute bottom-0 left-0 w-full border-t-4 border-black" />
-                  ) : (
-                    <> </>
-                  )}
                 </li>
-              </Link>
+              </button>
             </ul>
             <a
               href="*"
-              className="text-black font-bold mr-6 hover:bg-zinc-300 px-4  rounded-full"
+              className="text-black font-bold absolute right-3 hover:bg-zinc-300 p-1  rounded-full"
             >
               Help & Support
             </a>
           </div>
-          <div className=" mx-auto">
+          <div className="mx-auto">
             {/* Submenu components for Women, Men, Kids */}
             {menu === "Women" && <WomenMenu />}
             {/* {menu === "Men" && <MenMenu />}
@@ -269,18 +259,13 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <hr />
-      <div
-        style={
-          menu === "Women"
-            ? {
-                backgroundColor: "rgba(0,0,0,0.5)",
-                zIndex: "-1",
-                position: "",
-              }
-            : {}
-        }
-      >
+      <hr className="my-2" />
+      {showModal && (
+        <>
+          <MenMenu />
+        </>
+      )}
+      <div>
         <Outlet />
       </div>
 

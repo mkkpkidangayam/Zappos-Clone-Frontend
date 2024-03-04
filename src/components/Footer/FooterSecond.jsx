@@ -6,13 +6,13 @@ const FooterSecond = () => {
       <div className="container mx-auto">
         <ul className="flex justify-center space-x-4">
           <li>
-            <a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=201909000&amp;ref_=footer_cou" className="hover:text-gray-700">Conditions of Use</a>
+            <a href="/" className="hover:text-gray-700">Conditions of Use</a>
           </li>
           <li>
-            <a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=201909010&amp;ref_=footer_privacy" className="hover:text-gray-700">Privacy Notice</a>
+            <a href="/" className="hover:text-gray-700">Privacy Notice</a>
           </li>
           <li>
-            <a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=202075050&amp;ref_=footer_ca" className="hover:text-gray-700">Interest-Based Ads</a>
+            <a href="/" className="hover:text-gray-700">Interest-Based Ads</a>
           </li>
           <li>
             <span className="icp-nav-link-inne">

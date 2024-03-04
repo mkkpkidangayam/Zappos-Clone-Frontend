@@ -20,7 +20,7 @@ const Home = () => {
   });
 
   return (
-    <div className="container m-5">
+    <div className="container">
       <img
         src={images[currentImageIndex]}
         alt={`img${currentImageIndex + 1}`}

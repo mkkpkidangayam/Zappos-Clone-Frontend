@@ -20,6 +20,7 @@ const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const [isLogin, setIsLogin] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   console.log("userdata: ", userData);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const MainPage = () => {
     setUserData,
     isLogin,
     setIsLogin,
+    showModal, setShowModal
   };
 
   return (
