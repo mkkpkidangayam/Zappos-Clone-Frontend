@@ -20,12 +20,14 @@ const Home = () => {
   });
 
   return (
-    <div className="container">
-      <img
-        src={images[currentImageIndex]}
-        alt={`img${currentImageIndex + 1}`}
-        className="h-full w-full object-center rounded-xl"
-      />
+    <div className="container my-6">
+      <div className="flex justify-center">
+        <img
+          className="h-full w-[95%] object-center "
+          src={images[currentImageIndex]}
+          alt={`img${currentImageIndex + 1}`}
+        />
+      </div>
     </div>
   );
 };

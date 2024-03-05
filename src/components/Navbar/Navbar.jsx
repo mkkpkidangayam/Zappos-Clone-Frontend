@@ -61,10 +61,9 @@ const Navbar = () => {
       <div>
         <div className="container mx-auto pt-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center translate-x-5">
+            <div className="flex items-center pl-7">
               <div className="ml-3 mr-10">
                 <a href="/">
-                  {" "}
                   <img
                     src={logo}
                     alt="Welcome! Go to Zappos Homepage!"
@@ -93,7 +92,7 @@ const Navbar = () => {
                 </form>
               </div>
             </div>
-            <div className="flex items-center mr-2">
+            <div className="flex items-center mr-2 pr-5">
               {isLogin && (
                 <Link to="/wishlist">
                   <svg
@@ -147,108 +146,112 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between mt-4 ">
-            <ul className="flex text-dark font-bold pl-5">
-              <button
-                onClick={() => {
-                  setMenu("new");
-                  navigate("/");
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "new" ? "bg-black text-white" : null
-                  }`}
+          <div className="flex justify-between mt-4 pl-6">
+            <div className="flex justify-between items-center">
+              <ul className="flex text-dark font-bold">
+                <button
+                  onClick={() => {
+                    setMenu("new");
+                    navigate("/");
+                  }}
                 >
-                  New
-                </li>
-              </button>
-              <button
-                onClick={() => {
-                  setMenu("women");
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "women" ? "bg-black text-white" : null
-                  }`}
+                  <li
+                    className={`hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "new" && "bg-black text-white" 
+                    }`}
+                  >
+                    New
+                  </li>
+                </button>
+                <button
+                  onClick={() => {
+                    setMenu("women");
+                  }}
                 >
-                  Women
-                </li>
-              </button>
-              <button
-                onClick={() => {
-                  setMenu("men");
-                  toggleModal();
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "men" ? "bg-black text-white" : null
-                  }`}
+                  <li
+                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "women" ? "bg-black text-white" : null
+                    }`}
+                  >
+                    Women
+                  </li>
+                </button>
+                <button
+                  onClick={() => {
+                    setMenu("men");
+                    toggleModal();
+                  }}
                 >
-                  Men
-                </li>
-              </button>
-              <button
-                onClick={() => {
-                  setMenu("kids");
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "kids" ? "bg-black text-white" : null
-                  }`}
+                  <li
+                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "men" ? "bg-black text-white" : null
+                    }`}
+                  >
+                    Men
+                  </li>
+                </button>
+                <button
+                  onClick={() => {
+                    setMenu("kids");
+                  }}
                 >
-                  Kids
-                </li>
-              </button>
-              <button
-                onClick={() => {
-                  setMenu("collections");
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "collections" ? "bg-black text-white" : null
-                  }`}
+                  <li
+                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "kids" ? "bg-black text-white" : null
+                    }`}
+                  >
+                    Kids
+                  </li>
+                </button>
+                <button
+                  onClick={() => {
+                    setMenu("collections");
+                  }}
                 >
-                  Collections
-                </li>
-              </button>
-              <button
-                onClick={() => {
-                  setMenu("brands");
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "brands" ? "bg-black text-white" : null
-                  }`}
+                  <li
+                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "collections" ? "bg-black text-white" : null
+                    }`}
+                  >
+                    Collections
+                  </li>
+                </button>
+                <button
+                  onClick={() => {
+                    setMenu("brands");
+                  }}
                 >
-                  Brands
-                </li>
-              </button>
-              <button
-                onClick={() => {
-                  setMenu("sale");
-                }}
-              >
-                <li
-                  className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                    menu === "sale" ? "bg-black text-white" : null
-                  }`}
+                  <li
+                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "brands" ? "bg-black text-white" : null
+                    }`}
+                  >
+                    Brands
+                  </li>
+                </button>
+                <button
+                  onClick={() => {
+                    setMenu("sale");
+                  }}
                 >
-                  Sale
-                </li>
-              </button>
-            </ul>
-            <a
-              href="*"
-              className="text-black font-bold absolute right-3 hover:bg-zinc-300 p-1  rounded-full"
-            >
-              Help & Support
-            </a>
+                  <li
+                    className={`hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "sale" ? "bg-black text-white" : null
+                    }`}
+                  >
+                    Sale
+                  </li>
+                </button>
+              </ul>
+            </div>
+            <div className="flex items-center mr-3 pr-6">
+              <a
+                href="*"
+                className="text-black font-bold hover:bg-zinc-300 p-1  rounded-full"
+              >
+                Help & Support
+              </a>
+            </div>
           </div>
           <div className="mx-auto">
             {/* Submenu components for Women, Men, Kids */}
