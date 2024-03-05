@@ -15,12 +15,15 @@ import { Toaster } from "react-hot-toast";
 import Registeration from "./pages/Registration";
 import OtpVerification from "./pages/otpVerification";
 import ProtectedRoute from "./components/Authentication/ProtectedRoute ";
+import AdminLogin from "./components/Admin section/AdminLogin";
+import AddProductForm from "./components/Admin section/AddProductForm";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const [isLogin, setIsLogin] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
   console.log("userdata: ", userData);
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const MainPage = () => {
     if (userInfoString) {
       const userData = JSON.parse(userInfoString);
       setUserData(userData);
-      setIsLogin(true)
+      setIsLogin(true);
     }
   }, []);
 
@@ -45,7 +48,10 @@ const MainPage = () => {
     setUserData,
     isLogin,
     setIsLogin,
-    showModal, setShowModal
+    showModal,
+    setShowModal,
+    isAdminLogin,
+    setIsAdminLogin,
   };
 
   return (
@@ -103,6 +109,8 @@ const MainPage = () => {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/otp-verify" element={<OtpVerification />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/add-product" element={<AddProductForm />} />
         </Routes>
       </myContext.Provider>
     </>

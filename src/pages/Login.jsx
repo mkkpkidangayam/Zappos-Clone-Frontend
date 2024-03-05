@@ -34,6 +34,7 @@ function Login() {
         navigate("/");
         const userDetails = response.data.userData;
         toast.success(`${userDetails?.name}, ${response.data.message}`);
+        
       })
       .catch((error) => {
         toast.error("Invalid email or password");
