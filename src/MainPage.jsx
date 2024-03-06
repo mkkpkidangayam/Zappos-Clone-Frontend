@@ -110,7 +110,7 @@ const MainPage = () => {
           <Route path="/register" element={<Registeration />} />
           <Route path="/otp-verify" element={<OtpVerification />} />
           <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/add-product" element={<AddProductForm />} />
+          <Route path="/admin/add-product" element={<AddProductForm />} />
         </Routes>
       </myContext.Provider>
     </>

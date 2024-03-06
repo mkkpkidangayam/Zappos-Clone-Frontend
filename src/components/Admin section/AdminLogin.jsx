@@ -1,4 +1,4 @@
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -6,7 +6,7 @@ import myContext from "../../context/myContextxt";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const {setIsAdminLogin} = useContext(myContext)
+  const { setIsAdminLogin } = useContext(myContext);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -21,32 +21,48 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:4323/api/admin/login", formData)
-      .then((response) => {
-        const { adminToken } = response.data;
-        localStorage.setItem("adminToken", adminToken)
-        setIsAdminLogin(true)
-        navigate('/add-product')
-
-      }).catch((error)=> {
-        setError("Invalid username or password");
-      toast.error("Invalid username or password");
+   
+    try {
+      const response = await axios.post(
+        "http://localhost:4323/api/admin/login",
+        formData
+      );
+      const { adminToken } = response.data;
+      localStorage.setItem("adminToken", adminToken);
+      setIsAdminLogin(true);
+      navigate("/admin/add-product");
+      toast.success(response.data.message);
+    } catch (error) {
+      setError("Invalid username or password");
+      // toast.error(response.data.message);
       console.error("Login failed:", error);
-      })
-        
-      }
+    }
+  };
+ // axios
+    //   .post("http://localhost:4323/api/admin/login", formData)
+    //   .then((response) => {
+    //     const { adminToken } = response.data;
+    //     console.log(adminToken);
+    //     localStorage.setItem("adminToken", adminToken)
+    //     setIsAdminLogin(true)
+    //     navigate('/add-product')
 
-    // try {
-    //   const response = await axios.post("http://localhost:4323/api/admin/login", formData);
-
-    //     toast.success("Login success")
-
-    // } catch (error) {
-    //   setError("Invalid username or password");
+    //   }).catch((error)=> {
+    //     setError("Invalid username or password");
     //   toast.error("Invalid username or password");
     //   console.error("Login failed:", error);
-    // }
+    //   })
+
+  // try {
+  //   const response = await axios.post("http://localhost:4323/api/admin/login", formData);
+
+  //     toast.success("Login success")
+
+  // } catch (error) {
+  //   setError("Invalid username or password");
+  //   toast.error("Invalid username or password");
+  //   console.error("Login failed:", error);
+  // }
   // };
 
   return (
