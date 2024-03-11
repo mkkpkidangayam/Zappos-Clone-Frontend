@@ -84,6 +84,7 @@ const Navbar = () => {
                     className=" w-[400px] rounded-full px-4 py-2 border-none focus:outline-none"
                   />
                   <button
+                  
                     className="w-24 border-l border-black py-2"
                     type="submit"
                   >
