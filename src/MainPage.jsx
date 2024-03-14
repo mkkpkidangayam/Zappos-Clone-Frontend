@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Products from "./pages/Products";
+import Products from "./pages/ProductsListing";
 import Brands from "./pages/Brands";
 import Sale from "./pages/Sale";
 import Login from "./pages/Login";
@@ -24,6 +24,7 @@ const MainPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isAdminLogin, setIsAdminLogin] = useState(false);
+  const [product, setProduct] = useState(null);
   console.log("userdata: ", userData);
 
   useEffect(() => {
@@ -52,6 +53,8 @@ const MainPage = () => {
     setShowModal,
     isAdminLogin,
     setIsAdminLogin,
+    product,
+    setProduct,
   };
 
   return (
