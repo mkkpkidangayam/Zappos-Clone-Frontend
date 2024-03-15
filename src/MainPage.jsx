@@ -17,6 +17,7 @@ import OtpVerification from "./pages/otpVerification";
 import ProtectedRoute from "./components/Authentication/ProtectedRoute ";
 import AdminLogin from "./components/Admin section/AdminLogin";
 import AddProductForm from "./components/Admin section/AddProductForm";
+import ProductDetails from "./pages/ProductDetails";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -25,6 +26,8 @@ const MainPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [isAdminLogin, setIsAdminLogin] = useState(false);
   const [product, setProduct] = useState(null);
+  const [menu, setMenu] = useState("");
+
   console.log("userdata: ", userData);
 
   useEffect(() => {
@@ -55,6 +58,8 @@ const MainPage = () => {
     setIsAdminLogin,
     product,
     setProduct,
+    menu,
+    setMenu,
   };
 
   return (
@@ -68,7 +73,7 @@ const MainPage = () => {
             <Route path="/men" element={<Products category="men" />} />
             <Route path="/kids" element={<Products category="kids" />} />
             <Route path="/collections" element={<Products />} />
-            <Route path=":productId" element={<Products />} />
+            <Route path="product/:_Id" element={<ProductDetails />} />
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
             <Route

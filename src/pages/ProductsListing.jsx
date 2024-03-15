@@ -62,35 +62,53 @@ const ProductsListing = () => {
             <div className="text-center">Loading...</div>
           ) : (
             product.map((product) => (
-              <ProductCard />
-              // <Link
-              //   key={product._id}
-              //   to={`/product/${product._id}`}
-              //   className="w-full bg-white rounded-lg shadow-2xl overflow-hidden"
-              // >
-              //   <div className="p-4 ">
-              //     <div className="h-">
-              //       <img
-              //         src={product.images[0]}
-              //         alt={product.title}
-              //         className="w-full mb-2"
-              //       />
-              //     </div>
-              //     <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              //       {product.title}
-              //     </h3>
-              //     <p className="text-gray-600 mb-1">Color: {product.color}</p>
-              //     <p className="text-gray-700 mb-1">
-              //       <strong> ${product.price}.</strong>
-              //     </p>
-              //     <p className="text-gray-700 mb-4">
-              //       {product.rating} out of 5 stars
-              //     </p>
-              //     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              //       Buy Now
-              //     </button>
-              //   </div>
-              // </Link>
+                <Link
+                  key={product._id}
+                  className="block text-xl font-semibold mb-4 "
+                  to={`/product/${product._id}`}
+                >
+              <article className="bg-white shadow-md rounded-lg p-6 mb-4">
+                  <img src={product.images[0]} alt={product.title} />
+                
+
+                <span
+                  className="block font-semibold hover:underline mb-2"
+                >
+                {product.brand}
+                </span>
+                <span
+                  className="block  hover:underline mb-2"
+                >
+                  <span className="">{product.title}</span>Grand
+                 
+                </span>
+                <p className="mb-2">
+                  <span className="font-semibold">Color: </span>Tornado
+                  Nubuck/Woodbury/Ivory
+                </p>
+                <p className="mb-2">
+                  <span className="font-semibold">Price: </span>${product.price}
+                </p>
+                <p className="mb-2">
+                  <span className="font-semibold">Rating: </span>
+                  <span className="flex items-center">
+                    <svg
+                      className="w-4 h-4 fill-current text-yellow-500 mr-1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    5.0 out of 5 stars
+                  </span>
+                </p>
+              </article>
+              </Link>
             ))
           )}
         </div>

@@ -6,6 +6,7 @@ import img3 from "../components/Assets/SWYA-CROCS-FEBRUARY-HERO-1440x700.jpg";
 const Home = () => {
   const images = [img1, img2, img3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   
 
   const rotateImages = () => {
     setCurrentImageIndex((prevIndex) =>
