@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/Authentication/ProtectedRoute ";
 import AdminLogin from "./components/Admin section/AdminLogin";
 import AddProductForm from "./components/Admin section/AddProductForm";
 import ProductDetails from "./pages/ProductDetails";
+import axios from "axios";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -27,8 +28,28 @@ const MainPage = () => {
   const [isAdminLogin, setIsAdminLogin] = useState(false);
   const [product, setProduct] = useState(null);
   const [menu, setMenu] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  console.log("search",search);
+  console.log("mainpage product:", product);
 
   console.log("userdata: ", userData);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get("http://localhost:4323/api/products");
+
+        const data = await response.data;
+        setProduct(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      }
+    };
+
+    fetchProduct();
+  }, [setProduct]);
 
   useEffect(() => {
     // Check if the user is logged in from local storage
@@ -60,6 +81,10 @@ const MainPage = () => {
     setProduct,
     menu,
     setMenu,
+    isLoading,
+    setIsLoading,
+    search,
+    setSearch,
   };
 
   return (
@@ -73,9 +98,10 @@ const MainPage = () => {
             <Route path="/men" element={<Products category="men" />} />
             <Route path="/kids" element={<Products category="kids" />} />
             <Route path="/collections" element={<Products />} />
-            <Route path="product/:_Id" element={<ProductDetails />} />
+            <Route path="product/:id" element={<ProductDetails />} />
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
+            <Route path="/products" element={<Products />} />
             <Route
               path="/useraccount"
               element={

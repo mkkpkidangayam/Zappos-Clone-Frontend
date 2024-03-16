@@ -1,28 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import myContext from "../context/myContextxt";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
+import { Link, useLocation } from "react-router-dom";
 
 const ProductsListing = () => {
-  const { product, setProduct } = useContext(myContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const { product, isLoading } = useContext(myContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get("http://localhost:4323/api/products");
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get("q");
+    setSearchQuery(query);
+  }, [location.search]);
 
-        const data = await response.data;
-        setProduct(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch product:", error);
-      }
-    };
-
-    fetchProduct();
-  }, [setProduct]);
+  useEffect(() => {
+    if (product && searchQuery) {
+      const filtered = product.filter(
+        (product) =>
+          product.title &&
+          product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, product]);
 
   return (
     <div className="container my-6">
@@ -52,62 +53,123 @@ const ProductsListing = () => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 px-4 md:px-10">
         {/* Sidebar */}
         <div className="w-48 md:block bg-slate-200">
-          {/* Sidebar content */}
+          Sidebar content
           <div>Side Bar for filter</div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
 
         {/* Product listings */}
         <div className="col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading ? (
             <div className="text-center">Loading...</div>
+          ) : filteredProducts.length !== 0 ? (
+            filteredProducts.map((product) => (
+              <Link
+                key={product._id}
+                className="block font-semibold mb-4 relative"
+                to={`/product/${product._id}`}
+              >
+                <article className="bg-white shadow-md rounded-lg p-6 mb-4">
+                  <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="w-full"
+                  />
+                  <img
+                    src={product.images[1]}
+                    alt={product.title}
+                    className="w-full absolute top-0 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
+                  />
+
+                  <span className="block mt-2 font-semibold hover:underline mb-2">
+                    {product.brand}
+                  </span>
+                  <span className="block  hover:underline mb-2">
+                    <span className="">{product.title}</span>Grand
+                  </span>
+                  <p className="mb-2">
+                    <span className="font-semibold">
+                      Color: {product.color}
+                    </span>
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-semibold">Price: </span>$
+                    {product.price}
+                  </p>
+                  <p className="mb-2">
+                    <span className="flex items-center">
+                      <svg
+                        className="w-4 h-4 fill-current text-yellow-500 mr-1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                      5.0 out of 5 stars
+                    </span>
+                  </p>
+                </article>
+              </Link>
+            ))
           ) : (
             product.map((product) => (
-                <Link
-                  key={product._id}
-                  className="block text-xl font-semibold mb-4 "
-                  to={`/product/${product._id}`}
-                >
-              <article className="bg-white shadow-md rounded-lg p-6 mb-4">
-                  <img src={product.images[0]} alt={product.title} />
-                
+              <Link
+                key={product._id}
+                className="block font-semibold mb-4 relative"
+                to={`/product/${product._id}`}
+              >
+                <article className="bg-white shadow-md rounded-lg p-6 mb-4">
+                  <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="w-full"
+                  />
+                  <img
+                    src={product.images[1]}
+                    alt={product.title}
+                    className="w-full absolute top-0 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
+                  />
 
-                <span
-                  className="block font-semibold hover:underline mb-2"
-                >
-                {product.brand}
-                </span>
-                <span
-                  className="block  hover:underline mb-2"
-                >
-                  <span className="">{product.title}</span>Grand
-                 
-                </span>
-                <p className="mb-2">
-                  <span className="font-semibold">Color: </span>Tornado
-                  Nubuck/Woodbury/Ivory
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Price: </span>${product.price}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Rating: </span>
-                  <span className="flex items-center">
-                    <svg
-                      className="w-4 h-4 fill-current text-yellow-500 mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                    5.0 out of 5 stars
+                  <span className="block mt-2 font-semibold hover:underline mb-2">
+                    {product.brand}
                   </span>
-                </p>
-              </article>
+                  <span className="block  hover:underline mb-2">
+                    <span className="">{product.title}</span>Grand
+                  </span>
+                  <p className="mb-2">
+                    <span className="font-semibold">
+                      Color: {product.color}
+                    </span>
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-semibold">Price: </span>$
+                    {product.price}
+                  </p>
+                  <p className="mb-2">
+                    <span className="flex items-center">
+                      <svg
+                        className="w-4 h-4 fill-current text-yellow-500 mr-1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                      5.0 out of 5 stars
+                    </span>
+                  </p>
+                </article>
               </Link>
             ))
           )}

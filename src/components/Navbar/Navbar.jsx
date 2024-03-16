@@ -22,6 +22,8 @@ const Navbar = () => {
     setShowModal,
     menu,
     setMenu,
+    search,
+    setSearch
   } = useContext(myContext);
   console.log(userData);
 
@@ -55,6 +57,12 @@ const Navbar = () => {
     setShowModal(!showModal);
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/products?q=${search.toLowerCase()}`);
+}
+
+
   return (
     <>
       <TopBar />
@@ -76,9 +84,11 @@ const Navbar = () => {
                 <span className="translate-x-2">
                   <SearchIcon />
                 </span>
-                <form action="search">
+                <form action="products" onSubmit={handleSearchSubmit}>
                   <input
                     type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     placeholder={`${
                       userName ? `${firstName}, search` : "Search"
                     } for shoes, clothes, etc.`}
@@ -153,7 +163,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("new");
-                    navigate("/");
+                    navigate("/products ");
                   }}
                 >
                   <li

@@ -100,7 +100,7 @@ const AddProduct = () => {
       toast.error("Error adding product. Please try again.");
     }
   };
-
+ console.log(productData);
   return (
     <div className="container">
       <div className="w-2/4 mx-auto border p-10">
