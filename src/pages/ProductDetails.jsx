@@ -83,10 +83,11 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="">
+            <p className="text-2xl mb-2">{productById.brand}</p>
             <h1 className="text-3xl font-bold mb-4">{productById.title}</h1>
             <p className="text-lg mb-2">${productById.price}</p>
-            <p className="text-lg mb-2">Brand: {productById.brand}</p>
             <p className="text-lg mb-2">Gender: {productById.gender}</p>
+            <p className="text-lg mb-2">{productById.category.sub}</p>
             <p className="text-lg mb-2">Color: {productById.color}</p>
             <button
               onClick={handleAddToCart}
@@ -95,7 +96,7 @@ const ProductDetails = () => {
               Add to Bag
             </button>
             <h2 className="text-xl font-semibold mb-2">Product Info</h2>
-            <ul className="mb-4">
+            <ul className="mb-4 list-disc pl-5">
               {productById.info.map((info, index) => (
                 <li key={index} className="mb-2">
                   {info}
