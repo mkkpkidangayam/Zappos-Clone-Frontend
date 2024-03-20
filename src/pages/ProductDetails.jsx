@@ -55,8 +55,25 @@ const ProductDetails = () => {
         toast.error("Please select a size");
         return;
       }
-      addToCart(userData._id, productById._id, selectedSize, selectedQuantity);
-      toast.success("Product added to cart!");
+
+      const cartItem = userData.cart.find(
+        (item) =>
+          item.product._id === productById._id 
+      );
+      console.log(cartItem);
+      if (cartItem) {
+        addToCart(
+          userData._id,
+          productById._id,
+          selectedSize,
+          cartItem.quantity + 1
+        );
+        
+        toast.success("Product quantity incresed!");
+      } else {
+        addToCart(userData._id, productById._id, selectedSize, 1);
+        toast.success("Product added to cart!");
+      }
     } else {
       toast.error("Please login to add products to your cart.");
       navigate("/login");
@@ -124,7 +141,7 @@ const ProductDetails = () => {
                   <li
                     key={index}
                     onClick={() => handleSelectSize(sizeItem.size)}
-                    className={`m-2 w-10 h-10 text-center pt-1 font-semibold bg-white rounded-full border hover:bg-slate-200 hover:border-black ${
+                    className={`m-2 w-10 h-10 text-center pt-1 font-semibold bg-white rounded-full border  hover:border-black ${
                       selectedSize === sizeItem.size && "bg-blue-700 text-white"
                     }`}
                   >
@@ -135,8 +152,8 @@ const ProductDetails = () => {
             </div>
             {selectedSize && (
               <div className="mb-4">
-                <p className="text-lg">Selected Size: {selectedSize}</p>
-                <p className="text-lg">Quantity: {selectedQuantity}</p>
+                {/* <p className="text-lg">Selected Size: {selectedSize}</p> */}
+                <p className="text-lg">Stock: {selectedQuantity}</p>
               </div>
             )}
             <button
