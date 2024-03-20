@@ -1,14 +1,16 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import myContext from "../context/myContextxt";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isLogin } = useContext(myContext);
+  const { isLogin, userData } = useContext(myContext);
   const [productById, setProductById] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -26,8 +28,34 @@ const ProductDetails = () => {
     fetchProductDetails();
   }, [id]);
 
+  const addToCart = async (userId, productId, size, quantity) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4323/api/add-to-cart",
+        { userId, productId, size, quantity }
+      );
+      console.log("addtocart: ", response.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add product to cart.");
+    }
+  };
+
+  const handleSelectSize = (size) => {
+    setSelectedSize(size);
+    const selectedSizeItem = productById.sizes.find(
+      (item) => item.size === size
+    );
+    setSelectedQuantity(selectedSizeItem?.quantity || 1);
+  };
+
   const handleAddToCart = () => {
     if (isLogin) {
+      if (!selectedSize) {
+        toast.error("Please select a size");
+        return;
+      }
+      addToCart(userData._id, productById._id, selectedSize, selectedQuantity);
       toast.success("Product added to cart!");
     } else {
       toast.error("Please login to add products to your cart.");
@@ -45,17 +73,17 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-[#F7F7F7]">
       {productById ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="relative md:col-span-2 p-2">
             <img
               src={productById.images[0]}
               alt={productById.title}
               className="w-full h-auto mb-4"
             />
 
-            <div className="absolute top-2 right-2 flex justify-center items-center">
+            <div className="absolute top-4 right-4 flex justify-center items-center">
               <button
                 type="button"
                 onClick={handleAddToWishlist}
@@ -77,21 +105,43 @@ const ProductDetails = () => {
                   key={index}
                   src={image}
                   alt={productById.title}
-                  className="w-full h-auto"
+                  className="w-full h-auto mb-4"
                 />
               ))}
             </div>
           </div>
-          <div className="">
-            <p className="text-2xl mb-2">{productById.brand}</p>
+          <div className="md:col-span-1">
+            <Link className="text-2xl mb-2">{productById.brand}</Link>
             <h1 className="text-3xl font-bold mb-4">{productById.title}</h1>
             <p className="text-lg mb-2">${productById.price}</p>
-            <p className="text-lg mb-2">Gender: {productById.gender}</p>
             <p className="text-lg mb-2">{productById.category.sub}</p>
+            <p className="text-lg mb-2">For {productById.gender}</p>
             <p className="text-lg mb-2">Color: {productById.color}</p>
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold mb-2">Available Sizes:</h2>
+              <ul className="flex pl-5">
+                {productById.sizes.map((sizeItem, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSelectSize(sizeItem.size)}
+                    className={`m-2 w-10 h-10 text-center pt-1 font-semibold bg-white rounded-full border hover:bg-slate-200 hover:border-black ${
+                      selectedSize === sizeItem.size && "bg-blue-700 text-white"
+                    }`}
+                  >
+                    {sizeItem.size}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {selectedSize && (
+              <div className="mb-4">
+                <p className="text-lg">Selected Size: {selectedSize}</p>
+                <p className="text-lg">Quantity: {selectedQuantity}</p>
+              </div>
+            )}
             <button
               onClick={handleAddToCart}
-              className="bg-black  text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+              className="bg-black w-full text-white font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
             >
               Add to Bag
             </button>

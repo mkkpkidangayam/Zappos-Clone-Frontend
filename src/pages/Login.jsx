@@ -5,6 +5,7 @@ import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import axios from "axios";
 import FooterSecond from "../components/Footer/FooterSecond";
+import Cookies from "js-cookie";
 
 function Login() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Login() {
       })
       .then((response) => {
         const { token } = response.data;
+        Cookies.set('token', token, {expires: 1})
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(response.data.userData);
         localStorage.setItem("userInfo", userInfo);
