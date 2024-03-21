@@ -136,7 +136,7 @@ const ProductDetails = () => {
             <p className="text-lg mb-2">Color: {productById.color}</p>
             <div className="mb-4">
               <h2 className="text-xl font-semibold mb-2">Available Sizes:</h2>
-              <ul className="flex pl-5">
+              <ul className="flex pl-1">
                 {productById.sizes.map((sizeItem, index) => (
                   <li
                     key={index}

@@ -117,13 +117,13 @@ const MainPage = () => {
             <Route
               path="/cart"
               element={
-                isLogin ? (
-                  <ProtectedRoute>
+                // isLogin ? (
+                  // <ProtectedRoute>
                     <Cart />
-                  </ProtectedRoute>
-                ) : (
-                  <Navigate to="/login" replace />
-                )
+                  // </ProtectedRoute>
+                // ) : (
+                  // <Navigate to="/login" replace />
+                // )
               }
             />
             <Route

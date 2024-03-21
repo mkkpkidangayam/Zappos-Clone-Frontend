@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import logo from "../Assets/zappos-logo-black.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -139,7 +139,7 @@ const Navbar = () => {
               </button>
               {isMenuOpen && <DropdownLogin />}
 
-              <button onClick={""}>
+              <button onClick={()=> navigate('/cart')}>
                 <svg
                   className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 "
                   viewBox="0 0 32 34"

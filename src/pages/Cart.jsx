@@ -1,87 +1,63 @@
-import { useState } from "react";
-import Modal from "react-modal";
+import axios from "axios";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import myContext from "../context/myContextxt";
 
-const CartPopup = ({ isOpen, onClose, items, onUpdateCart }) => {
-  const [updatedItems, setUpdatedItems] = useState(items);
+const CartPage = () => {
+  const {userData} = useContext(myContext)
 
-  // Function to handle quantity change
-  const handleQuantityChange = (index, quantity) => {
-    const updatedItem = { ...updatedItems[index], quantity };
-    const newItems = [...updatedItems.slice(0, index), updatedItem, ...updatedItems.slice(index + 1)];
-    setUpdatedItems(newItems);
-  };
+  const userId = userData._id
+  console.log(userId);
 
-  // Function to remove item from cart
-  const removeItem = (index) => {
-    const newItems = [...updatedItems.slice(0, index), ...updatedItems.slice(index + 1)];
-    setUpdatedItems(newItems);
-  };
+  const getCart = async() => {
+    try {
+      const response = await axios.get(`http://localhost:4323/api/get-cart/${userId}`)
+    } catch (error) {
+      
+    }
+  }
+  const cartItems = ''
 
-  // Function to calculate subtotal
-  const calculateSubtotal = () => {
-    return updatedItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
 
-  // Function to handle checkout
-  const handleCheckout = () => {
-    // Implement your checkout logic here
-    console.log("Checkout clicked");
-    onClose();
+  // Function to calculate total price
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onClose}
-      className="modal"
-      overlayClassName="overlay"
-    >
-      <div className="bg-white p-4 shadow-md rounded-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Your Cart</h2>
-          <button className="text-gray-600 hover:text-gray-800" onClick={onClose}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <ul>
-          {items && updatedItems.map((item, index) => (
-            <li key={index} className="flex justify-between items-center mb-2">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <div>
+          {cartItems.map((item) => (
+            <div key={item.id} className="flex items-center border-b border-gray-200 py-4">
+              <img src={item.image} alt={item.name} className="w-20 h-20 object-cover mr-4" />
               <div>
-                <p className="font-semibold">{item.name}</p>
-                <p className="text-gray-500">${item.price}</p>
+                <h2 className="text-lg font-semibold">{item.name}</h2>
+                <p className="text-gray-500">${item.price.toFixed(2)}</p>
+                <div className="flex items-center mt-2">
+                  <button className="text-gray-500 mr-2">-</button>
+                  <span>{item.quantity}</span>
+                  <button className="text-gray-500 ml-2">+</button>
+                </div>
               </div>
-              <div>
-                <input
-                  type="number"
-                  min="1"
-                  value={item.quantity}
-                  onChange={(e) => handleQuantityChange(index, parseInt(e.target.value))}
-                  className="w-16 h-8 text-center border border-gray-300 rounded-md"
-                />
-                <button className="text-red-600 ml-2" onClick={() => removeItem(index)}>
-                  Remove
-                </button>
-              </div>
-            </li>
+            </div>
           ))}
-        </ul>
-        <div className="mt-4">
-          <p className="text-lg font-semibold">Subtotal: ${calculateSubtotal()}</p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2" onClick={handleCheckout}>
-            Proceed to Checkout
-          </button>
+          <div className="flex justify-between mt-6">
+            <Link to="/" className="text-blue-500 hover:underline">Continue Shopping</Link>
+            <div>
+              <p className="text-lg font-semibold">Total: ${calculateTotal().toFixed(2)}</p>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Proceed to Checkout
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </Modal>
+      )}
+    </div>
   );
 };
 
-export default CartPopup;
+export default CartPage;
