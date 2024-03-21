@@ -30,7 +30,7 @@ const MainPage = () => {
   const [menu, setMenu] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
-  console.log("search",search);
+  console.log("search", search);
   console.log("mainpage product:", product);
 
   console.log("userdata: ", userData);
@@ -114,18 +114,7 @@ const MainPage = () => {
                 )
               }
             />
-            <Route
-              path="/cart"
-              element={
-                // isLogin ? (
-                  // <ProtectedRoute>
-                    <Cart />
-                  // </ProtectedRoute>
-                // ) : (
-                  // <Navigate to="/login" replace />
-                // )
-              }
-            />
+            <Route path="/cart" element={<Cart />} />
             <Route
               path="/wishlist"
               element={

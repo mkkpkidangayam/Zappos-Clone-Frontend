@@ -8,6 +8,7 @@ import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
 import WomenMenu from "../SubCategory/WomenMenu";
 import MenMenu from "../SubCategory/MenMenu";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Navbar = () => {
     menu,
     setMenu,
     search,
-    setSearch
+    setSearch,
   } = useContext(myContext);
   console.log(userData);
 
@@ -60,8 +61,7 @@ const Navbar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     navigate(`/products?q=${search.toLowerCase()}`);
-}
-
+  };
 
   return (
     <>
@@ -139,7 +139,18 @@ const Navbar = () => {
               </button>
               {isMenuOpen && <DropdownLogin />}
 
-              <button onClick={()=> navigate('/cart')}>
+              <button
+                onClick={() => {
+                  userData ? (
+                    navigate("/cart")
+                  ) : (
+                    <>
+                      {toast("Please login first")}
+                      {navigate("/login")}
+                    </>
+                  );
+                }}
+              >
                 <svg
                   className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 "
                   viewBox="0 0 32 34"
