@@ -142,7 +142,7 @@ const ProductDetails = () => {
                     key={index}
                     onClick={() => handleSelectSize(sizeItem.size)}
                     className={`m-2 w-10 h-10 text-center pt-1 font-semibold bg-white rounded-full border  hover:border-black ${
-                      selectedSize === sizeItem.size && "bg-blue-700 text-white"
+                      selectedSize === sizeItem.size && "bg-blue-600 text-white"
                     }`}
                   >
                     {sizeItem.size}
