@@ -33,7 +33,7 @@ function Login() {
         const userInfo = JSON.stringify(response.data.userData);
         localStorage.setItem("userInfo", userInfo);
         setIsLogin(true);
-        navigate("/");
+        navigate(-1);
         const userDetails = response.data.userData;
         toast.success(`${userDetails?.name}, ${response.data.message}`);
         
@@ -43,36 +43,7 @@ function Login() {
         console.log("Login error:", error);
       });
   };
-  // try {
-  //   const response = await axios.post("http://localhost:4323/api/login", {
-  //     email,
-  //     password,
-  //   });
-  //   const { token } = response.data;
-  //   localStorage.setItem("token", token);
-  //   console.log("response",response);
-  //   const userInfo = JSON.stringify(response.data.userData);
-  //   localStorage.setItem("userInfo", userInfo);
-  //   navigate("/");
-  //   toast.success(`${userData?.name}, ${response.data.message}`);
-
-  // } catch (error) {
-  //   toast.error("Invalid email or password");
-  //   console.log("Login error:", error);
-  // }
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     setIsLogin(true);
-  //   }
-
-  //   const userInfoString = localStorage.getItem('userInfo')
-  //   if (userInfoString) {
-  //     const userData = JSON.parse(userInfoString)
-  //     setUserData(userData)
-  //   }
-  // },[setIsLogin, setUserData])
-
+  
   return (
     <div>
       <div className="h-24 flex justify-center items-center ">

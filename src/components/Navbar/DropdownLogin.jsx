@@ -19,6 +19,7 @@ const DropdownLogin = () => {
 
 
   const handleLogout = () => {
+    navigate('/')
     SetIsMenuOpen(!isMenuOpen);
     const userName = userData ? userData.name : "User";
     localStorage.removeItem("token");

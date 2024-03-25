@@ -42,18 +42,21 @@ const CartPage = () => {
     updateCart(userData._id, updatedCartItems);
   };
 
-  const handleRemoveItem = async ( itemId) => {
+  const handleRemoveItem = async (itemId) => {
     try {
       const response = await axios.delete(
         `http://localhost:4323/api/remove-from-cart/${userData._id}/${itemId}`
       );
       console.log(response.data);
-      const updatedCartItems = cartItems.filter(item => item._id !== itemId);
-      setCartItems(updatedCartItems)
+      const updatedCartItems = cartItems.filter(item => item.product._id !== itemId);
+      setCartItems(updatedCartItems);
     } catch (error) {
       console.error("Error removing item from cart:", error);
     }
   };
+  useEffect(() => {
+    setCartItems()
+  })
 
 
   const calculateTotal = () => {
@@ -114,7 +117,7 @@ const CartPage = () => {
                       </option>
                     ))}
                   </select>
-                  <button className="text-red-600 ml-2" onClick={() => handleRemoveItem(item._id)}>Remove</button>
+                  <button className="text-red-600 ml-2" onClick={() => handleRemoveItem(item.product._id)}>Remove</button>
                 </div>
               </div>
             </div>
