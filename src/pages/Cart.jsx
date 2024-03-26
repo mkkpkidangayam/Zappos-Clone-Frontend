@@ -6,7 +6,7 @@ import myContext from "../context/myContextxt";
 const CartPage = () => {
   const { userData } = useContext(myContext);
   const [cartItems, setCartItems] = useState([]);
-  console.log(": ",userData._id);
+  console.log(": ", userData._id);
 
   useEffect(() => {
     const getCart = async () => {
@@ -48,20 +48,19 @@ const CartPage = () => {
         `http://localhost:4323/api/remove-from-cart/${userData._id}/${itemId}`
       );
       console.log(response.data);
-      const updatedCartItems = cartItems.filter(item => item.product._id !== itemId);
+      const updatedCartItems = cartItems.filter(
+        (item) => item.product?._id !== itemId
+      );
       setCartItems(updatedCartItems);
     } catch (error) {
       console.error("Error removing item from cart:", error);
     }
   };
-  useEffect(() => {
-    setCartItems()
-  })
-
 
   const calculateTotal = () => {
     return cartItems.reduce(
-      (total, item) => total + item.product.price * item.quantity,
+      (total, item) =>
+        total + (item.product?.price || 0) * (item.quantity || 0),
       0
     );
   };
@@ -79,25 +78,25 @@ const CartPage = () => {
               className="flex items-center border-b border-gray-200 py-4"
             >
               <img
-                src={item.product.images[0]}
-                alt={item.product.title}
+                src={item.product?.images[0] || ""}
+                alt={item.product?.title || ""}
                 className="w-20 h-20 object-cover mr-4"
               />
               <div>
                 <Link
-                  to={`/product/${item.product._id}`}
+                  to={`/product/${item.product?._id}`}
                   className="text-lg underline font-semibold"
                 >
-                  {item.product.brand}, {item.product.title}
+                  {item.product?.brand}, {item.product?.title}
                 </Link>
                 <p className="text-gray-900 font-semibold">
-                  ${item.product.price}
+                  ${item.product?.price || 0}
                 </p>
                 <p className="text-gray-500">Size: {item.size}</p>
                 <div className="flex items-center mt-2">
                   <p className="text-gray-500 ">Qty: </p>
                   <select
-                    value={item.quantity}
+                    value={item.quantity || 0}
                     onChange={(e) =>
                       handleQuantityChange(index, parseInt(e.target.value))
                     }
@@ -106,7 +105,7 @@ const CartPage = () => {
                     {Array.from(
                       {
                         length:
-                          item.product.sizes.find(
+                          item.product?.sizes.find(
                             (size) => size.size === item.size
                           )?.quantity || 0,
                       },
@@ -117,7 +116,12 @@ const CartPage = () => {
                       </option>
                     ))}
                   </select>
-                  <button className="text-red-600 ml-2" onClick={() => handleRemoveItem(item.product._id)}>Remove</button>
+                  <button
+                    className="text-red-600 ml-2"
+                    onClick={() => handleRemoveItem(item.product?._id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             </div>
