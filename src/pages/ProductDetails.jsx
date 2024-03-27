@@ -80,12 +80,23 @@ const ProductDetails = () => {
     }
   };
 
-  const handleAddToWishlist = () => {
-    if (isLogin) {
-      toast.success("Product added to wishlist!");
-    } else {
+  const addToWishlist = async () => {
+    if (!isLogin) {
       toast.error("Please login to add products to your wishlist.");
-      navigate("/login");
+      navigate('/login')
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:4323/api/add-to-wishlist", {
+        userId: userData._id,
+        productId: productById._id,
+      });
+      console.log("add to wishlist response: ", response.data);
+      toast.success("Product added to wishlist!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add product to wishlist.");
     }
   };
 
@@ -103,7 +114,7 @@ const ProductDetails = () => {
             <div className="absolute top-4 right-4 flex justify-center items-center">
               <button
                 type="button"
-                onClick={handleAddToWishlist}
+                onClick={addToWishlist}
                 className="border rounded-3xl hover:bg-blue-500 "
               >
                 <svg
