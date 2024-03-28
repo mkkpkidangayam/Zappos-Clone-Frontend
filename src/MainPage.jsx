@@ -115,7 +115,8 @@ const MainPage = () => {
               }
             />
             <Route path="/cart" element={<Cart />} />
-            <Route
+            <Route path="/wishlist" element={<Wishlist />} />
+            {/* <Route
               path="/wishlist"
               element={
                 isLogin ? (
@@ -126,7 +127,7 @@ const MainPage = () => {
                   <Navigate to="/login" replace />
                 )
               }
-            />
+            /> */}
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
