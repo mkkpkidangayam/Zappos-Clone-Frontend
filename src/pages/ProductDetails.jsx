@@ -30,6 +30,7 @@ const ProductDetails = () => {
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
+      console.log(54515)
       const response = await axios.post(
         "http://localhost:4323/api/add-to-cart",
         { userId, productId, size, quantity }
@@ -43,10 +44,12 @@ const ProductDetails = () => {
 
   const handleSelectSize = (size) => {
     setSelectedSize(size);
+    console.log(size)
     const selectedSizeItem = productById.sizes.find(
       (item) => item.size === size
     );
     setSelectedQuantity(selectedSizeItem?.quantity || 1);
+    console.log(size)
   };
 
   const handleAddToCart = () => {
@@ -55,22 +58,27 @@ const ProductDetails = () => {
         toast.error("Please select a size");
         return;
       }
-
+  
+      if (!userData.cart) {
+        // If user's cart is empty, initialize it as an empty array
+        userData.cart = [];
+      }
+  
       const cartItem = userData.cart.find(
-        (item) =>
-          item.product._id === productById._id 
+        (item) => item.product._id === productById._id
       );
-      console.log(cartItem);
+  
       if (cartItem) {
+        // If the product is already in the cart, increase its quantity
         addToCart(
           userData._id,
           productById._id,
           selectedSize,
           cartItem.quantity + 1
         );
-        
-        toast.success("Product quantity incresed!");
+        toast.success("Product quantity increased!");
       } else {
+        // If the product is not in the cart, add it to the cart
         addToCart(userData._id, productById._id, selectedSize, 1);
         toast.success("Product added to cart!");
       }
@@ -79,6 +87,7 @@ const ProductDetails = () => {
       navigate("/login");
     }
   };
+  
 
   const addToWishlist = async () => {
     if (!isLogin) {
@@ -141,30 +150,30 @@ const ProductDetails = () => {
           <div className="md:col-span-1">
             <Link className="text-2xl mb-2">{productById.brand}</Link>
             <h1 className="text-3xl font-bold mb-4">{productById.title}</h1>
-            <p className="text-lg mb-2">${productById.price}</p>
+            <p className="text-xl mb-2 text-blue-600 font-bold">${productById.price}</p>
             <p className="text-lg mb-2">{productById.category.sub}</p>
             <p className="text-lg mb-2">For {productById.gender}</p>
-            <p className="text-lg mb-2">Color: {productById.color}</p>
-            <div className="mb-4">
+            <p className="text-lg mb-2"><b>Color:</b> {productById.color}</p>
+            <div className="">
               <h2 className="text-xl font-semibold mb-2">Available Sizes:</h2>
-              <ul className="flex pl-1">
+              <ul className="flex">
                 {productById.sizes.map((sizeItem, index) => (
                   <li
                     key={index}
                     onClick={() => handleSelectSize(sizeItem.size)}
-                    className={`m-2 w-10 h-10 text-center pt-1 font-semibold bg-white rounded-full border  hover:border-black ${
-                      selectedSize === sizeItem.size && "bg-blue-600 text-white"
+                    className={`m-2 w-10 h-10 text-center pt-1 font-semibold  rounded-full border-2  hover:border-black ${
+                      selectedSize === sizeItem.size && " text-white bg-blue-600"
                     }`}
                   >
                     {sizeItem.size}
                   </li>
-                ))}
+                ))} 
               </ul>
             </div>
             {selectedSize && (
               <div className="mb-4">
+                <p className="ml-5 text-sm text-red-500">{selectedQuantity} Quantity left</p>
                 {/* <p className="text-lg">Selected Size: {selectedSize}</p> */}
-                <p className="text-lg">Stock: {selectedQuantity}</p>
               </div>
             )}
             <button

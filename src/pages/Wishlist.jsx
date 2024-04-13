@@ -5,11 +5,9 @@ import myContext from "../context/myContextxt";
 
 const WishlistPage = () => {
   const { userData } = useContext(myContext);
-  const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [wishlist, setWishlist] = useState([]); // Initialize wishlist as an empty array
   console.log(userData._id);
-  console.log('Wishlist:- ',wishlist);
+  console.log('Wishlist:', wishlist);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -18,11 +16,8 @@ const WishlistPage = () => {
           `http://localhost:4323/api/wishlist/${userData._id}`
         );
         setWishlist(response.data);
-        setLoading(false);
       } catch (error) {
         console.error(error);
-        setError("Failed to fetch wishlist. Please try again later.");
-        setLoading(false);
       }
     };
 
@@ -32,11 +27,7 @@ const WishlistPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Wishlist</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : wishlist.length === 0 ? (
+      {Array.isArray(wishlist) && wishlist.length === 0 ? ( // Check if wishlist is an array before accessing its length
         <p>Your wishlist is empty.</p>
       ) : (
         <div>
@@ -46,7 +37,7 @@ const WishlistPage = () => {
               className="flex items-center border-b border-gray-200 py-4"
             >
               <img
-                src={item.image || ""}
+                src={item.image}
                 alt={item.title}
                 className="w-20 h-20 object-cover mr-4"
               />

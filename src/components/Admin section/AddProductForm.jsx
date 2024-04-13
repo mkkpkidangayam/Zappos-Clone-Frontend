@@ -3,6 +3,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const AddProduct = () => {
+  document.title = "Add-Product";
+
   const [productData, setProductData] = useState({
     title: "",
     description: "",
@@ -100,7 +102,7 @@ const AddProduct = () => {
       toast.error("Error adding product. Please try again.");
     }
   };
- console.log(productData);
+  console.log(productData);
   return (
     <div className="container">
       <div className="w-2/4 mx-auto border p-10">

@@ -57,7 +57,7 @@ const Home = () => {
                         {item.category.sub}
                       </Link>
                     </div>
-                  </article>
+                  </article> 
                 ))}
             </div>
           </div>

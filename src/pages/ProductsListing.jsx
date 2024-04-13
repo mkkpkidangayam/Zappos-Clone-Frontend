@@ -125,7 +125,7 @@ const ProductsListing = () => {
                 className="block font-semibold mb-4 relative"
                 to={`/product/${product._id}`}
               >
-                <article className="bg-white shadow-md rounded-lg p-6 mb-4">
+                <article className="bg-white shadow-md border h-[500px] rounded-lg p-6 mb-4">
                   <img
                     src={product.images[0]}
                     alt={product.title}
@@ -136,39 +136,40 @@ const ProductsListing = () => {
                     alt={product.title}
                     className="w-full absolute top-0 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
                   />
-
-                  <span className="block mt-2 font-semibold hover:underline mb-2">
-                    {product.brand}
-                  </span>
-                  <span className="block  hover:underline mb-2">
-                    <span className="">{product.title}</span>Grand
-                  </span>
-                  <p className="mb-2">
-                    <span className="font-semibold">
-                      Color: {product.color}
+                  <div className="">
+                    <span className="block mt-2 font-semibold hover:underline mb-2">
+                      {product.brand}
                     </span>
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-semibold">Price: </span>$
-                    {product.price}
-                  </p>
-                  <p className="mb-2">
-                    <span className="flex items-center">
-                      <svg
-                        className="w-4 h-4 fill-current text-yellow-500 mr-1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
-                      5.0 out of 5 stars
+                    <span className="block  hover:underline mb-2">
+                      <span className="">{product.title}</span>Grand
                     </span>
-                  </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">
+                        Color: {product.color}
+                      </span>
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Price: </span>$
+                      {product.price}
+                    </p>
+                    <p className="mb-2">
+                      <span className="flex items-center">
+                        <svg
+                          className="w-4 h-4 fill-current text-yellow-500 mr-1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                        5.0 out of 5 stars
+                      </span>
+                    </p>
+                  </div>
                 </article>
               </Link>
             ))

@@ -6,6 +6,7 @@ import myContext from "../../context/myContextxt";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+  document.title = "Admin-Login";
   const { setIsAdminLogin } = useContext(myContext);
   const [formData, setFormData] = useState({
     username: "",
@@ -21,7 +22,6 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
     try {
       const response = await axios.post(
         "http://localhost:4323/api/admin/login",
@@ -38,20 +38,20 @@ const AdminLogin = () => {
       console.error("Login failed:", error);
     }
   };
- // axios
-    //   .post("http://localhost:4323/api/admin/login", formData)
-    //   .then((response) => {
-    //     const { adminToken } = response.data;
-    //     console.log(adminToken);
-    //     localStorage.setItem("adminToken", adminToken)
-    //     setIsAdminLogin(true)
-    //     navigate('/add-product')
+  // axios
+  //   .post("http://localhost:4323/api/admin/login", formData)
+  //   .then((response) => {
+  //     const { adminToken } = response.data;
+  //     console.log(adminToken);
+  //     localStorage.setItem("adminToken", adminToken)
+  //     setIsAdminLogin(true)
+  //     navigate('/add-product')
 
-    //   }).catch((error)=> {
-    //     setError("Invalid username or password");
-    //   toast.error("Invalid username or password");
-    //   console.error("Login failed:", error);
-    //   })
+  //   }).catch((error)=> {
+  //     setError("Invalid username or password");
+  //   toast.error("Invalid username or password");
+  //   console.error("Login failed:", error);
+  //   })
 
   // try {
   //   const response = await axios.post("http://localhost:4323/api/admin/login", formData);
