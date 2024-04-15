@@ -145,7 +145,7 @@ const Navbar = () => {
                     navigate("/cart")
                   ) : (
                     <>
-                      {toast("Please login first")}
+                      {toast.error("Please login first")}
                       {navigate("/login")}
                     </>
                   );

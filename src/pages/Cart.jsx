@@ -6,7 +6,6 @@ import myContext from "../context/myContextxt";
 const CartPage = () => {
   const { userData } = useContext(myContext);
   const [cartItems, setCartItems] = useState([]);
-  console.log(": ", userData._id);
 
   useEffect(() => {
     const getCart = async () => {
@@ -49,7 +48,7 @@ const CartPage = () => {
       );
       console.log(response.data);
       const updatedCartItems = cartItems.filter(
-        (item) => item.product?._id !== itemId
+        (item) => item._id !== itemId
       );
       setCartItems(updatedCartItems);
     } catch (error) {
@@ -60,7 +59,7 @@ const CartPage = () => {
   const calculateTotal = () => {
     return cartItems.reduce(
       (total, item) =>
-        total + (item.product?.price || 0) * (item.quantity || 0),
+        total + (item.price || 0) * (item.quantity || 0),
       0
     );
   };
@@ -78,19 +77,19 @@ const CartPage = () => {
               className="flex items-center border-b border-gray-200 py-4"
             >
               <img
-                src={item.product?.images[0] || ""}
-                alt={item.product?.title || ""}
+                src={item.images}
+                alt={item.title || ""}
                 className="w-20 h-20 object-cover mr-4"
               />
               <div>
                 <Link
-                  to={`/product/${item.product?._id}`}
+                  to={`/product/${item._id}`}
                   className="text-lg underline font-semibold"
                 >
-                  {item.product?.brand}, {item.product?.title}
+                  {item.brand}, {item.title}
                 </Link>
                 <p className="text-gray-900 font-semibold">
-                  ${item.product?.price || 0}
+                  ${item.price || 0}
                 </p>
                 <p className="text-gray-500">Size: {item.size}</p>
                 <div className="flex items-center mt-2">
@@ -102,23 +101,24 @@ const CartPage = () => {
                     }
                     className="border border-gray-300 rounded-md mx-2"
                   >
-                    {Array.from(
+                    {(item.sizes || []).find(
+                      (size) => size.size === item.size
+                    ) ? Array.from(
                       {
-                        length:
-                          item.product?.sizes.find(
-                            (size) => size.size === item.size
-                          )?.quantity || 0,
+                        length: (
+                          item.sizes.find((size) => size.size === item.size)?.quantity || 0
+                        ),
                       },
                       (_, i) => i + 1
                     ).map((quantity) => (
                       <option key={quantity} value={quantity}>
                         {quantity}
                       </option>
-                    ))}
+                    )) : null}
                   </select>
                   <button
                     className="text-red-600 ml-2"
-                    onClick={() => handleRemoveItem(item.product?._id)}
+                    onClick={() => handleRemoveItem(item._id)}
                   >
                     Remove
                   </button>
@@ -126,6 +126,7 @@ const CartPage = () => {
               </div>
             </div>
           ))}
+
           <div className="flex justify-between mt-6">
             <Link to="/" className="text-blue-500 hover:underline">
               Continue Shopping

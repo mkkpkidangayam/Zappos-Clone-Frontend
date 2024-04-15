@@ -32,37 +32,44 @@ const Home = () => {
         />
       </div>
       <div>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1  gap-2">
-          <div className="my-5">
-            <h1 className="text-xl text-center font-bold mb-4">Shop Popular Categories</h1>
-            <div className="flex flex-wrap justify-center mx-auto">
-              {product &&
-                product.map((item, index) => (
-                  <article
-                    key={index}
-                    className="w-full border m-1 md:w-1/2 lg:w-1/3 xl:w-1/4 p-2"
+  <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1 gap-2">
+    <div className="my-5">
+      <h1 className="text-xl text-center font-bold mb-4">Shop Popular Categories</h1>
+      <div className="flex flex-wrap justify-center mx-auto">
+        {product &&
+          product.map((item, index) => {
+            // Check if the current category has already been displayed
+            const isDuplicate = product.slice(0, index).some(prevItem => prevItem.category.sub === item.category.sub);
+            if (isDuplicate) return null; // Skip rendering if it's a duplicate
+
+            return (
+              <article
+                key={index}
+                className="w-full border m-1 md:w-1/2 lg:w-1/3 xl:w-1/4 p-2"
+              >
+                <picture>
+                  <img
+                    src={item.images[0]}
+                    alt=""
+                    className="mba-z w-full h-auto"
+                  />
+                </picture>
+                <div className="text-center">
+                  <Link
+                    to={"/"}
+                    className="block font-semibold hover:underline"
                   >
-                    <picture>
-                      <img
-                        src={item.images[0]}
-                        alt=""
-                        className="mba-z w-full h-auto"
-                      />
-                    </picture>
-                    <div className="text-center">
-                      <Link
-                        to={"/"}
-                        className="block font-semibold hover:underline"
-                      >
-                        {item.category.sub}
-                      </Link>
-                    </div>
-                  </article> 
-                ))}
-            </div>
-          </div>
-        </section>
+                    {item.category.sub}
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
       </div>
+    </div>
+  </section>
+</div>
+
     </div>
   );
 };

@@ -30,7 +30,6 @@ const ProductDetails = () => {
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
-      console.log(54515)
       const response = await axios.post(
         "http://localhost:4323/api/add-to-cart",
         { userId, productId, size, quantity }
@@ -44,12 +43,12 @@ const ProductDetails = () => {
 
   const handleSelectSize = (size) => {
     setSelectedSize(size);
-    console.log(size)
+    console.log(size);
     const selectedSizeItem = productById.sizes.find(
       (item) => item.size === size
     );
     setSelectedQuantity(selectedSizeItem?.quantity || 1);
-    console.log(size)
+    console.log(size);
   };
 
   const handleAddToCart = () => {
@@ -58,16 +57,16 @@ const ProductDetails = () => {
         toast.error("Please select a size");
         return;
       }
-  
+
       if (!userData.cart) {
         // If user's cart is empty, initialize it as an empty array
         userData.cart = [];
       }
-  
+
       const cartItem = userData.cart.find(
-        (item) => item.product._id === productById._id
+        (item) => item._id === productById._id
       );
-  
+
       if (cartItem) {
         // If the product is already in the cart, increase its quantity
         addToCart(
@@ -87,20 +86,22 @@ const ProductDetails = () => {
       navigate("/login");
     }
   };
-  
 
   const addToWishlist = async () => {
     if (!isLogin) {
       toast.error("Please login to add products to your wishlist.");
-      navigate('/login')
+      navigate("/login");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:4323/api/add-to-wishlist", {
-        userId: userData._id,
-        productId: productById._id,
-      });
+      const response = await axios.post(
+        "http://localhost:4323/api/add-to-wishlist",
+        {
+          userId: userData._id,
+          productId: productById._id,
+        }
+      );
       console.log("add to wishlist response: ", response.data);
       toast.success("Product added to wishlist!");
     } catch (error) {
@@ -148,12 +149,20 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="md:col-span-1">
-            <Link className="text-2xl mb-2">{productById.brand}</Link>
-            <h1 className="text-3xl font-bold mb-4">{productById.title}</h1>
-            <p className="text-xl mb-2 text-blue-600 font-bold">${productById.price}</p>
-            <p className="text-lg mb-2">{productById.category.sub}</p>
-            <p className="text-lg mb-2">For {productById.gender}</p>
-            <p className="text-lg mb-2"><b>Color:</b> {productById.color}</p>
+            <Link className="text-2xl mb-2 font-semibold hover:underline hover:text-blue-600">
+              {productById.brand}
+            </Link>
+            <h1 className="text-3xl font-semibold mb-4">{productById.title}</h1>
+
+            <p className="text-4xl mb-2 text-blue-600 font-semibold">
+              <sup>$</sup>
+              {productById.price.toFixed(2)}
+            </p>
+            {/* <p className="text-lg mb-2">{productById.category.sub}</p> */}
+            <p className="text-lg mb-2">{productById.category.sub} for {productById.gender}</p>
+            <p className="text-lg mb-2">
+              <b>Color:</b> {productById.color}
+            </p>
             <div className="">
               <h2 className="text-xl font-semibold mb-2">Available Sizes:</h2>
               <ul className="flex">
@@ -162,28 +171,34 @@ const ProductDetails = () => {
                     key={index}
                     onClick={() => handleSelectSize(sizeItem.size)}
                     className={`m-2 w-10 h-10 text-center pt-1 font-semibold  rounded-full border-2  hover:border-black ${
-                      selectedSize === sizeItem.size && " text-white bg-blue-600"
+                      selectedSize === sizeItem.size &&
+                      " text-white bg-blue-600"
                     }`}
                   >
                     {sizeItem.size}
                   </li>
-                ))} 
+                ))}
               </ul>
             </div>
             {selectedSize && (
               <div className="mb-4">
-                <p className="ml-5 text-sm text-red-500">{selectedQuantity} Quantity left</p>
+                <p className="ml-5 text-sm text-red-500">
+                  Only {selectedQuantity} left in stock!
+                </p>
                 {/* <p className="text-lg">Selected Size: {selectedSize}</p> */}
               </div>
             )}
             <button
               onClick={handleAddToCart}
-              className="bg-black w-full text-white font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
+              className="bg-black w-full text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
             >
               Add to Bag
             </button>
-            <h2 className="text-xl font-semibold mb-2">Product Info</h2>
-            <ul className="mb-4 list-disc pl-5">
+            <h2 className="text-xl font-semibold mt-5 mb-3">
+              Product Information
+            </h2>
+            <hr className="border-t border-dashed border-black " />
+            <ul className="my-4 list-disc pl-5">
               {productById.info.map((info, index) => (
                 <li key={index} className="mb-2">
                   {info}
