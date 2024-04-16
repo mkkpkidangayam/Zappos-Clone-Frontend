@@ -5,8 +5,7 @@ import myContext from "../context/myContextxt";
 
 const WishlistPage = () => {
   const { userData } = useContext(myContext);
-  const [wishlist, setWishlist] = useState([]); // Initialize wishlist as an empty array
-  console.log(userData._id);
+  const [wishlist, setWishlist] = useState([]); 
   console.log('Wishlist:', wishlist);
 
   useEffect(() => {
@@ -22,18 +21,18 @@ const WishlistPage = () => {
     };
 
     fetchWishlist();
-  }, [userData._id]);
+  }, [userData]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Wishlist</h1>
-      {Array.isArray(wishlist) && wishlist.length === 0 ? ( // Check if wishlist is an array before accessing its length
+      { wishlist.length === 0 ? ( 
         <p>Your wishlist is empty.</p>
       ) : (
         <div>
-          {wishlist.map((item) => (
+          {wishlist.map((item, index) => (
             <div
-              key={item._id}
+              key={index}
               className="flex items-center border-b border-gray-200 py-4"
             >
               <img
@@ -43,7 +42,7 @@ const WishlistPage = () => {
               />
               <div>
                 <h2 className="text-lg font-semibold">{item.title}</h2>
-                <p className="text-gray-500">${item.price.toFixed(2)}</p>
+                <p className="text-gray-500">${item.price}</p>
                 <Link
                   to={`/product/${item._id}`}
                   className="text-blue-500 hover:underline"

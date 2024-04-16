@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import myContext from "../context/myContextxt";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const CartPage = () => {
+  document.title = "Your Bag";
   const { userData } = useContext(myContext);
   const [cartItems, setCartItems] = useState([]);
 
@@ -13,6 +15,7 @@ const CartPage = () => {
         const response = await axios.get(
           `http://localhost:4323/api/get-cart/${userData._id}`
         );
+        console.log("response", response.data);
         setCartItems(response.data);
       } catch (error) {
         console.error("Error fetching cart:", error);
@@ -47,9 +50,7 @@ const CartPage = () => {
         `http://localhost:4323/api/remove-from-cart/${userData._id}/${itemId}`
       );
       console.log(response.data);
-      const updatedCartItems = cartItems.filter(
-        (item) => item._id !== itemId
-      );
+      const updatedCartItems = cartItems.filter((item) => item._id !== itemId);
       setCartItems(updatedCartItems);
     } catch (error) {
       console.error("Error removing item from cart:", error);
@@ -58,8 +59,7 @@ const CartPage = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce(
-      (total, item) =>
-        total + (item.price || 0) * (item.quantity || 0),
+      (total, item) => total + (item.product.price || 0) * (item.quantity || 0),
       0
     );
   };
@@ -76,51 +76,53 @@ const CartPage = () => {
               key={index}
               className="flex items-center border-b border-gray-200 py-4"
             >
-              <img
-                src={item.images}
-                alt={item.title || ""}
-                className="w-20 h-20 object-cover mr-4"
-              />
+              <Link to={`/product/${item.product._id}`}>
+                <img
+                  src={item.product.images}
+                  alt={item.product.title || ""}
+                  className="w-20 h-20 object-cover mr-4"
+                />
+              </Link>
               <div>
                 <Link
-                  to={`/product/${item._id}`}
-                  className="text-lg underline font-semibold"
+                  to={`/product/${item.product._id}`}
+                  className="text-lg hover:underline font-semibold"
                 >
-                  {item.brand}, {item.title}
+                  {item.product.brand}, {item.product.title}
                 </Link>
-                <p className="text-gray-900 font-semibold">
-                  ${item.price || 0}
+                <p className="text-gray-900 text-xl font-semibold">
+                  <sup>$</sup> {item.product.price.toFixed(2) || 0}
                 </p>
                 <p className="text-gray-500">Size: {item.size}</p>
                 <div className="flex items-center mt-2">
                   <p className="text-gray-500 ">Qty: </p>
                   <select
-                    value={item.quantity || 0}
+                    value={item.quantity || 1}
                     onChange={(e) =>
                       handleQuantityChange(index, parseInt(e.target.value))
                     }
                     className="border border-gray-300 rounded-md mx-2"
                   >
-                    {(item.sizes || []).find(
-                      (size) => size.size === item.size
-                    ) ? Array.from(
+                    {Array.from(
                       {
-                        length: (
-                          item.sizes.find((size) => size.size === item.size)?.quantity || 0
-                        ),
+                        length:
+                          item.product.sizes.find(
+                            (size) => size.size === item.size
+                          )?.quantity || 0,
                       },
                       (_, i) => i + 1
                     ).map((quantity) => (
                       <option key={quantity} value={quantity}>
                         {quantity}
                       </option>
-                    )) : null}
+                    ))}
                   </select>
+
                   <button
                     className="text-red-600 ml-2"
                     onClick={() => handleRemoveItem(item._id)}
                   >
-                    Remove
+                    <DeleteIcon />
                   </button>
                 </div>
               </div>

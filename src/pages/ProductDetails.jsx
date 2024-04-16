@@ -159,7 +159,7 @@ const ProductDetails = () => {
               {productById.price.toFixed(2)}
             </p>
             {/* <p className="text-lg mb-2">{productById.category.sub}</p> */}
-            <p className="text-lg mb-2">{productById.category.sub} for {productById.gender}</p>
+            <p className="text-lg mb-2">{productById.category.sub} for {productById.gender.toUpperCase()}</p>
             <p className="text-lg mb-2">
               <b>Color:</b> {productById.color}
             </p>
