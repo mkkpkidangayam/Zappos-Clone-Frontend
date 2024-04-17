@@ -28,7 +28,7 @@ function Login() {
       })
       .then((response) => {
         const { token } = response.data;
-        Cookies.set('token', token, {expires: 1})
+        Cookies.set("token", token, { expires: 1 });
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(response.data.userData);
         localStorage.setItem("userInfo", userInfo);
@@ -36,14 +36,13 @@ function Login() {
         navigate(-1);
         const userDetails = response.data.userData;
         toast.success(`${userDetails?.name}, ${response.data.message}`);
-        
       })
       .catch((error) => {
         toast.error("Invalid email or password");
         console.log("Login error:", error);
       });
   };
-  
+
   return (
     <div>
       <div className="h-24 flex justify-center items-center ">
@@ -52,7 +51,7 @@ function Login() {
         </Link>
       </div>
       <div className="mb-32 flex justify-center">
-        <div className="w-[650px] flex justify-center  ">
+        <div className="w-[650px] flex justify-center">
           <div className="w-[348px] h-[384px] rounded p-6 border border-black">
             <h1 className="text-2xl mb-4">
               <b>Sign in</b>

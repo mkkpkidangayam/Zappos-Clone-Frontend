@@ -101,7 +101,7 @@ const CartPage = () => {
                     onChange={(e) =>
                       handleQuantityChange(index, parseInt(e.target.value))
                     }
-                    className="border border-gray-300 rounded-md mx-2"
+                    className="border border-gray-300 rounded-md mx-2 cursor-pointer"
                   >
                     {Array.from(
                       {

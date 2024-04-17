@@ -11,6 +11,7 @@ const ProductDetails = () => {
   const [productById, setProductById] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -20,13 +21,13 @@ const ProductDetails = () => {
         );
         setProductById(response.data);
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error("Failed to fetch product details");
         console.error(error);
       }
     };
 
     fetchProductDetails();
-  }, [id]);
+  }, [id, isLogin,]);
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
@@ -102,8 +103,14 @@ const ProductDetails = () => {
           productId: productById._id,
         }
       );
-      console.log("add to wishlist response: ", response.data);
-      toast.success("Product added to wishlist!");
+
+      if (response.data.success) {
+        setIsInWishlist(true);
+        toast.success(response.data.message);
+      } else {
+        setIsInWishlist(false);
+        toast.success(response.data.message);
+      }
     } catch (error) {
       console.error(error);
       toast.error("Failed to add product to wishlist.");
@@ -125,16 +132,19 @@ const ProductDetails = () => {
               <button
                 type="button"
                 onClick={addToWishlist}
-                className="border rounded-3xl hover:bg-blue-500 "
+                className={`border rounded-3xl border-blue-400 hover:border-4 ${
+                  isInWishlist && "bg-blue-500 text-white"
+                }`}
               >
                 <svg
-                  className="h-8 w-8 m-2 cursor-pointer rounded-full hover:text-white "
+                  className="h-8 w-8 m-2 cursor-pointer rounded-full  "
                   viewBox="0 0 32 32"
                   fill="none"
                   stroke="currentColor"
                 >
                   <path d="M23.5143 21.5031C25.1357 20.1174 26.539 18.7679 27.1262 17.8205C28.0184 16.3801 28.6486 14.8035 28.5435 12.7233C28.3578 9.04119 25.5203 6 22.0454 6C18.6268 6 15.9446 10.045 15.9446 10.045C15.9446 10.045 15.9445 10.0447 15.9441 10.0442C15.9438 10.0447 15.9436 10.045 15.9436 10.045C15.9436 10.045 13.2614 6 9.84275 6C6.36787 6 3.53038 9.04119 3.34469 12.7233C3.23963 14.8035 3.8698 16.3801 4.76202 17.8205C6.55297 20.7103 15.9362 27.3396 15.9441 27.3333C15.9473 27.3358 17.4365 26.2865 19.3409 24.8402" />
                 </svg>
+                
               </button>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -159,7 +169,9 @@ const ProductDetails = () => {
               {productById.price.toFixed(2)}
             </p>
             {/* <p className="text-lg mb-2">{productById.category.sub}</p> */}
-            <p className="text-lg mb-2">{productById.category.sub} for {productById.gender.toUpperCase()}</p>
+            <p className="text-lg mb-2">
+              {productById.category.sub} for {productById.gender.toUpperCase()}
+            </p>
             <p className="text-lg mb-2">
               <b>Color:</b> {productById.color}
             </p>
