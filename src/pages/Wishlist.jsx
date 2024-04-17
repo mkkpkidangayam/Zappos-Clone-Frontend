@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 const WishlistPage = () => {
   const { userData } = useContext(myContext);
   const [wishlist, setWishlist] = useState([]);
-  console.log("Wishlist:", wishlist);
+  const [isLoding, setIsLoding] = useState(true);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -17,13 +17,14 @@ const WishlistPage = () => {
           `http://localhost:4323/api/wishlist/${userData._id}`
         );
         setWishlist(response.data);
+        setIsLoding(false);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchWishlist();
-  }, [userData]);
+  }, [userData._id]);
 
   const removeFromWishlist = async (itemId) => {
     try {
@@ -40,10 +41,15 @@ const WishlistPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Wishlist</h1>
-      <hr />
-      {wishlist.length === 0 ? (
-        <p>Your wishlist is empty.</p>
+      <h1 className="text-3xl font-bold mb-4 ">Wishlist</h1>
+      <hr className="mb-3" />
+
+      {isLoding ? (
+        <p className="text-3xl font-semibold">Loding....</p>
+      ) : wishlist.length === 0 ? (
+        <p className="font-semibold text-blue-600 text-3xl">
+          Your wishlist is empty!
+        </p>
       ) : (
         <div>
           {wishlist.map((item, index) => (
@@ -51,23 +57,23 @@ const WishlistPage = () => {
               key={index}
               className="flex items-center border-b border-gray-200 py-4"
             >
-              <img
-                src={item.images}
-                alt={item.title}
-                className="w-20 h-20 object-cover border p-2 mr-4"
-              />
+              <Link to={`/product/${item._id}`} className=" hover:underline">
+                <img
+                  src={item.images}
+                  alt={item.title}
+                  className="w-20 h-20 object-cover border p-2 mr-4"
+                />
+              </Link>
               <div>
-                <h2 className="text-lg font-semibold">{item.title}</h2>
+                <Link to={`/product/${item._id}`} className=" hover:underline">
+                  <h2 className="text-lg font-semibold">{item.title}</h2>
+                </Link>
                 <p className="text-gray-500">${item.price}</p>
                 <p className="text-gray-500">{item.category.sub}</p>
-                <Link
-                  to={`/product/${item._id}`}
-                  className="text-blue-500 hover:underline"
-                >
-                  View Product
-                </Link>
-                <button className="ml-3 text-red-600"
-                onClick={() => removeFromWishlist(item._id)}
+
+                <button
+                  className="px-2 border bg-red-600 text-white rounded-md hover:bg-red-500"
+                  onClick={() => removeFromWishlist(item._id)}
                 >
                   Delete
                 </button>
