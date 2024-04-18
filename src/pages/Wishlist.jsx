@@ -69,18 +69,23 @@ const WishlistPage = () => {
                 <Link to={`/product/${item._id}`} className=" hover:underline">
                   <h2 className="text-lg font-semibold">{item.title}</h2>
                 </Link>
-                <p className="text-gray-500">${item.price}</p>
+                <p className="text-gray-500 font-mono">
+                  <sup>$</sup>
+                  {item.price.toFixed(2)}
+                </p>
+                <p className="text-gray-500">Color: {item.color}</p>
                 <p className="text-gray-500">{item.category.sub}</p>
 
                 <button
-                  className="px-2 border bg-red-600 text-white rounded-md hover:bg-red-500"
+                  className="text-red-600 hover:underline"
                   onClick={() => removeFromWishlist(item._id)}
                 >
-                  Delete
+                  Remove
                 </button>
               </div>
             </div>
           ))}
+          <Link className="px-2 text-blue-600 rounded-lg hover:underline" to={'/products'}>Continue Shopping</Link>
         </div>
       )}
     </div>

@@ -1,16 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import myContext from "../context/myContextxt";
+import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const SubCategoryPage = () => {
   const { sub } = useParams();
+  document.title = sub
   const { product } = useContext(myContext);
   const [subCategoryItems, setSubCategoryItems] = useState([]);
 
   useEffect(() => {
-    const filteredItems = product.filter((item) => item.category.sub === sub);
-    setSubCategoryItems(filteredItems);
+    if (product) {
+      const filteredItems = product.filter((item) => item.category.sub === sub);
+      setSubCategoryItems(filteredItems);
+    }
   }, [sub, product]);
+
+  if (!product) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="container px-10">
@@ -20,15 +28,16 @@ const SubCategoryPage = () => {
         {subCategoryItems.map((item) => (
           <Link
             key={item._id}
-            className="block rounded-lg overflow-hidden shadow-md hover:shadow-xl"
+            className="block rounded-lg w-80 overflow-hidden shadow-md hover:shadow-xl border"
             to={`/product/${item._id}`}
           >
             <img
               src={item.images[0]}
               alt={item.title}
-              className="w-full h-64 object-cover"
+              className="w-full object-cover"
             />
-            <div className="p-4">
+
+            <div className="p-4 bg-slate-100">
               <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
               <p className="text-gray-700 mb-2">{item.brand}</p>
               <p className="text-gray-800 font-bold">${item.price}</p>

@@ -5,9 +5,10 @@ import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import Sidebar from "./Sidebar";
 
 const ProductsListing = () => {
-  const { product, isLoading } = useContext(myContext);
+  const { product, isLoading, menu } = useContext(myContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  console.log("filteredProducts", filteredProducts);
   const location = useLocation();
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -17,14 +18,35 @@ const ProductsListing = () => {
 
   useEffect(() => {
     if (product && searchQuery) {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      // const regex = new RegExp(lowerCaseQuery, "gi");
       const filtered = product.filter(
         (product) =>
-          product.title &&
-          product.title.toLowerCase().includes(searchQuery.toLowerCase())
+          // [...Object.values(product)].some(
+          //   (value) => value.matchAll(regex).next().done === false
+          // )
+          product.title.toLowerCase().includes(lowerCaseQuery) ||
+          product.brand.toLowerCase().includes(lowerCaseQuery) ||
+          product.gender.toLowerCase().includes(lowerCaseQuery) ||
+          product.category.main.toLowerCase().includes(lowerCaseQuery) ||
+          product.category.sub.toLowerCase().includes(lowerCaseQuery) ||
+          product.color.toLowerCase().includes(lowerCaseQuery) ||
+          product.info.some((item) =>
+            item.toLowerCase().includes(lowerCaseQuery)
+          )
       );
       setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts([]);
     }
-  }, [searchQuery, product]);
+  }, [searchQuery, product, menu]);
+
+  const productCount =
+    filteredProducts && filteredProducts.length > 0
+      ? filteredProducts.length
+      : product && product.length > 0
+      ? product.length
+      : 0;
 
   return (
     <div className="container my-6">
@@ -32,9 +54,7 @@ const ProductsListing = () => {
         <div className="w-full md:w-60 ml-10 mb-4 md:mb-0">
           <div>
             <h1 className="font-bold text-2xl">Category Name</h1>
-            <h2 className="text-gray-600">
-              ({product ? product.length : 0}) items found
-            </h2>
+            <p className="text-gray-600">({productCount}) items found</p>
           </div>
         </div>
         <div className="w-full md:w-60 md:h-24 mr-7 py-5">
@@ -55,7 +75,7 @@ const ProductsListing = () => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 px-4 md:px-10">
         {/* Sidebar */}
         <div className="w-48 md:block">
-          <Sidebar/>
+          <Sidebar />
         </div>
 
         {/* Product listings */}

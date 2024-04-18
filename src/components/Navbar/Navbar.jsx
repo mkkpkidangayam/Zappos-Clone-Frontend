@@ -60,7 +60,7 @@ const Navbar = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    navigate(`/products?search=${encodeURIComponent(search)}`);
+    navigate(`/products?search=${encodeURIComponent(search.toLowerCase())}`);
   };
 
   return (
