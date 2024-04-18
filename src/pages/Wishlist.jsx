@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
+import LoadingSpinner from "../components/Assets/LoadingSpinner";
 // import DeleteIcon from "@mui/icons-material/Delete";
 
 const WishlistPage = () => {
@@ -45,7 +46,7 @@ const WishlistPage = () => {
       <hr className="mb-3" />
 
       {isLoding ? (
-        <p className="text-3xl font-semibold">Loding....</p>
+        <LoadingSpinner />
       ) : wishlist.length === 0 ? (
         <p className="font-semibold text-blue-600 text-3xl">
           Your wishlist is empty!

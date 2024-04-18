@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import myContext from "../context/myContextxt";
+import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -20,6 +21,7 @@ const ProductDetails = () => {
           `http://localhost:4323/api/product/${id}`
         );
         setProductById(response.data);
+        
       } catch (error) {
         toast.error("Failed to fetch product details");
         console.error(error);
@@ -168,7 +170,6 @@ const ProductDetails = () => {
               <sup>$</sup>
               {productById.price.toFixed(2)}
             </p>
-            {/* <p className="text-lg mb-2">{productById.category.sub}</p> */}
             <p className="text-lg mb-2">
               {productById.category.sub} for {productById.gender.toUpperCase()}
             </p>
@@ -192,12 +193,11 @@ const ProductDetails = () => {
                 ))}
               </ul>
             </div>
-            {selectedSize && (
+            {selectedSize && selectedQuantity < 5 && (
               <div className="mb-4">
                 <p className="ml-5 text-sm text-red-500">
                   Only {selectedQuantity} left in stock!
                 </p>
-                {/* <p className="text-lg">Selected Size: {selectedSize}</p> */}
               </div>
             )}
             <button
@@ -220,7 +220,7 @@ const ProductDetails = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center">Loading...</div>
+        <LoadingSpinner />
       )}
     </div>
   );

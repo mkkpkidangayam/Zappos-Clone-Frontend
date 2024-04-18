@@ -19,6 +19,8 @@ import AdminLogin from "./components/Admin section/AdminLogin";
 import AddProductForm from "./components/Admin section/AddProductForm";
 import ProductDetails from "./pages/ProductDetails";
 import axios from "axios";
+import Checkout from "./pages/Checkout";
+import SubCategoryPage from "./pages/SubCategoryPage";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -102,6 +104,7 @@ const MainPage = () => {
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/category/:sub" element={<SubCategoryPage />} />
             <Route
               path="/useraccount"
               element={
@@ -133,6 +136,7 @@ const MainPage = () => {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/otp-verify" element={<OtpVerification />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin/add-product" element={<AddProductForm />} />
         </Routes>

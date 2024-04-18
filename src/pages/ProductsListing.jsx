@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import myContext from "../context/myContextxt";
 import { Link, useLocation } from "react-router-dom";
+import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import Sidebar from "./Sidebar";
 
 const ProductsListing = () => {
   const { product, isLoading } = useContext(myContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const location = useLocation();
-
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const query = searchParams.get("q");
+    const query = searchParams.get("search");
     setSearchQuery(query);
   }, [location.search]);
 
@@ -50,20 +51,22 @@ const ProductsListing = () => {
           </select>
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 px-4 md:px-10">
         {/* Sidebar */}
-        <div className="w-48 md:block bg-slate-200">
-          Sidebar content
-          <div>Side Bar for filter</div>
-          <div></div>
-          <div></div>
-          <div></div>
+        <div className="w-48 md:block">
+          <Sidebar/>
         </div>
 
         {/* Product listings */}
         <div className="col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading ? (
-            <div className="text-center">Loading...</div>
+            <>
+              <LoadingSpinner />
+              <LoadingSpinner />
+              <LoadingSpinner />
+              <LoadingSpinner />
+            </>
           ) : filteredProducts.length !== 0 ? (
             filteredProducts.map((product) => (
               <Link

@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const CartPage = () => {
   document.title = "Your Bag";
+  const navigate = useNavigate();
   const { userData } = useContext(myContext);
   const [cartItems, setCartItems] = useState([]);
+  const [isLoding, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getCart = async () => {
@@ -15,8 +18,8 @@ const CartPage = () => {
         const response = await axios.get(
           `http://localhost:4323/api/get-cart/${userData._id}`
         );
-        console.log("response", response.data);
         setCartItems(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching cart:", error);
       }
@@ -67,7 +70,9 @@ const CartPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
-      {cartItems.length === 0 ? (
+      {isLoding ? (
+        <LoadingSpinner />
+      ) : cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <div>
@@ -84,16 +89,18 @@ const CartPage = () => {
                 />
               </Link>
               <div>
+                <p className="font-mono">{item.product.brand}</p>
                 <Link
                   to={`/product/${item.product._id}`}
                   className="text-lg hover:underline font-semibold"
                 >
-                  {item.product.brand}, {item.product.title}
+                   {item.product.title}
                 </Link>
                 <p className="text-gray-900 text-xl font-semibold">
                   <sup>$</sup> {item.product.price.toFixed(2) || 0}
                 </p>
                 <p className="text-gray-500">Size: {item.size}</p>
+                <p className="text-gray-500">Color: {item.product.color}</p>
                 <div className="flex items-center mt-2">
                   <p className="text-gray-500 ">Qty: </p>
                   <select
@@ -105,10 +112,12 @@ const CartPage = () => {
                   >
                     {Array.from(
                       {
-                        length:
+                        length: Math.min(
                           item.product.sizes.find(
                             (size) => size.size === item.size
                           )?.quantity || 0,
+                          4
+                        ),
                       },
                       (_, i) => i + 1
                     ).map((quantity) => (
@@ -137,7 +146,10 @@ const CartPage = () => {
               <p className="text-lg font-semibold">
                 Total: ${calculateTotal().toFixed(2)}
               </p>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
                 Proceed to Checkout
               </button>
             </div>
