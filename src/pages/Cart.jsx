@@ -68,8 +68,18 @@ const CartPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+    <div className="container mx-auto mb-10 px-4 py-8">
+      <div className="flex justify-between mx-3 ">
+        <h1 className="text-3xl font-bold mb-6">My Bag</h1>
+        <Link
+          to="/products"
+          className="text-blue-700 font-semibold hover:underline"
+        >
+          Continue Shopping
+        </Link>
+      </div>
+      <hr />
+
       {isLoding ? (
         <LoadingSpinner />
       ) : cartItems.length === 0 ? (
@@ -94,10 +104,11 @@ const CartPage = () => {
                   to={`/product/${item.product._id}`}
                   className="text-lg hover:underline font-semibold"
                 >
-                   {item.product.title}
+                  {item.product.title}
                 </Link>
                 <p className="text-gray-900 text-xl font-semibold">
-                  <sup>$</sup>{item.product.price.toFixed(2) || 0}
+                  <sup>$</sup>
+                  {item.product.price.toFixed(2) || 0}
                 </p>
                 <p className="text-gray-500">Size: {item.size}</p>
                 <p className="text-gray-500">Color: {item.product.color}</p>
@@ -128,7 +139,7 @@ const CartPage = () => {
                   </select>
 
                   <button
-                    className="text-red-600 ml-2"
+                    className="text-red-700 ml-2 hover:text-red-500"
                     onClick={() => handleRemoveItem(item._id)}
                   >
                     <DeleteIcon />
@@ -137,25 +148,19 @@ const CartPage = () => {
               </div>
             </div>
           ))}
-
-          <div className="flex justify-between mt-6">
-            <Link to="/" className="text-blue-500 hover:underline">
-              Continue Shopping
-            </Link>
-            <div>
-              <p className="text-lg font-semibold">
-                Total: ${calculateTotal().toFixed(2)}
-              </p>
-              <button
-                onClick={() => navigate("/checkout")}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Proceed to Checkout
-              </button>
-            </div>
-          </div>
         </div>
       )}
+      <div className="sticky bottom-10 right-10 float-right -mt-5">
+        <p className="text-2xl text-blue-700 font-semibold">
+          Total: ${calculateTotal().toFixed(2)}
+        </p>
+        <button
+          onClick={() => navigate("/checkout")}
+          className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Proceed to Checkout
+        </button>
+      </div>
     </div>
   );
 };

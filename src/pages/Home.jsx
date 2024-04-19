@@ -8,10 +8,13 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
+//
+
 const Home = () => {
   const { product } = useContext(myContext);
   const images = [img1, img2, img3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("shoe");
 
   const rotateImages = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -40,6 +43,50 @@ const Home = () => {
     },
   };
 
+  const filteredProducts = product
+    ? product.filter((item) => item.category.main === selectedCategory)
+    : [];
+
+  const renderCarousel = () => (
+    <div className="container px-6">
+      <Carousel responsive={responsive}>
+        {filteredProducts ? (
+          filteredProducts.map((item, index, filteredArray) => {
+            const isDuplicate = filteredArray
+              .slice(0, index)
+              .some((prevItem) => prevItem.category.sub === item.category.sub);
+            if (isDuplicate) return null;
+            return (
+              <article key={index} className="w-[95%] m-5 border p-2">
+                <picture>
+                  {item.images ? (
+                    <img
+                      src={item.images[0]}
+                      alt=""
+                      className="w-full h-auto"
+                    />
+                  ) : (
+                    <LoadingSpinner />
+                  )}
+                </picture>
+                <div className="text-center">
+                  <Link
+                    to={`/category/${encodeURIComponent(item.category.sub)}`}
+                    className="block font-semibold hover:underline"
+                  >
+                    {item.category.sub}
+                  </Link>
+                </div>
+              </article>
+            );
+          })
+        ) : (
+          <LoadingSpinner />
+        )}
+      </Carousel>
+    </div>
+  );
+
   return (
     <div className="container my-6">
       <div className="flex justify-center">
@@ -49,155 +96,46 @@ const Home = () => {
           alt={`img${currentImageIndex + 1}`}
         />
       </div>
-      <div>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1 gap-2">
-          <div className="my-5">
-            <h1 className="text-xl text-center font-bold mb-4">
-              Shop Popular Shoe Categories
-            </h1>
-            <h1 className="text-xl text-center font-bold mb-4">
-               Shoe
-            </h1>
-            <hr className="w-24 m-auto border-black" />
-            <div className="mx-10">
-              <Carousel responsive={responsive}>
-                {product ? (
-                  product
-                  .filter((item) => item.category.main === "shoe")
-                  .map((item, index, filteredArray) => {
-                    const isDuplicate = filteredArray
-                      .slice(0, index)
-                      .some(
-                        (prevItem) =>
-                          prevItem.category.sub === item.category.sub
-                      );
-                    if (isDuplicate) return null;
-                    return (
-                      <article key={index} className="w-[95%]  m-5 p-2">
-                        <picture>
-                          <img
-                            src={item.images[0]}
-                            alt=""
-                            className=" w-full h-auto"
-                          />
-                        </picture>
-                        <div className="text-center">
-                          <Link
-                            to={`/category/${encodeURIComponent(
-                              item.category.sub
-                            )}`}
-                            className="block font-semibold hover:underline"
-                          >
-                            {item.category.sub}
-                          </Link>
-                        </div>
-                      </article>
-                    );
-                  })
-                ) : (
-                  <LoadingSpinner />
-                )}
-              </Carousel>
-            </div>
-          </div>
-        </section>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1 gap-2">
-          <div className="my-5">
-            <h1 className="text-xl text-center font-bold mb-4">
-              Cloths
-            </h1>
-            <hr className="w-24 m-auto border-black" />
-            <div className="mx-10">
-              <Carousel responsive={responsive}>
-                {product ? (
-                  product
-                    .filter((item) => item.category.main === "cloth")
-                    .map((item, index, filteredArray) => {
-                      const isDuplicate = filteredArray
-                        .slice(0, index)
-                        .some(
-                          (prevItem) =>
-                            prevItem.category.sub === item.category.sub
-                        );
-                      if (isDuplicate) return null;
-                      return (
-                        <article key={index} className="w-[95%]  m-5 p-2">
-                          <picture>
-                            <img
-                              src={item.images[0]}
-                              alt=""
-                              className=" w-full h-auto"
-                            />
-                          </picture>
-                          <div className="text-center">
-                            <Link
-                              to={`/category/${encodeURIComponent(
-                                item.category.sub
-                              )}`}
-                              className="block font-semibold hover:underline"
-                            >
-                              {item.category.sub}
-                            </Link>
-                          </div>
-                        </article>
-                      );
-                    })
-                ) : (
-                  <LoadingSpinner />
-                )}
-              </Carousel>
-            </div>
-          </div>
-        </section>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1 gap-2">
-          <div className="my-5">
-            <h1 className="text-xl text-center font-bold mb-4">
-              Accessories
-            </h1>
-            <hr className="w-24 m-auto border-black" />
-            <div className="mx-10">
-              <Carousel responsive={responsive}>
-                {product ? (
-                  product
-                  .filter((item) => item.category.main === "accessories")
-                  .map((item, index, filteredArray) => {
-                    const isDuplicate = filteredArray
-                      .slice(0, index)
-                      .some(
-                        (prevItem) =>
-                          prevItem.category.sub === item.category.sub
-                      );
-                    if (isDuplicate) return null;
-                    return (
-                      <article key={index} className="w-[95%]  m-5 p-2">
-                        <picture>
-                          <img
-                            src={item.images[0]}
-                            alt=""
-                            className=" w-full h-auto"
-                          />
-                        </picture>
-                        <div className="text-center">
-                          <Link
-                            to={`/category/${encodeURIComponent(
-                              item.category.sub
-                            )}`}
-                            className="block font-semibold hover:underline"
-                          >
-                            {item.category.sub}
-                          </Link>
-                        </div>
-                      </article>
-                    );
-                  })
-                ) : (
-                  <LoadingSpinner />
-                )}
-              </Carousel>
-            </div>
-          </div>
-        </section>
+      <div className="m-4">
+        <h1 className="text-3xl text-center font-bold">
+          Shop Popular Categories
+        </h1>
       </div>
+      <hr className="m-auto w-1/4 border-black" />
+      <div className="flex justify-center space-x-4 my-4">
+        <button
+          className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
+            selectedCategory === "shoe"
+              ? "bg-blue-600 text-white"
+              : "bg-slate-200"
+          } `}
+          onClick={() => setSelectedCategory("shoe")}
+        >
+          Shoes
+        </button>
+        <button
+          className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
+            selectedCategory === "cloth"
+              ? "bg-blue-600 text-white"
+              : "bg-slate-200"
+          } `}
+          onClick={() => setSelectedCategory("cloth")}
+        >
+          Clothes
+        </button>
+        <button
+          className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
+            selectedCategory === "accessories"
+              ? "bg-blue-600 text-white"
+              : "bg-slate-200"
+          } `}
+          onClick={() => setSelectedCategory("accessories")}
+        >
+          Accessories
+        </button>
+      </div>
+
+      {renderCarousel()}
     </div>
   );
 };
