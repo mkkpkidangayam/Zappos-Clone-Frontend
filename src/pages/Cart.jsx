@@ -97,7 +97,7 @@ const CartPage = () => {
                    {item.product.title}
                 </Link>
                 <p className="text-gray-900 text-xl font-semibold">
-                  <sup>$</sup> {item.product.price.toFixed(2) || 0}
+                  <sup>$</sup>{item.product.price.toFixed(2) || 0}
                 </p>
                 <p className="text-gray-500">Size: {item.size}</p>
                 <p className="text-gray-500">Color: {item.product.color}</p>
