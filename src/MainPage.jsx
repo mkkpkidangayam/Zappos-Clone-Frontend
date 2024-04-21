@@ -106,7 +106,7 @@ const MainPage = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/category/:sub" element={<SubCategoryPage />} />
             <Route
-              path="/useraccount"
+              path="/profile"
               element={
                 isLogin ? (
                   <ProtectedRoute>

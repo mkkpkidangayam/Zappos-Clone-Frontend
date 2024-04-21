@@ -20,8 +20,23 @@ const ProductDetails = () => {
         const response = await axios.get(
           `http://localhost:4323/api/product/${id}`
         );
-        setProductById(response.data);
-        
+
+        const product = response.data;
+        if (
+          product.sizes.length === 1 &&
+          product.sizes[0].size === "One size"
+        ) {
+          setSelectedSize("One size");
+          setSelectedQuantity(product.sizes[0].quantity);
+        }
+
+        setProductById(product);
+
+        // const isInWishlistCheck = userData.wishlist.find(
+        //   (item) => item._id === product._id
+        // );
+        // setIsInWishlist(isInWishlistCheck);
+
       } catch (error) {
         toast.error("Failed to fetch product details");
         console.error(error);
@@ -29,7 +44,7 @@ const ProductDetails = () => {
     };
 
     fetchProductDetails();
-  }, [id, isLogin]);
+  }, [id, isLogin, userData.wishlist]);
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
@@ -47,47 +62,53 @@ const ProductDetails = () => {
 
   const handleSelectSize = (size) => {
     setSelectedSize(size);
-    console.log(size);
     const selectedSizeItem = productById.sizes.find(
       (item) => item.size === size
     );
-    setSelectedQuantity(selectedSizeItem?.quantity || 1);
-    console.log(size);
+    setSelectedQuantity(selectedSizeItem?.quantity);
   };
 
   const handleAddToCart = () => {
-    if (isLogin) {
-      if (!selectedSize) {
-        toast.error("Please select a size");
-        return;
-      }
-
-      if (!userData.cart) {
-        // If user's cart is empty, initialize it as an empty array
-        userData.cart = [];
-      }
-
-      const cartItem = userData.cart.find(
-        (item) => item._id === productById._id
-      );
-
-      if (cartItem) {
-        // If the product is already in the cart, increase its quantity
-        addToCart(
-          userData._id,
-          productById._id,
-          selectedSize,
-          cartItem.quantity + 1
-        );
-        toast.success("Product quantity increased!");
-      } else {
-        // If the product is not in the cart, add it to the cart
-        addToCart(userData._id, productById._id, selectedSize, 1);
-        toast.success("Product added to cart!");
-      }
-    } else {
+    if (!isLogin) {
       toast.error("Please login to add products to your cart.");
       navigate("/login");
+      return;
+    }
+
+    if (!selectedSize) {
+      toast.error("Please select a size");
+      return;
+    }
+
+    if (!userData.cart) {
+      userData.cart = [];
+    }
+
+    const existingCartItem = userData.cart.find(
+      (item) => item._id === productById._id && item.size === selectedSize
+    );
+
+    const availableStock =
+      productById.sizes.find((sizeItem) => sizeItem.size === selectedSize)
+        ?.quantity || 0;
+
+    if (existingCartItem) {
+      const totalQuantity = existingCartItem.quantity + 1;
+      if (totalQuantity > 4 || totalQuantity > availableStock) {
+        toast.error(
+          "You cannot add more than 4 units of the same item and size."
+        );
+        return;
+      }
+      addToCart(userData._id, productById._id, selectedSize, totalQuantity);
+      toast.success("Product quantity increased!");
+    } else {
+      if (availableStock < 1) {
+        toast.error("Sorry, this size is currently out of stock.");
+        return;
+      }
+      addToCart(userData._id, productById._id, selectedSize, 1);
+      toast.success("Product added to cart!");
     }
   };
 
@@ -176,30 +197,43 @@ const ProductDetails = () => {
             <p className="text-lg mb-2">
               <b>Color:</b> {productById.color}
             </p>
-            <div className="">
-              <h2 className="text-xl font-semibold mb-2">Available Sizes:</h2>
-              <ul className="flex">
-                {productById.sizes.map((sizeItem, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleSelectSize(sizeItem.size)}
-                    className={`m-2 px-3 h-10 text-center pt-1 font-semibold  rounded-full border-2  hover:border-black ${
-                      selectedSize === sizeItem.size &&
-                      " text-white bg-blue-600"
-                    }`}
-                  >
-                    {sizeItem.size}
-                  </li>
-                ))}
-              </ul>
-            </div>
+
+            {productById.sizes.length > 1 ||
+            (productById.sizes.length === 1 &&
+              productById.sizes[0].size !== "One size") ? (
+              <div>
+                <h2 className="text-xl font-semibold mb-2">Available Sizes:</h2>
+                <ul className="flex">
+                  {productById.sizes.map((sizeItem, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSelectSize(sizeItem.size)}
+                      className={`m-2 px-3 h-10 text-center pt-1 font-semibold rounded-full border-2 hover:border-black ${
+                        selectedSize === sizeItem.size &&
+                        "text-white bg-blue-600"
+                      }`}
+                    >
+                      {sizeItem.size}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
             {selectedSize && selectedQuantity < 5 && (
               <div className="mb-4">
-                <p className="ml-5 text-sm text-red-500">
-                  Only {selectedQuantity} left in stock!
-                </p>
+                {selectedQuantity !== 0 ? (
+                  <p className="ml-1 text-sm font-medium text-red-500">
+                    Only {selectedQuantity} left in stock!
+                  </p>
+                ) : (
+                  <p className="ml-1 text-sm font-medium text-red-500">
+                    Item out of stock!
+                  </p>
+                )}
               </div>
             )}
+
             <button
               onClick={handleAddToCart}
               className="bg-black w-full text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"

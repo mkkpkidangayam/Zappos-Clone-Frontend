@@ -7,7 +7,7 @@ import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const CartPage = () => {
   document.title = "Your Bag";
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { userData } = useContext(myContext);
   const [cartItems, setCartItems] = useState([]);
   const [isLoding, setIsLoading] = useState(true);
@@ -24,9 +24,9 @@ const CartPage = () => {
         console.error("Error fetching cart:", error);
       }
     };
-
+    console.log('jjkh')
     getCart();
-  }, [userData]);
+  }, [userData._id]);
 
   const updateCart = async (userId, updatedCart) => {
     try {
@@ -67,8 +67,25 @@ const CartPage = () => {
     );
   };
 
+  const placeOrder = async (userId) => {
+    if (cartItems.length > 0) {
+      await axios
+        .post(
+          `http://localhost:4323/api/order/${userId}`,
+          {},
+          { withCredentials: true }
+        )
+        .then((result) => {
+          const paymentLink = result.data;
+          
+          window.open(paymentLink, "_blank");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
-    <div className="container mx-auto mb-10 px-4 py-8">
+    <div className="container mx-auto  px-4 pt-10 pb-14">
       <div className="flex justify-between mx-3 ">
         <h1 className="text-3xl font-bold mb-6">My Bag</h1>
         <Link
@@ -83,7 +100,9 @@ const CartPage = () => {
       {isLoding ? (
         <LoadingSpinner />
       ) : cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className="text-2xl mt-3 text-red-700 font-semibold">
+          Your cart is empty!
+        </p>
       ) : (
         <div>
           {cartItems.map((item, index) => (
@@ -110,7 +129,9 @@ const CartPage = () => {
                   <sup>$</sup>
                   {item.product.price.toFixed(2) || 0}
                 </p>
-                <p className="text-gray-500">Size: {item.size}</p>
+                <p className="text-gray-500">
+                  {item.size !== "One size" ? `Size: ${item.size}` : null}
+                </p>
                 <p className="text-gray-500">Color: {item.product.color}</p>
                 <div className="flex items-center mt-2">
                   <p className="text-gray-500 ">Qty: </p>
@@ -150,12 +171,12 @@ const CartPage = () => {
           ))}
         </div>
       )}
-      <div className="sticky bottom-10 right-10 float-right -mt-5">
+      <div className="sticky bottom-10 right-10 float-right">
         <p className="text-2xl text-blue-700 font-semibold">
           Total: ${calculateTotal().toFixed(2)}
         </p>
         <button
-          onClick={() => navigate("/checkout")}
+          onClick={() =>placeOrder(userData._id)}
           className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
         >
           Proceed to Checkout
