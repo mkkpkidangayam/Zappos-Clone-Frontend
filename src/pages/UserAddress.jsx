@@ -34,10 +34,12 @@ function AddressesPage() {
         setIsLoding(false);
       })
       .catch((error) => console.error("Error fetching cart items:", error));
-  }, [userId, addresses]);
+  }, [userId]);
 
+  
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
+    localStorage.setItem("selectedAddressId", addressId);
   };
 
   const handleInputChange = (event) => {
@@ -82,7 +84,6 @@ function AddressesPage() {
     axios
       .delete(`http://localhost:4323/api/user/${userId}/address/${addressId}`)
       .then((response) => {
-        // Handle success
         console.log("Address deleted successfully");
         const updatedaddress = addresses.filter(
           (item) => item._id !== addressId
@@ -90,7 +91,6 @@ function AddressesPage() {
         setAddresses(updatedaddress);
       })
       .catch((error) => {
-        // Handle error
         console.error("Error deleting address:", error);
       });
   };
@@ -107,10 +107,14 @@ function AddressesPage() {
       toast.error("Your cart is empty.");
       return;
     }
+    if (!selectedAddressId) {
+      toast.error("Please select an address");
+      return;
+    }
 
     try {
       const result = await axios.post(
-        `http://localhost:4323/api/order/${userId}`,
+        `http://localhost:4323/api/checkout/${userId}`,
         {},
         { withCredentials: true }
       );
@@ -124,7 +128,7 @@ function AddressesPage() {
 
   return (
     <div className="grid grid-cols-2 gap-8">
-      <div className="w-3/4 m-auto">
+      <div className="w-3/4 mx-auto">
         <h2 className="text-3xl font-semibold my-10">Manage Addresses</h2>
         <form onSubmit={handleSubmit} className="mb-4">
           <input
@@ -241,44 +245,48 @@ function AddressesPage() {
           ))}
         </ul>
       </div>
-      {isLoding ? (<LoadingSpinner/>):(<div className="w-3/4 mx-auto">
-        <h2 className="text-3xl font-semibold my-10">Bag</h2>
-        <hr />
-        <ul>
-          {cartItems.map((item) => (
-            <li key={item._id} className="border-b py-4">
-              <div className="flex justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="font-medium"> {item.product.title}</p>
-                  <p>Color: {item.product.color}</p>
-                  <p>Size: {item.size}</p>
-                  <p>Quantity: {item.quantity}</p>
+      {isLoding ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="w-3/4 mx-auto">
+          <h2 className="text-3xl font-semibold my-10">Bag</h2>
+          <hr />
+          <ul>
+            {cartItems.map((item) => (
+              <li key={item._id} className="border-b py-4">
+                <div className="flex justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="font-medium"> {item.product.title}</p>
+                    <p>Color: {item.product.color}</p>
+                    <p>Size: {item.size}</p>
+                    <p>Quantity: {item.quantity}</p>
+                  </div>
+                  <div>
+                    <p>Price: ₹{item.product.price.toFixed(2)}</p>
+                    <p>
+                      Total: ₹{(item.product.price * item.quantity).toFixed(2)}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p>Price: ₹{item.product.price.toFixed(2)}</p>
-                  <p>
-                    Total: ₹{(item.product.price * item.quantity).toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
 
-        <div className="sticky bottom-10 right-10 float-right">
-          <p className="text-xl text-blue-700 font-semibold">
-            Total: <sup>₹</sup>
-            {calculateTotal().toFixed(2)}
-          </p>
-          <button
-            onClick={() => placeOrder(userId)}
-            className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Go to Payment
-          </button>
+          <div className="sticky bottom-10 right-10 float-right">
+            <p className="text-xl text-blue-700 font-semibold">
+              Total: <sup>₹</sup>
+              {calculateTotal().toFixed(2)}
+            </p>
+            <button
+              onClick={() => placeOrder(userId)}
+              className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Go to Payment
+            </button>
+          </div>
         </div>
-      </div>)}
+      )}
     </div>
   );
 }

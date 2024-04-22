@@ -40,7 +40,7 @@ const SubCategoryPage = () => {
             <div className="p-4 bg-slate-100">
               <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
               <p className="text-gray-700 mb-2">{item.brand}</p>
-              <p className="text-gray-800 font-bold">${item.price}</p>
+              <p className="text-gray-800 font-bold">₹{item.price}</p>
               <p className="text-gray-700">Color: {item.color}</p>
             </div>
           </Link>

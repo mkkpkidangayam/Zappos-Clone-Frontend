@@ -4,20 +4,22 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
 const SuccessPage = () => {
-  const navigate = useNavigate()
-  document.title = "Payment Successful";
+  const navigate = useNavigate();
   const { userId } = useParams();
+
+  const selectedAddressId = localStorage.getItem("selectedAddressId");
   useEffect(() => {
     axios
-      .post(`http://localhost:4323/api/payment-success/${userId}`)
+      .post(`http://localhost:4323/api/create-order/${userId}`, {
+        selectedAddressId: selectedAddressId,
+      })
       .then((response) => {
         toast.success("Order processed successfully!");
       })
       .catch((error) => {
         console.error("Error processing order:", error);
-        toast.error("Failed to process order.");
       });
-  },[userId]);
+  }, [userId, selectedAddressId]);
   return (
     <div className="flex items-center justify-center h-screen bg-green-100">
       <div className="text-center">
@@ -27,7 +29,10 @@ const SuccessPage = () => {
         <p className="text-green-600">
           Your payment has been processed successfully.
         </p>
-        <button onClick={() => navigate('/')} className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+        <button
+          onClick={() => navigate("/")}
+          className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
           Go to Dashboard
         </button>
       </div>
