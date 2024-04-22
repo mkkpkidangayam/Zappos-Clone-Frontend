@@ -19,8 +19,10 @@ import AdminLogin from "./components/Admin section/AdminLogin";
 import AddProductForm from "./components/Admin section/AddProductForm";
 import ProductDetails from "./pages/ProductDetails";
 import axios from "axios";
-import Checkout from "./pages/Checkout";
+import UserAddress from "./pages/UserAddress";
 import SubCategoryPage from "./pages/SubCategoryPage";
+import SuccessPage from "./pages/SuccessPage";
+import FailurePage from "./pages/FailurePage";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -136,9 +138,17 @@ const MainPage = () => {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/otp-verify" element={<OtpVerification />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="//user/:userId/shipping-address" element={<UserAddress />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin/add-product" element={<AddProductForm />} />
+          <Route
+            path="/payment-success/user/:userId"
+            element={<SuccessPage />}
+          />
+          <Route
+            path="/payment-failure/user/:userId"
+            element={<FailurePage />}
+          />
         </Routes>
       </myContext.Provider>
     </>

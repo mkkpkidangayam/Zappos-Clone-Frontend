@@ -188,7 +188,7 @@ const ProductDetails = () => {
             <h1 className="text-3xl font-semibold mb-4">{productById.title}</h1>
 
             <p className="text-4xl mb-2 text-blue-600 font-semibold">
-              <sup>$</sup>
+              <sup>₹</sup>
               {productById.price.toFixed(2)}
             </p>
             <p className="text-lg mb-2">

@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const CartPage = () => {
   document.title = "Your Bag";
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { userData } = useContext(myContext);
   const [cartItems, setCartItems] = useState([]);
   const [isLoding, setIsLoading] = useState(true);
@@ -24,7 +26,7 @@ const CartPage = () => {
         console.error("Error fetching cart:", error);
       }
     };
-    console.log('jjkh')
+    console.log("jjkh");
     getCart();
   }, [userData._id]);
 
@@ -68,19 +70,22 @@ const CartPage = () => {
   };
 
   const placeOrder = async (userId) => {
-    if (cartItems.length > 0) {
-      await axios
-        .post(
-          `http://localhost:4323/api/order/${userId}`,
-          {},
-          { withCredentials: true }
-        )
-        .then((result) => {
-          const paymentLink = result.data;
-          
-          window.open(paymentLink, "_blank");
-        })
-        .catch((err) => console.log(err));
+    if (cartItems.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    try {
+      const result = await axios.post(
+        `http://localhost:4323/api/order/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      const paymentLink = result.data;
+      window.open(paymentLink, "_blank");
+    } catch (error) {
+      console.error("Failed to place order:", error);
+      toast.error("Error placing order. Please try again.");
     }
   };
 
@@ -126,7 +131,7 @@ const CartPage = () => {
                   {item.product.title}
                 </Link>
                 <p className="text-gray-900 text-xl font-semibold">
-                  <sup>$</sup>
+                  <sup>₹</sup>
                   {item.product.price.toFixed(2) || 0}
                 </p>
                 <p className="text-gray-500">
@@ -160,10 +165,11 @@ const CartPage = () => {
                   </select>
 
                   <button
-                    className="text-red-700 ml-2 hover:text-red-500"
+                    className="text-red-600 ml-2 hover:underline"
                     onClick={() => handleRemoveItem(item._id)}
                   >
-                    <DeleteIcon />
+                    Remove
+                    {/* <DeleteIcon /> */}
                   </button>
                 </div>
               </div>
@@ -171,17 +177,20 @@ const CartPage = () => {
           ))}
         </div>
       )}
-      <div className="sticky bottom-10 right-10 float-right">
-        <p className="text-2xl text-blue-700 font-semibold">
-          Total: ${calculateTotal().toFixed(2)}
-        </p>
-        <button
-          onClick={() =>placeOrder(userData._id)}
-          className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Proceed to Checkout
-        </button>
-      </div>
+      {cartItems.length > 0 && (
+        <div className="sticky bottom-10 right-10 float-right">
+          <p className="text-2xl text-blue-700 font-semibold">
+            Total: <sup>₹</sup>
+            {calculateTotal().toFixed(2)}
+          </p>
+          <button
+            onClick={() => navigate(`/user/${userData._id}/shipping-address`)}
+            className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      )}
     </div>
   );
 };

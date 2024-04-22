@@ -118,7 +118,7 @@ const ProductsListing = () => {
                     </span>
                   </p>
                   <p className="mb-2">
-                    <span className="font-semibold">Price: </span>$
+                    <span className="font-semibold">Price: </span>₹
                     {product.price}
                   </p>
                   <p className="mb-2">
@@ -172,7 +172,7 @@ const ProductsListing = () => {
                       </span>
                     </p>
                     <p className="mb-2">
-                      <span className="font-semibold">Price: </span>$
+                      <span className="font-semibold">Price: </span>₹
                       {product.price}
                     </p>
                     <p className="mb-2">

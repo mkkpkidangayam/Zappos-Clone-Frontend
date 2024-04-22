@@ -70,7 +70,7 @@ const WishlistPage = () => {
                   <h2 className="text-lg font-semibold">{item.title}</h2>
                 </Link>
                 <p className="text-gray-500 font-mono">
-                  <sup>$</sup>
+                  <sup>₹</sup>
                   {item.price.toFixed(2)}
                 </p>
                 <p className="text-gray-500">Color: {item.color}</p>
