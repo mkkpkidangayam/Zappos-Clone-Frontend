@@ -119,7 +119,7 @@ const MainPage = () => {
                 )
               }
             />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/user/:userId/bag" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
             {/* <Route
               path="/wishlist"

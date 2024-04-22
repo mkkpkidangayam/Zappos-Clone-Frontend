@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import myContext from "../context/myContextxt";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
 
 const CartPage = () => {
   document.title = "Your Bag";
   const navigate = useNavigate();
-  const { userData } = useContext(myContext);
+  const { userId } = useParams();
   const [cartItems, setCartItems] = useState([]);
   const [isLoding, setIsLoading] = useState(true);
 
@@ -18,7 +16,7 @@ const CartPage = () => {
     const getCart = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4323/api/get-cart/${userData._id}`
+          `http://localhost:4323/api/get-cart/${userId}`
         );
         setCartItems(response.data);
         setIsLoading(false);
@@ -28,7 +26,7 @@ const CartPage = () => {
     };
     console.log("jjkh");
     getCart();
-  }, [userData._id]);
+  }, [userId]);
 
   const updateCart = async (userId, updatedCart) => {
     try {
@@ -46,13 +44,13 @@ const CartPage = () => {
     const updatedCartItems = [...cartItems];
     updatedCartItems[index].quantity = quantity;
     setCartItems(updatedCartItems);
-    updateCart(userData._id, updatedCartItems);
+    updateCart(userId, updatedCartItems);
   };
 
   const handleRemoveItem = async (itemId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4323/api/remove-from-cart/${userData._id}/${itemId}`
+        `http://localhost:4323/api/remove-from-cart/${userId}/${itemId}`
       );
       console.log(response.data);
       const updatedCartItems = cartItems.filter((item) => item._id !== itemId);
@@ -67,26 +65,6 @@ const CartPage = () => {
       (total, item) => total + (item.product.price || 0) * (item.quantity || 0),
       0
     );
-  };
-
-  const placeOrder = async (userId) => {
-    if (cartItems.length === 0) {
-      alert("Your cart is empty.");
-      return;
-    }
-
-    try {
-      const result = await axios.post(
-        `http://localhost:4323/api/order/${userId}`,
-        {},
-        { withCredentials: true }
-      );
-      const paymentLink = result.data;
-      window.open(paymentLink, "_blank");
-    } catch (error) {
-      console.error("Failed to place order:", error);
-      toast.error("Error placing order. Please try again.");
-    }
   };
 
   return (
@@ -184,7 +162,7 @@ const CartPage = () => {
             {calculateTotal().toFixed(2)}
           </p>
           <button
-            onClick={() => navigate(`/user/${userData._id}/shipping-address`)}
+            onClick={() => navigate(`/user/${userId}/shipping-address`)}
             className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
           >
             Proceed to Checkout
