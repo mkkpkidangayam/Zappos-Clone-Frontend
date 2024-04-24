@@ -26,7 +26,6 @@ const Navbar = () => {
     search,
     setSearch,
   } = useContext(myContext);
-  console.log(userData);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {

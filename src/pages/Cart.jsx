@@ -23,7 +23,6 @@ const CartPage = () => {
         console.error("Error fetching cart:", error);
       }
     };
-    console.log("jjkh");
     getCart();
   }, [userId]);
 

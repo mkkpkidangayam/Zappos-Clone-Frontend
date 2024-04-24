@@ -101,7 +101,7 @@ const Home = () => {
           Shop Popular Categories
         </h1>
       </div>
-      <hr className="m-auto w-1/4 border-black" />
+      <hr className="m-auto w-1/5 border-black" />
       <div className="flex justify-center space-x-4 my-4">
         <button
           className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${

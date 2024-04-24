@@ -34,10 +34,7 @@ const MainPage = () => {
   const [menu, setMenu] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
-  console.log("search", search);
-  console.log("mainpage product:", product);
-
-  console.log("userdata: ", userData);
+ 
 
   useEffect(() => {
     const fetchProduct = async () => {

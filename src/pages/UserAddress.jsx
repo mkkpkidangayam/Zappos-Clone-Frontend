@@ -9,7 +9,6 @@ function AddressesPage() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [isLoding, setIsLoding] = useState(true);
-  console.log(addresses);
   const [currentAddress, setCurrentAddress] = useState({
     street: "",
     city: "",
@@ -34,7 +33,7 @@ function AddressesPage() {
         setIsLoding(false);
       })
       .catch((error) => console.error("Error fetching cart items:", error));
-  }, [userId]);
+  }, [userId, setCurrentAddress]);
 
   
   const handleSelectAddress = (addressId) => {
@@ -119,7 +118,8 @@ function AddressesPage() {
         { withCredentials: true }
       );
       const paymentLink = result.data;
-      window.open(paymentLink, "_blank");
+      window.location.href = paymentLink;
+      // window.open(paymentLink, );
     } catch (error) {
       console.error("Failed to place order:", error);
       toast.error("Error placing order. Please try again.");
