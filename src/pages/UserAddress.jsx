@@ -37,6 +37,7 @@ function AddressesPage() {
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
+    console.log(addressId);
     localStorage.setItem("selectedAddressId", addressId);
   };
 

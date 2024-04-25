@@ -39,7 +39,7 @@ const ProductDetails = () => {
     };
 
     fetchProductDetails();
-  }, [id, isLogin, userData.wishlist]);
+  }, [id, isLogin, userData?.wishlist]);
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
