@@ -23,6 +23,7 @@ import UserAddress from "./pages/UserAddress";
 import SubCategoryPage from "./pages/SubCategoryPage";
 import SuccessPage from "./pages/SuccessPage";
 import FailurePage from "./pages/FailurePage";
+import LoginProtect from "./components/Authentication/LoginProtect";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -33,8 +34,6 @@ const MainPage = () => {
   const [product, setProduct] = useState(null);
   const [menu, setMenu] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -84,10 +83,6 @@ const MainPage = () => {
     setMenu,
     isLoading,
     setIsLoading,
-    search,
-    setSearch,
-    cartItems,
-    setCartItems,
   };
 
   return (
@@ -131,9 +126,23 @@ const MainPage = () => {
               }
             />
           </Route>
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <LoginProtect>
+                <Login />
+              </LoginProtect>
+            }
+          />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/register" element={<Registeration />} />
+          <Route
+            path="/register"
+            element={
+              <LoginProtect>
+                <Registeration />
+              </LoginProtect>
+            }
+          />
           <Route path="/otp-verify" element={<OtpVerification />} />
           <Route
             path="//user/:userId/shipping-address"

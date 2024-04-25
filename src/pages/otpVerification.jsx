@@ -25,11 +25,10 @@ function OtpVerification() {
 
       if (response.data.success) {
         toast.success("OTP verified successfully, Registration Completed");
-        navigate('/login')
+        navigate("/login");
       } else {
         toast.error("An error occured");
       }
-
     } catch (error) {
       console.error(error.response.data);
       toast.error(error.response.data.message);

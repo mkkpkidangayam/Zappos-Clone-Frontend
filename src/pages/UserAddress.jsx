@@ -35,7 +35,6 @@ function AddressesPage() {
       .catch((error) => console.error("Error fetching cart items:", error));
   }, [userId, setCurrentAddress]);
 
-  
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
     localStorage.setItem("selectedAddressId", addressId);

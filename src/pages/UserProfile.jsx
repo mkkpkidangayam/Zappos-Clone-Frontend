@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
@@ -13,7 +13,6 @@ const UserAccount = () => {
       .get(`http://localhost:4323/api/user/profile/${userId}`)
       .then((response) => {
         setUserData(response.data);
-
         console.log(response.data);
       })
       .catch((error) => console.error("Error fetching userdata", error));

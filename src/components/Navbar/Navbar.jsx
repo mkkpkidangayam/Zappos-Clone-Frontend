@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import logo from "../Assets/zappos-logo-black.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -6,7 +6,6 @@ import DropdownLogin from "./DropdownLogin";
 import myContext from "../../context/myContextxt";
 import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
-import WomenMenu from "../SubCategory/WomenMenu";
 import MenMenu from "../SubCategory/MenMenu";
 import toast from "react-hot-toast";
 
@@ -23,10 +22,8 @@ const Navbar = () => {
     setShowModal,
     menu,
     setMenu,
-    search,
-    setSearch,
-    cartItems,
   } = useContext(myContext);
+  const [search, setSearch] = useState(null);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -43,7 +40,12 @@ const Navbar = () => {
   const userName = userData && userData.name ? userData.name : false;
   let firstName = "";
   if (userName) {
-    firstName = userName?.substring(0, 8).toUpperCase();
+    firstName = userName.substring(0, 8).toUpperCase();
+    const spaceIndex = firstName.lastIndexOf(" ");
+
+    if (spaceIndex !== -1) {
+      firstName = firstName.substring(0, spaceIndex);
+    }
   }
 
   const toggleMenu = () => {
@@ -105,7 +107,7 @@ const Navbar = () => {
             </div>
             <div className="flex items-center mr-2 pr-5">
               {isLogin && (
-                <Link to={`/user/${userData._id}/wishlist`}>
+                <Link to={`/user/${userData?._id}/wishlist`}>
                   <svg
                     className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300"
                     viewBox="0 0 32 32"
@@ -150,10 +152,10 @@ const Navbar = () => {
                     </>
                   );
                 }}
-                className="relative"
+                className="relative mx-2 hover:bg-zinc-300 rounded-full"
               >
                 <svg
-                  className="h-10 w-10 mx-2 cursor-pointer rounded-full hover:bg-zinc-300 "
+                  className="h-10 w-10 cursor-pointer"
                   viewBox="0 0 32 34"
                   fill="none"
                   stroke="currentColor"
@@ -166,9 +168,9 @@ const Navbar = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                <span className="absolute top-2 right-2 translate-x-1/2 -translate-y-1/2 bg-black text-white text-sm font-semibold rounded-full px-[3px]">
+                {/* {cartItems.length > 0 && <span className="absolute top-7 right-3 translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs font-bold rounded-full px-2 py-1">
                   {cartItems.length}
-                </span>
+                </span>} */}
               </button>
             </div>
           </div>
@@ -182,8 +184,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "new" && "bg-black text-white"
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "new"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     New
@@ -195,8 +199,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "women" ? "bg-black text-white" : null
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "women"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     Women
@@ -209,8 +215,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "men" ? "bg-black text-white" : null
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "men"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     Men
@@ -222,8 +230,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "kids" ? "bg-black text-white" : null
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "kids"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     Kids
@@ -235,8 +245,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "collections" ? "bg-black text-white" : null
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "collections"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     Collections
@@ -248,8 +260,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`  hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "brands" ? "bg-black text-white" : null
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "brands"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     Brands
@@ -261,8 +275,10 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`hover:bg-zinc-300 cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "sale" ? "bg-black text-white" : null
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "sale"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
                     }`}
                   >
                     Sale
@@ -281,7 +297,7 @@ const Navbar = () => {
           </div>
           <div className="mx-auto">
             {/* Submenu components for Women, Men, Kids */}
-            {menu === "Women" && <WomenMenu />}
+            {/* {menu === "Women" && <WomenMenu />} */}
             {/* {menu === "Men" && <MenMenu />}
           {menu === "Kids" && <KidsMenu />}
           */}

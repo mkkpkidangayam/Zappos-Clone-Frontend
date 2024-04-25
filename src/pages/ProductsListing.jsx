@@ -120,7 +120,7 @@ const ProductsListing = () => {
                   <p className="mb-2">
                     <span className="flex items-center">
                       <svg
-                        className="w-4 h-4 fill-current text-yellow-500 mr-1"
+                        className="w-4 h-4 fill-current text-blue-500 mr-1"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="none"

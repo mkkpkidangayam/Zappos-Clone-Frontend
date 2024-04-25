@@ -32,11 +32,6 @@ const ProductDetails = () => {
 
         setProductById(product);
 
-        // const isInWishlistCheck = userData.wishlist.find(
-        //   (item) => item._id === product._id
-        // );
-        // setIsInWishlist(isInWishlistCheck);
-
       } catch (error) {
         toast.error("Failed to fetch product details");
         console.error(error);
@@ -156,7 +151,7 @@ const ProductDetails = () => {
               <button
                 type="button"
                 onClick={addToWishlist}
-                className={`border rounded-3xl border-blue-400 hover:border-4 ${
+                className={`border rounded-3xl border-blue-400 hover:border-4 ${ 
                   isInWishlist && "bg-blue-500 text-white"
                 }`}
               >
