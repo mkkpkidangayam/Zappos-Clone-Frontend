@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import myContext from "../context/myContextxt";
 
 const CartPage = () => {
   document.title = "Your Bag";
   const navigate = useNavigate();
   const { userId } = useParams();
-  const [cartItems, setCartItems] = useState([]);
+  const {cartItems, setCartItems} = useContext(myContext)
+  // const [cartItems, setCartItems] = useState([]);
   const [isLoding, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const CartPage = () => {
       }
     };
     getCart();
-  }, [userId]);
+  }, [userId, setCartItems]);
 
   const updateCart = async (userId, updatedCart) => {
     try {
@@ -78,9 +80,7 @@ const CartPage = () => {
       </div>
       <hr />
 
-      {isLoding ? (
-        <LoadingSpinner />
-      ) : cartItems.length === 0 ? (
+      {cartItems ? cartItems.length === 0 ? (
         <p className="text-2xl mt-3 text-red-700 font-semibold">
           Your cart is empty!
         </p>
@@ -152,6 +152,8 @@ const CartPage = () => {
             </div>
           ))}
         </div>
+      ) : (
+        <LoadingSpinner />
       )}
       {cartItems.length > 0 && (
         <div className="sticky bottom-10 right-10 float-right">

@@ -10,10 +10,6 @@ const Sidebar = () => {
     selectedMainCategory: "",
     subCategories: [],
     selectedSubCategory: "",
-    sizes: [],
-    selectedSizes: [],
-    colors: [],
-    selectedColors: [],
     priceRange: {
       min: 0,
       max: 0,
@@ -27,8 +23,6 @@ const Sidebar = () => {
       const gendersSet = new Set();
       const mainCategoriesSet = new Set();
       const subCategoriesSet = new Set();
-      const sizesSet = new Set();
-      const colorsSet = new Set();
       let minPrice = Infinity;
       let maxPrice = -Infinity;
 
@@ -36,8 +30,6 @@ const Sidebar = () => {
         gendersSet.add(item.gender);
         mainCategoriesSet.add(item.category.main);
         subCategoriesSet.add(item.category.sub);
-        item.sizes.forEach((size) => sizesSet.add(size.size));
-        colorsSet.add(item.color);
         if (item.price < minPrice) minPrice = item.price;
         if (item.price > maxPrice) maxPrice = item.price;
       });
@@ -49,10 +41,6 @@ const Sidebar = () => {
         selectedMainCategory: "",
         subCategories: Array.from(subCategoriesSet),
         selectedSubCategory: "",
-        sizes: Array.from(sizesSet),
-        selectedSizes: [],
-        colors: Array.from(colorsSet),
-        selectedColors: [],
         priceRange: { min: minPrice, max: maxPrice },
         minPrice: minPrice,
         maxPrice: maxPrice,
@@ -75,8 +63,6 @@ const Sidebar = () => {
       selectedGender,
       selectedMainCategory: "",
       selectedSubCategory: "",
-      selectedSizes: [],
-      selectedColors: [],
     }));
   };
 
@@ -86,8 +72,6 @@ const Sidebar = () => {
       ...prevOptions,
       selectedMainCategory,
       selectedSubCategory: "",
-      selectedSizes: [],
-      selectedColors: [],
     }));
   };
 
@@ -96,32 +80,6 @@ const Sidebar = () => {
     setFilterOptions((prevOptions) => ({
       ...prevOptions,
       selectedSubCategory,
-      selectedSizes: [],
-      selectedColors: [],
-    }));
-  };
-
-  const handleSizeChange = (e) => {
-    const { value } = e.target;
-    const { selectedSizes } = filterOptions;
-    const updatedSizes = selectedSizes.includes(value)
-      ? selectedSizes.filter((size) => size !== value)
-      : [...selectedSizes, value];
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      selectedSizes: updatedSizes,
-    }));
-  };
-
-  const handleColorChange = (e) => {
-    const { value } = e.target;
-    const { selectedColors } = filterOptions;
-    const updatedColors = selectedColors.includes(value)
-      ? selectedColors.filter((color) => color !== value)
-      : [...selectedColors, value];
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      selectedColors: updatedColors,
     }));
   };
 
@@ -153,7 +111,7 @@ const Sidebar = () => {
           <select
             value={filterOptions.selectedMainCategory}
             onChange={handleMainCategoryChange}
-            className="border rounded px-2 py-1"
+            className="border rounded-full px-2 py-1"
           >
             <option value="">Select Main Category</option>
             {filterOptions.mainCategories.map((mainCategory) => (
@@ -172,7 +130,7 @@ const Sidebar = () => {
           <select
             value={filterOptions.selectedSubCategory}
             onChange={handleSubCategoryChange}
-            className="border rounded px-2 py-1"
+            className="border rounded-2xl px-2 py-1"
           >
             <option value="">Select Sub Category</option>
             {filterOptions.subCategories.map((subCategory) => (
@@ -184,45 +142,7 @@ const Sidebar = () => {
         </div>
       )}
 
-      {/* Sizes */}
-      {filterOptions.selectedSubCategory && (
-        <div className="mb-4">
-          <h3 className="font-semibold mb-2">Sizes</h3>
-          {filterOptions.sizes.map((size) => (
-            <div key={size} className="flex items-center mb-1">
-              <input
-                type="checkbox"
-                id={size}
-                name={size}
-                checked={filterOptions.selectedSizes.includes(size)}
-                onChange={handleSizeChange}
-              />
-              <label htmlFor={size} className="ml-2">
-                {size}
-              </label>
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Colors */}
-      <div className="mb-4">
-        <h3 className="font-semibold mb-2">Colors</h3>
-        {filterOptions.colors.map((color) => (
-          <div key={color} className="flex items-center mb-1">
-            <input
-              type="checkbox"
-              id={color}
-              name={color}
-              checked={filterOptions.selectedColors.includes(color)}
-              onChange={handleColorChange}
-            />
-            <label htmlFor={color} className="ml-2">
-              {color}
-            </label>
-          </div>
-        ))}
-      </div>
 
       {/* Price Range */}
       <div>

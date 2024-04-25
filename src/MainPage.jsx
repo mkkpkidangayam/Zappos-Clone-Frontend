@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Products from "./pages/ProductsListing";
 import Brands from "./pages/Brands";
@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import myContext from "./context/myContextxt";
-import UserAccount from "./pages/UserAccount";
+import UserProfile from "./pages/UserProfile";
 import ForgotPassword from "./pages/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import Registeration from "./pages/Registration";
@@ -34,7 +34,7 @@ const MainPage = () => {
   const [menu, setMenu] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
- 
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -86,6 +86,8 @@ const MainPage = () => {
     setIsLoading,
     search,
     setSearch,
+    cartItems,
+    setCartItems,
   };
 
   return (
@@ -95,9 +97,9 @@ const MainPage = () => {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home />} />
-            <Route path="/women" element={<Products category="women" />} />
-            <Route path="/men" element={<Products category="men" />} />
-            <Route path="/kids" element={<Products category="kids" />} />
+            <Route path="/women" element={<Products />} />
+            <Route path="/men" element={<Products />} />
+            <Route path="/kids" element={<Products />} />
             <Route path="/collections" element={<Products />} />
             <Route path="product/:id" element={<ProductDetails />} />
             <Route path="/brands" element={<Brands />} />
@@ -105,37 +107,42 @@ const MainPage = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/category/:sub" element={<SubCategoryPage />} />
             <Route
-              path="/profile"
+              path="/user/:userId/profile"
               element={
-                isLogin ? (
-                  <ProtectedRoute>
-                    <UserAccount />
-                  </ProtectedRoute>
-                ) : (
-                  <Navigate to="/login" replace />
-                )
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
               }
             />
-            <Route path="/user/:userId/bag" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            {/* <Route
-              path="/wishlist"
+            <Route
+              path="/user/:userId/bag"
               element={
-                isLogin ? (
-                  <ProtectedRoute>
-                    <Wishlist />
-                  </ProtectedRoute>
-                ) : (
-                  <Navigate to="/login" replace />
-                )
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
               }
-            /> */}
+            />
+            <Route
+              path="/user/:userId/wishlist"
+              element={
+                <ProtectedRoute>
+                  <Wishlist />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/otp-verify" element={<OtpVerification />} />
-          <Route path="//user/:userId/shipping-address" element={<UserAddress />} />
+          <Route
+            path="//user/:userId/shipping-address"
+            element={
+              <ProtectedRoute>
+                <UserAddress />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin/add-product" element={<AddProductForm />} />
           <Route
