@@ -9,8 +9,6 @@ function OtpVerification() {
   const navigate = useNavigate();
   const { userData } = useContext(myContext);
 
-  console.log(userData);
-
   const [otp, setOtp] = useState();
 
   const handleSubmit = async (e) => {

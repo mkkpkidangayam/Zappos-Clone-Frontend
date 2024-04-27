@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
@@ -12,6 +12,9 @@ function Login() {
   const { setIsLogin } = useContext(myContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+  },[setIsLogin])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,6 +81,7 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="border pl-2 border-black w-[296px] h-[31px] rounded"
+                autocomplete="current-password"
               />
               <button
                 type="submit"

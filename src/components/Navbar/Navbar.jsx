@@ -23,7 +23,7 @@ const Navbar = () => {
     menu,
     setMenu,
   } = useContext(myContext);
-  const [search, setSearch] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("token")) {

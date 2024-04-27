@@ -143,7 +143,14 @@ const MainPage = () => {
               </LoginProtect>
             }
           />
-          <Route path="/otp-verify" element={<OtpVerification />} />
+          <Route
+            path="/otp-verify"
+            element={
+              <LoginProtect>
+                <OtpVerification />
+              </LoginProtect>
+            }
+          />
           <Route
             path="//user/:userId/shipping-address"
             element={

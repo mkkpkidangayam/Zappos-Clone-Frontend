@@ -4,6 +4,7 @@ import myContext from "../../context/myContextxt";
 import { FaUser } from "react-icons/fa";
 import { useClickAway } from "react-use";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const DropdownLogin = () => {
   const ref = useRef(null);
@@ -24,6 +25,7 @@ const DropdownLogin = () => {
     const userName = userData ? userData.name : "User";
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
+    Cookies.remove("token");
     setIsLogin(false);
     setUserData(null);
     toast.success(`${userName}, sign-out successful`);
