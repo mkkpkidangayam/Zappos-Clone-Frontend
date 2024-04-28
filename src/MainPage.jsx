@@ -96,7 +96,7 @@ const MainPage = () => {
             <Route path="/men" element={<Products />} />
             <Route path="/kids" element={<Products />} />
             <Route path="/collections" element={<Products />} />
-            <Route path="product/:id" element={<ProductDetails />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/products" element={<Products />} />

@@ -8,8 +8,6 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
-//
-
 const Home = () => {
   const { product } = useContext(myContext);
   const images = [img1, img2, img3];
@@ -136,6 +134,10 @@ const Home = () => {
       </div>
 
       {renderCarousel()}
+
+      <div className="cursor-default">
+        <h1 className="text-center text-[300px] text-transparent bg-clip-text font-extrabold bg-cover bg-[url('https://m.media-amazon.com/images/G/01/Zappos/2024/Homepage/4.22/CROCS-STARWARS-AOE-1920x1000._FMwebp_.jpg')]">ZAPPOS</h1>
+      </div>
     </div>
   );
 };

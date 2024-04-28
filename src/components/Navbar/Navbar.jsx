@@ -177,7 +177,7 @@ const Navbar = () => {
           <div className="flex justify-between mt-4 pl-6">
             <div className="flex justify-between items-center">
               <ul className="flex text-dark font-bold">
-                <button
+                {/* <button
                   onClick={() => {
                     setMenu("new");
                     navigate("/products ");
@@ -192,7 +192,7 @@ const Navbar = () => {
                   >
                     New
                   </li>
-                </button>
+                </button> */}
                 <button
                   onClick={() => {
                     setMenu("women");
