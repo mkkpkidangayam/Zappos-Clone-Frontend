@@ -5,7 +5,7 @@ import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const SubCategoryPage = () => {
   const { sub } = useParams();
-  document.title = sub
+  document.title = sub;
   const { product } = useContext(myContext);
   const [subCategoryItems, setSubCategoryItems] = useState([]);
 

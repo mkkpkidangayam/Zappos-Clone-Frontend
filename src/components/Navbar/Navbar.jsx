@@ -6,7 +6,7 @@ import DropdownLogin from "./DropdownLogin";
 import myContext from "../../context/myContextxt";
 import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
-import MenMenu from "../SubCategory/MenMenu";
+import SubMenu from '../SubCategory/SubMenu'
 import toast from "react-hot-toast";
 
 const Navbar = () => {
@@ -22,6 +22,7 @@ const Navbar = () => {
     setShowModal,
     menu,
     setMenu,
+    setSubMenu
   } = useContext(myContext);
   const [search, setSearch] = useState("");
 
@@ -177,25 +178,12 @@ const Navbar = () => {
           <div className="flex justify-between mt-4 pl-6">
             <div className="flex justify-between items-center">
               <ul className="flex text-dark font-bold">
-                {/* <button
-                  onClick={() => {
-                    setMenu("new");
-                    navigate("/products ");
-                  }}
-                >
-                  <li
-                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "new"
-                        ? "bg-black text-white"
-                        : "hover:bg-zinc-300"
-                    }`}
-                  >
-                    New
-                  </li>
-                </button> */}
+               
                 <button
                   onClick={() => {
                     setMenu("women");
+                    setSubMenu('women')
+                    toggleModal();
                   }}
                 >
                   <li
@@ -211,6 +199,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("men");
+                    setSubMenu("men")
                     toggleModal();
                   }}
                 >
@@ -226,22 +215,44 @@ const Navbar = () => {
                 </button>
                 <button
                   onClick={() => {
-                    setMenu("kids");
+                    setMenu("girls");
+                    setSubMenu('girls')
+                    toggleModal();
                   }}
                 >
                   <li
                     className={`cursor-pointer relative rounded-full px-4  py-1  ${
-                      menu === "kids"
+                      menu === "girls"
                         ? "bg-black text-white"
                         : "hover:bg-zinc-300"
                     }`}
                   >
-                    Kids
+                    Girls
+                  </li>
+                </button>
+                 <button
+                  onClick={() => {
+                    setMenu("boys");
+                    setSubMenu('boys')
+                    toggleModal();
+                  }}
+                >
+                  <li
+                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                      menu === "boys"
+                        ? "bg-black text-white"
+                        : "hover:bg-zinc-300"
+                    }`}
+                  >
+                    Boys
                   </li>
                 </button>
                 <button
                   onClick={() => {
                     setMenu("collections");
+                    navigate('/products')
+                    setShowModal(false)
+
                   }}
                 >
                   <li
@@ -257,6 +268,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("brands");
+                    setShowModal(false)
                   }}
                 >
                   <li
@@ -272,6 +284,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("sale");
+                    setShowModal(false)
                   }}
                 >
                   <li
@@ -295,19 +308,13 @@ const Navbar = () => {
               </a>
             </div>
           </div>
-          <div className="mx-auto">
-            {/* Submenu components for Women, Men, Kids */}
-            {/* {menu === "Women" && <WomenMenu />} */}
-            {/* {menu === "Men" && <MenMenu />}
-          {menu === "Kids" && <KidsMenu />}
-          */}
-          </div>
+         
         </div>
       </div>
       <hr className="my-2" />
       {showModal && (
         <>
-          <MenMenu />
+          <SubMenu />
         </>
       )}
       <div>

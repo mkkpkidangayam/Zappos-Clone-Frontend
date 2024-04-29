@@ -24,6 +24,7 @@ import SubCategoryPage from "./pages/SubCategoryPage";
 import SuccessPage from "./pages/SuccessPage";
 import FailurePage from "./pages/FailurePage";
 import LoginProtect from "./components/Authentication/LoginProtect";
+import Filteredproduct from "./pages/FilteredProduct";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -33,7 +34,9 @@ const MainPage = () => {
   const [isAdminLogin, setIsAdminLogin] = useState(false);
   const [product, setProduct] = useState(null);
   const [menu, setMenu] = useState("");
+  const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -83,6 +86,10 @@ const MainPage = () => {
     setMenu,
     isLoading,
     setIsLoading,
+    subMenu,
+    setSubMenu,
+    filteredProducts,
+    setFilteredProducts,
   };
 
   return (
@@ -100,6 +107,7 @@ const MainPage = () => {
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/p/:gender/:mainCategory/:subCategory" element={<Filteredproduct />} />
             <Route path="/category/:sub" element={<SubCategoryPage />} />
             <Route
               path="/user/:userId/profile"
