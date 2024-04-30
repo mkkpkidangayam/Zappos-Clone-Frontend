@@ -1,16 +1,16 @@
 import { useContext, useRef } from "react";
 import myContext from "../../context/myContextxt";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Menu() {
-  const { showModal, setShowModal, product, subMenu } = useContext(myContext);
+  const { showModal, setShowModal, product, subMenu, setMenu } =
+    useContext(myContext);
   const modalRef = useRef();
 
-  const navigate = useNavigate();
   const gender = subMenu;
-  const categories = product.reduce((acc, product) => {
-    if (product.gender === gender) {
-      const { main, sub } = product.category;
+  const categories = product?.reduce((acc, product) => {
+    if (product?.gender === gender) {
+      const { main, sub } = product?.category;
       acc[main] = acc[main] || {};
       acc[main][sub] = acc[main][sub] || [];
       acc[main][sub].push(product);
@@ -58,7 +58,7 @@ export default function Menu() {
               </svg>
             </button>
             <div className="p-4 grid grid-cols-3 gap-5">
-              {Object.entries(categories).map(
+              {Object?.entries(categories).map(
                 ([mainCategory, subCategories]) => (
                   <div key={mainCategory}>
                     <h3 className="text-gray-900 text-lg font-bold mb-3 border-b border-black capitalize">
@@ -67,10 +67,11 @@ export default function Menu() {
                     <ul>
                       <li>
                         <Link
+                          className="hover:text-blue-500 hover:underline"
                           to={`/p/${gender}/${mainCategory}/all`}
                           onClick={() => {
-                            setShowModal(!showModal);
-                            navigate(`/p/${gender}/${mainCategory}/all`);
+                            setShowModal(false);
+                            setMenu('');
                           }}
                         >
                           All {gender}'s {mainCategory}
@@ -80,8 +81,12 @@ export default function Menu() {
                         ([subCategory, items]) => (
                           <li key={subCategory} className="capitalize my-2">
                             <Link
+                              className="hover:text-blue-500 hover:underline"
                               to={`/p/${gender}/${mainCategory}/${subCategory}`}
-                              onClick={() => setShowModal(false)}
+                              onClick={() => {
+                                setShowModal(false);
+                                setMenu('');
+                              }}
                             >
                               {subCategory} ({items.length})
                             </Link>

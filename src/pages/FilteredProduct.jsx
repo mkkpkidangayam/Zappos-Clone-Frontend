@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import myContext from "../context/myContextxt";
 import { Link, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
 
 const Filteredproduct = () => {
   const { gender, mainCategory, subCategory } = useParams();
   const { product, isLoading } = useContext(myContext);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [sortOrder, setSortOrder] = useState("newArrivals");
 
   useEffect(() => {
-    const filtered = product.filter((item) => {
+    const filtered = product?.filter((item) => {
       if (subCategory === "all") {
         return item.gender === gender && item.category.main === mainCategory;
       } else {
@@ -23,65 +24,88 @@ const Filteredproduct = () => {
     });
     setFilteredProducts(filtered);
   }, [product, gender, mainCategory, subCategory]);
+
+  useEffect(() => {
+    let sortedProducts = [...filteredProducts];
+    switch (sortOrder) {
+      //   case "customerRating":
+      //     sortedProducts.sort((a, b) => a.rating - b.rating);
+      //     break;
+      case "lowToHigh":
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case "highToLow":
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        sortedProducts.sort((a, b) => a.timestamp - b.timestamp);
+        break;
+    }
+    setFilteredProducts(sortedProducts);
+  }, [sortOrder]);
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+  };
   
-
-//   useEffect(() => {
-//     const filtered = product.filter((item) => {
-//       return (
-//         item.gender === gender &&
-//         item.category.main === mainCategory &&
-//         item.category.sub === subCategory 
-//       );
-//     });
-//     setFilteredProducts(filtered);
-//   }, [product, gender, mainCategory, subCategory]);
-
   return (
     <div className="container my-6">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         <div className="w-full md:w-60 ml-10 mb-4 md:mb-0">
-          <div>
-            <h1 className="font-bold text-2xl">Category Name</h1>
-            <p className="text-gray-600">
-              ({filteredProducts?.length}) items found
-            </p>
+          <div className="md:w-80">
+            <h1 className="font-bold md:text-3xl capitalize">
+              {subCategory === "all"
+                ? `${gender}'s ${mainCategory}`
+                : `${gender}'s ${subCategory}`}
+            </h1>
+            {filteredProducts?.length > 0 && (
+              <p className="font-semibold text-gray-600">
+                {filteredProducts?.length === 1
+                  ? `( ${filteredProducts.length} item found )`
+                  : `( ${filteredProducts.length} items found )`}
+              </p>
+            )}
           </div>
         </div>
         <div className="w-full md:w-60 md:h-24 mr-7 py-5">
           <label htmlFor="sort" className=" mb-2 mr-2 font-semibold">
             Sort By
           </label>
-          <select className="p-2 rounded-2xl border" name="sort" id="sort">
-            <option value="relevance">Relevance</option>
+          <select
+            className="p-2 rounded-2xl border"
+            name="sort"
+            id="sort"
+            value={sortOrder}
+            onChange={handleSortChange}
+          >
             <option value="newArrivals">New Arrivals</option>
-            <option value="customerRating">Customer Rating</option>
-            <option value="bestSellers">Best Sellers</option>
+            {/* <option value="customerRating">Customer Rating</option> */}
             <option value="lowToHigh">Price: Low to High</option>
             <option value="highToLow">Price: High to Low</option>
           </select>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 px-4 md:px-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4 md:px-10">
         {/* Sidebar */}
-        <div className="w-48 md:block">
+        {/* <div className="w-48 md:block">
           <Sidebar />
-        </div>
+        </div> */}
 
         {/* Product listings */}
-        <div className="col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {isLoading ? (
             <div className="mx-auto col-span-4   ">
               <LoadingSpinner />
             </div>
           ) : (
-            filteredProducts.map((product) => (
-              <Link
-                key={product._id}
-                className="block font-semibold mb-4 relative"
-                to={`/product/${product._id}`}
-              >
-                <article className="bg-white shadow-md rounded-lg p-6 mb-4">
+            filteredProducts?.map((product) => (
+              <article className="bg-white shadow-md border rounded-lg p-6 mb-4">
+                <Link
+                  key={product._id}
+                  className="block font-semibold mb-4 relative"
+                  to={`/product/${product._id}`}
+                >
                   <img
                     src={product.images[0]}
                     alt={product.title}
@@ -90,7 +114,7 @@ const Filteredproduct = () => {
                   <img
                     src={product.images[1]}
                     alt={product.title}
-                    className="w-full absolute top-0 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
+                    className="w-full absolute top-4 left-4 opacity-0 hover:opacity-100 transition-opacity duration-1000"
                   />
 
                   <span className="block mt-2 font-semibold hover:underline mb-2">
@@ -125,8 +149,8 @@ const Filteredproduct = () => {
                       5.0 out of 5 stars
                     </span>
                   </p>
-                </article>
-              </Link>
+                </Link>
+              </article>
             ))
           )}
         </div>

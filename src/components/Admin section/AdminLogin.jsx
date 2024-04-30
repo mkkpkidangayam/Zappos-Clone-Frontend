@@ -30,7 +30,7 @@ const AdminLogin = () => {
       const { adminToken } = response.data;
       localStorage.setItem("adminToken", adminToken);
       setIsAdminLogin(true);
-      navigate("/admin/add-product");
+      navigate("/admin");
       toast.success(response.data.message);
     } catch (error) {
       setError("Invalid username or password");

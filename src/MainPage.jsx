@@ -25,6 +25,8 @@ import SuccessPage from "./pages/SuccessPage";
 import FailurePage from "./pages/FailurePage";
 import LoginProtect from "./components/Authentication/LoginProtect";
 import Filteredproduct from "./pages/FilteredProduct";
+import AdminHome from "./components/Admin section/AdminHome";
+import ManageUsers from "./components/Admin section/ManageUsers";
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -107,7 +109,10 @@ const MainPage = () => {
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/p/:gender/:mainCategory/:subCategory" element={<Filteredproduct />} />
+            <Route
+              path="/p/:gender/:mainCategory/:subCategory"
+              element={<Filteredproduct />}
+            />
             <Route path="/category/:sub" element={<SubCategoryPage />} />
             <Route
               path="/user/:userId/profile"
@@ -167,8 +172,6 @@ const MainPage = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin/add-product" element={<AddProductForm />} />
           <Route
             path="/payment-success/user/:userId"
             element={<SuccessPage />}
@@ -177,6 +180,12 @@ const MainPage = () => {
             path="/payment-failure/user/:userId"
             element={<FailurePage />}
           />
+
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminHome />}>
+            <Route path="/admin/add-product" element={<AddProductForm />} />
+            <Route path="/admin/manage-users" element={<ManageUsers />} />
+          </Route>
         </Routes>
       </myContext.Provider>
     </>

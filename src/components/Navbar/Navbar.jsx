@@ -204,7 +204,7 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                    className={`cursor-pointer duration-500 relative rounded-full px-4 py-1 ${
                       menu === "men"
                         ? "bg-black text-white"
                         : "hover:bg-zinc-300"
@@ -221,7 +221,7 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                    className={`cursor-pointer relative rounded-full px-4 py-1 ${
                       menu === "girls"
                         ? "bg-black text-white"
                         : "hover:bg-zinc-300"

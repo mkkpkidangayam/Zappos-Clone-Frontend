@@ -35,7 +35,7 @@ function Login() {
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(response.data.userData);
         localStorage.setItem("userInfo", userInfo);
-        setIsLogin(true);
+        setIsLogin(true); 
         navigate(-1);
         const userDetails = response.data.userData;
         toast.success(`${userDetails?.name}, ${response.data.message}`);
