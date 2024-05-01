@@ -3,8 +3,8 @@ import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
-import axios from "axios";
 import FooterSecond from "../components/Footer/FooterSecond";
+import { Axios } from "../MainPage";
 
 function Register() {
   const navigate = useNavigate();
@@ -55,8 +55,8 @@ function Register() {
     if (Object.keys(newErrors).length === 0) {
       try {
         setIsLoading(true)
-        const response = await axios.post(
-          "http://localhost:4323/api/otpsend",
+        const response = await Axios.post(
+          "/otpsend",
           formData,
           {
             withCredentials: true,

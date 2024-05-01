@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import { Axios } from "../MainPage";
 
 const CartPage = () => {
   document.title = "Your Bag";
@@ -14,8 +14,8 @@ const CartPage = () => {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4323/api/get-cart/${userId}`
+        const response = await Axios.get(
+          `/get-cart/${userId}`
         );
         setCartItems(response.data);
         setIsLoading(false);
@@ -28,8 +28,8 @@ const CartPage = () => {
 
   const updateCart = async (userId, updatedCart) => {
     try {
-      const response = await axios.put(
-        `http://localhost:4323/api/update-cart/${userId}`,
+      const response = await Axios.put(
+        `/update-cart/${userId}`,
         updatedCart
       );
       console.log(response.data);
@@ -47,8 +47,8 @@ const CartPage = () => {
 
   const handleRemoveItem = async (itemId) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:4323/api/remove-from-cart/${userId}/${itemId}`
+      const response = await Axios.delete(
+        `/remove-from-cart/${userId}/${itemId}`
       );
       console.log(response.data);
       const updatedCartItems = cartItems.filter((item) => item._id !== itemId);

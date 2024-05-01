@@ -1,9 +1,9 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import { Axios } from "../MainPage";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -17,8 +17,8 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4323/api/product/${id}`
+        const response = await Axios.get(
+          `/product/${id}`
         );
 
         const product = response.data;
@@ -43,7 +43,7 @@ const ProductDetails = () => {
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
-      await axios.post("http://localhost:4323/api/add-to-cart", {
+      await Axios.post("/add-to-cart", {
         userId,
         productId,
         size,
@@ -115,8 +115,8 @@ const ProductDetails = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:4323/api/add-to-wishlist",
+      const response = await Axios.post(
+        "/add-to-wishlist",
         {
           userId: userData._id,
           productId: productById._id,

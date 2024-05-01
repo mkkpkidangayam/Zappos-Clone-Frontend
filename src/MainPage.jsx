@@ -27,6 +27,15 @@ import LoginProtect from "./components/Authentication/LoginProtect";
 import Filteredproduct from "./pages/FilteredProduct";
 import AdminHome from "./components/Admin section/AdminHome";
 import ManageUsers from "./components/Admin section/ManageUsers";
+import Cookies from "js-cookie";
+
+export const Axios = axios.create({
+  baseURL : "http://localhost:4323/api",
+  headers: {
+    Authorization:Cookies.get("token")
+  }
+
+}) 
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import { Axios } from "../MainPage";
 // import DeleteIcon from "@mui/icons-material/Delete";
 
 const WishlistPage = () => {
@@ -13,8 +13,8 @@ const WishlistPage = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4323/api/wishlist/${userId}`
+        const response = await Axios.get(
+          `/wishlist/${userId}`
         );
         setWishlist(response.data);
         setIsLoding(false);
@@ -28,8 +28,8 @@ const WishlistPage = () => {
 
   const removeFromWishlist = async (itemId) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:4323/api/remove-from-wishlist/${userId}/${itemId}`
+      const response = await Axios.delete(
+        `/remove-from-wishlist/${userId}/${itemId}`
       );
       toast.success(response.data.message);
       const updatedWishlist = wishlist.filter((item) => item._id !== itemId);

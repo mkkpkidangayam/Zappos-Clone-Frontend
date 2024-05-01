@@ -42,7 +42,7 @@ const Filteredproduct = () => {
         break;
     }
     setFilteredProducts(sortedProducts);
-  }, [sortOrder]);
+  }, [sortOrder, setFilteredProducts]);
 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
@@ -114,7 +114,7 @@ const Filteredproduct = () => {
                   <img
                     src={product.images[1]}
                     alt={product.title}
-                    className="w-full absolute top-4 left-4 opacity-0 hover:opacity-100 transition-opacity duration-1000"
+                    className="w-full absolute top-0 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
                   />
 
                   <span className="block mt-2 font-semibold hover:underline mb-2">

@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { Axios } from "../MainPage";
 
 const SuccessPage = () => {
   const navigate = useNavigate();
@@ -9,8 +9,8 @@ const SuccessPage = () => {
 
   const selectedAddressId = localStorage.getItem("selectedAddressId");
   useEffect(() => {
-    axios
-      .post(`http://localhost:4323/api/create-order/${userId}`, {
+    Axios
+      .post(`/create-order/${userId}`, {
         selectedAddressId: selectedAddressId,
       })
       .then((response) => {

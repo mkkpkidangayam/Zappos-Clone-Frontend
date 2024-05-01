@@ -3,9 +3,9 @@ import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
-import axios from "axios";
 import FooterSecond from "../components/Footer/FooterSecond";
 import Cookies from "js-cookie";
+import { Axios } from "../MainPage";
 
 function Login() {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ function Login() {
       return;
     }
 
-    axios
-      .post("http://localhost:4323/api/login", {
+    Axios
+      .post("/login", {
         email,
         password,
       })

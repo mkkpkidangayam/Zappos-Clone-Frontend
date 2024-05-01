@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
+import { Axios } from "../MainPage";
 
 function AddressesPage() {
   const { userId } = useParams();
@@ -21,13 +21,13 @@ function AddressesPage() {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4323/api/user/${userId}/addresses`)
+    Axios
+      .get(`/user/${userId}/addresses`)
       .then((response) => setAddresses(response.data))
       .catch((error) => console.error("Error fetching addresses:", error));
 
-    axios
-      .get(`http://localhost:4323/api/get-cart/${userId}`)
+    Axios
+      .get(`/get-cart/${userId}`)
       .then((response) => {
         setCartItems(response.data);
         setIsLoding(false);
@@ -54,11 +54,11 @@ function AddressesPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const apiEndpoint = editing
-      ? `http://localhost:4323/api/user/${userId}/address/${currentAddress._id}`
-      : `http://localhost:4323/api/user/${userId}/address`;
+      ? `/user/${userId}/address/${currentAddress._id}`
+      : `/user/${userId}/address`;
     const method = editing ? "put" : "post";
 
-    axios[method](apiEndpoint, currentAddress)
+    Axios[method](apiEndpoint, currentAddress)
       .then(() => {
         setAddresses(
           editing
@@ -80,8 +80,8 @@ function AddressesPage() {
       .catch((error) => console.error("Error saving the address:", error));
   };
   const deleteAddress = (addressId) => {
-    axios
-      .delete(`http://localhost:4323/api/user/${userId}/address/${addressId}`)
+    Axios
+      .delete(`/user/${userId}/address/${addressId}`)
       .then((response) => {
         console.log("Address deleted successfully");
         const updatedaddress = addresses.filter(
@@ -112,8 +112,8 @@ function AddressesPage() {
     }
 
     try {
-      const result = await axios.post(
-        `http://localhost:4323/api/checkout/${userId}`,
+      const result = await Axios.post(
+        `/checkout/${userId}`,
         {},
         { withCredentials: true }
       );
