@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Axios } from '../../MainPage';
 
-const ManageUsers = () => {
+const Usermange = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -15,7 +14,7 @@ const ManageUsers = () => {
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
-      const response = await Axios.get('/admin/users-mangae');
+      const response = await axios.get('/api/users');
       setUsers(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -87,7 +86,7 @@ const ManageUsers = () => {
                           {user.email}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {/* {user.role} */}
+                          {user.role}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <button
@@ -134,4 +133,4 @@ const ManageUsers = () => {
   );
 };
 
-export default ManageUsers;
+export default Usermange;

@@ -23,7 +23,7 @@ const Filteredproduct = () => {
       }
     });
     setFilteredProducts(filtered);
-  }, [product, gender, mainCategory, subCategory]);
+  }, [product, gender, mainCategory, subCategory, setFilteredProducts]);
 
   useEffect(() => {
     let sortedProducts = [...filteredProducts];
@@ -47,7 +47,7 @@ const Filteredproduct = () => {
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
   };
-  
+
   return (
     <div className="container my-6">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
@@ -100,9 +100,11 @@ const Filteredproduct = () => {
             </div>
           ) : (
             filteredProducts?.map((product) => (
-              <article className="bg-white shadow-md border rounded-lg p-6 mb-4">
+              <article
+                key={product._id}
+                className="bg-white shadow-md border rounded-lg p-6 mb-4"
+              >
                 <Link
-                  key={product._id}
                   className="block font-semibold mb-4 relative"
                   to={`/product/${product._id}`}
                 >

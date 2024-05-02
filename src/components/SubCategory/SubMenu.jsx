@@ -58,7 +58,7 @@ export default function Menu() {
               </svg>
             </button>
             <div className="p-4 grid grid-cols-3 gap-5">
-              {Object?.entries(categories).map(
+              {Object.entries(categories).map(
                 ([mainCategory, subCategories]) => (
                   <div key={mainCategory}>
                     <h3 className="text-gray-900 text-lg font-bold mb-3 border-b border-black capitalize">

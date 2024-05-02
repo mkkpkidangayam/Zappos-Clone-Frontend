@@ -191,10 +191,9 @@ const MainPage = () => {
           />
 
           <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminHome />}>
+          <Route path="/admin" element={<AdminHome />} />
             <Route path="/admin/add-product" element={<AddProductForm />} />
             <Route path="/admin/manage-users" element={<ManageUsers />} />
-          </Route>
         </Routes>
       </myContext.Provider>
     </>
