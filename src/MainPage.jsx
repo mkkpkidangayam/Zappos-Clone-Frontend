@@ -28,6 +28,7 @@ import Filteredproduct from "./pages/FilteredProduct";
 import AdminHome from "./components/Admin section/AdminHome";
 import ManageUsers from "./components/Admin section/ManageUsers";
 import Cookies from "js-cookie";
+import AdminNav from "./components/Admin section/AdminNav";
 
 export const Axios = axios.create({
   baseURL : "http://localhost:4323/api",
@@ -191,9 +192,11 @@ const MainPage = () => {
           />
 
           <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminHome />} />
-            <Route path="/admin/add-product" element={<AddProductForm />} />
+          <Route path="/admin" element={<AdminNav />} >
+            <Route index element={<AdminHome/>}/>
             <Route path="/admin/manage-users" element={<ManageUsers />} />
+            <Route path="/admin/add-product" element={<AddProductForm />} />
+          </Route>
         </Routes>
       </myContext.Provider>
     </>

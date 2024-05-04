@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import myContext from "../../context/myContextxt";
+import Cookies from "js-cookie";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const AdminLogin = () => {
       );
       const { adminToken } = response.data;
       localStorage.setItem("adminToken", adminToken);
+      Cookies.set("adminToken", adminToken, { expires: 1 });
       setIsAdminLogin(true);
       navigate("/admin");
       toast.success(response.data.message);

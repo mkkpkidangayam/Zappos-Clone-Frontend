@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Axios } from "../../MainPage";
 import LoadingSpinner from "../Assets/LoadingSpinner";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Cookies from "js-cookie";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    Axios.get("/admin/users-manage")
+    Axios.get("/admin/users-manage", {
+      headers: {
+        Authorization: Cookies.get("adminToken"),
+      },
+    })
       .then((response) => {
         setUsers(response.data.users);
         console.log(response.data.users);
@@ -20,22 +25,13 @@ const ManageUsers = () => {
       });
   }, []);
 
-  // const fetchUsers = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await Axios.get('/admin/users-manage');
-  //     setUsers(response.data.users);
-  //     console.log(response.data.users);
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     console.error('Failed to fetch users', error);
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const deleteUser = async (userId) => {
     try {
-      await Axios.delete(`/admin/user/delete/${userId}`);
+      await Axios.delete(`/admin/user/delete/${userId}`, {
+        headers: {
+          Authorization: Cookies.get("adminToken"),
+        },
+      });
       const updatedUsers = users.filter((user) => user._id !== userId);
       setUsers(updatedUsers);
     } catch (error) {
@@ -48,7 +44,15 @@ const ManageUsers = () => {
       const endpoint = isBlocked
         ? `/user/unblock/${userId}`
         : `/user/block/${userId}`;
-      await Axios.patch(endpoint);
+      await Axios.patch(
+        endpoint,
+        {},
+        {
+          headers: {
+            Authorization: Cookies.get("adminToken"),
+          },
+        }
+      );
       const updatedUsers = users.map((user) => {
         if (user._id === userId) {
           return { ...user, isBlocked: !isBlocked };
