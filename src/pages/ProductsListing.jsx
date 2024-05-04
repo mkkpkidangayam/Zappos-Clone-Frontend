@@ -121,7 +121,7 @@ const ProductsListing = () => {
                 className="block font-semibold mb-4 relative"
                 to={`/product/${product._id}`}
               >
-                <article className="bg-white shadow-md border flex flex-col justify-evenly min-h-[550px] rounded-lg p-6 mb-4">
+                <article className="bg-white shadow-md border flex flex-col justify-evenly min-h-[550px] rounded-lg p-6 mb-4 ">
                   <img
                     src={product.images[0]}
                     alt={product.title}

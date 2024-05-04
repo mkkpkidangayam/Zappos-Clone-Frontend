@@ -3,13 +3,20 @@ import { Axios } from "../../MainPage";
 import LoadingSpinner from "../Assets/LoadingSpinner";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Cookies from "js-cookie";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // const [page, setPage] = useState(1);
+  // const [limit, setLimit] = useState(10);
 
   useEffect(() => {
-    Axios.get("/admin/users-manage", {
+    Axios.get(`/admin/users-list?page=${currentPage}`, {
       headers: {
         Authorization: Cookies.get("adminToken"),
       },
@@ -17,13 +24,29 @@ const ManageUsers = () => {
       .then((response) => {
         setUsers(response.data.users);
         console.log(response.data.users);
+        setTotalPages(response.data.pagination.totalPages);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error("Failed to fetch users", error);
         setIsLoading(false);
       });
-  }, []);
+  }, [currentPage]);
+
+  // const handleNextPage = () => {
+  //   setPage(page + 1);
+  // };
+
+  // const handlePreviousPage = () => {
+  //   if (page > 1) {
+  //     setPage(page - 1);
+  //   }
+  // };
+
+  // const handleLimitChange = (e) => {
+  //   setLimit(parseInt(e.target.value));
+  //   setPage(1); // Reset page number when changing limit
+  // };
 
   const deleteUser = async (userId) => {
     try {
@@ -65,8 +88,6 @@ const ManageUsers = () => {
     }
   };
 
-  users.map((item) => console.log(item));
-
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-3xl text-center text-green-800 font-bold mb-4">
@@ -77,7 +98,60 @@ const ManageUsers = () => {
       ) : (
         <div className="flex flex-col">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            {/* Pagination controls */}
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              {/* <div className="mb-4 flex justify-end">
+              <select
+                value={limit}
+                onChange={handleLimitChange}
+                className="px-3 py-1 border border-gray-300 rounded-md"
+              >
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+              <button
+                onClick={handlePreviousPage}
+                disabled={page === 1}
+                className="ml-2 px-3 py-1 border border-gray-300 rounded-md"
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNextPage}
+                className="ml-2 px-3 py-1 border border-gray-300 rounded-md"
+                
+              >
+                Next
+              </button>
+            </div> */}
+
+              {/* Pagination */}
+              <div className="flex justify-end">
+                <button
+                  className={`px-1 rounded-lg ${
+                    currentPage === 1
+                      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                      : "bg-slate-700 text-white"
+                  }`}
+                  onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  <ArrowBackIcon />
+                </button>
+                <span className="mx-2 font-medium"> Page: {currentPage}</span>
+                <button
+                  className={`px-1 rounded-lg ${
+                    currentPage === totalPages
+                      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                      : "bg-slate-700 text-white"
+                  }`}
+                  onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  <ArrowForwardIcon />
+                </button>
+              </div>
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">

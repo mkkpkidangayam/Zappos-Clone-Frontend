@@ -137,14 +137,14 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-[#F7F7F7]">
+    <div className="container mx-auto px-4 py-8 bg-[#fff9f9]">
       {productById ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative md:col-span-2 p-2">
             <img
               src={productById.images[0]}
               alt={productById.title}
-              className="w-full h-auto mb-4"
+              className="w-full h-auto mb-4 object-cover mix-blend-darken"
             />
 
             <div className="absolute top-4 right-4 flex justify-center items-center">
@@ -171,7 +171,7 @@ const ProductDetails = () => {
                   key={index}
                   src={image}
                   alt={productById.title}
-                  className="w-full h-auto mb-4"
+                  className="w-full h-auto mb-4 object-cover mix-blend-darken"
                 />
               ))}
             </div>

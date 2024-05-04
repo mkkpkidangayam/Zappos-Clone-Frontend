@@ -29,6 +29,7 @@ import AdminHome from "./components/Admin section/AdminHome";
 import ManageUsers from "./components/Admin section/ManageUsers";
 import Cookies from "js-cookie";
 import AdminNav from "./components/Admin section/AdminNav";
+import ManageProducts from "./components/Admin section/ManageProducts";
 
 export const Axios = axios.create({
   baseURL : "http://localhost:4323/api",
@@ -195,6 +196,7 @@ const MainPage = () => {
           <Route path="/admin" element={<AdminNav />} >
             <Route index element={<AdminHome/>}/>
             <Route path="/admin/manage-users" element={<ManageUsers />} />
+            <Route path="/admin/manage-products" element={<ManageProducts />} />
             <Route path="/admin/add-product" element={<AddProductForm />} />
           </Route>
         </Routes>
