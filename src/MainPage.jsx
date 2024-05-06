@@ -29,15 +29,16 @@ import AdminHome from "./components/Admin section/AdminHome";
 import ManageUsers from "./components/Admin section/ManageUsers";
 import Cookies from "js-cookie";
 import AdminNav from "./components/Admin section/AdminNav";
-import ManageProducts from "./components/Admin section/ManageProducts";
+import ManageProducts from "./components/Admin section/ProductsList";
+import AdminLoginProttect from "./components/Admin section/AdminAuth/AdminLoginProttect";
+import AdminProttect from "./components/Admin section/AdminAuth/AdminProttect";
 
 export const Axios = axios.create({
-  baseURL : "http://localhost:4323/api",
+  baseURL: "http://localhost:4323/api",
   headers: {
-    Authorization:Cookies.get("token")
-  }
-
-}) 
+    Authorization: Cookies.get("token"),
+  },
+});
 
 const MainPage = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
@@ -192,12 +193,48 @@ const MainPage = () => {
             element={<FailurePage />}
           />
 
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminNav />} >
-            <Route index element={<AdminHome/>}/>
-            <Route path="/admin/manage-users" element={<ManageUsers />} />
-            <Route path="/admin/manage-products" element={<ManageProducts />} />
-            <Route path="/admin/add-product" element={<AddProductForm />} />
+          <Route
+            path="/admin-login"
+            element={
+              <AdminLoginProttect>
+                <AdminLogin />
+              </AdminLoginProttect>
+            }
+          />
+
+          <Route path="/admin" element={<AdminNav />}>
+            <Route
+              index
+              element={
+                <AdminProttect>
+                  <AdminHome />
+                </AdminProttect>
+              }
+            />
+            <Route
+              path="/admin/manage-users"
+              element={
+                <AdminProttect>
+                  <ManageUsers />
+                </AdminProttect>
+              }
+            />
+            <Route
+              path="/admin/manage-products"
+              element={
+                <AdminProttect>
+                  <ManageProducts />
+                </AdminProttect>
+              }
+            />
+            <Route
+              path="/admin/add-product"
+              element={
+                <AdminProttect>
+                  <AddProductForm />
+                </AdminProttect>
+              }
+            />
           </Route>
         </Routes>
       </myContext.Provider>
