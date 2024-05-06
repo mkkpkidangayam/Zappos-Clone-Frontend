@@ -7,7 +7,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 
-const ManageProducts = () => {
+const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -132,7 +132,7 @@ const ManageProducts = () => {
                     {products.map((product, index) => (
                       <tr
                         onClick={() =>
-                          navigate(`/admin/products/${product._id}`)
+                          navigate(`/admin/manage-product/${product._id}`)
                         }
                         key={product._id}
                         className="hover:shadow-2xl duration-300 cursor-pointer"
@@ -180,4 +180,4 @@ const ManageProducts = () => {
   );
 };
 
-export default ManageProducts;
+export default ProductList;

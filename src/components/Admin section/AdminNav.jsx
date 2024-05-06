@@ -12,10 +12,10 @@ const AdminNav = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex  h-full">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white min-w-min w-56 h-screen ${
+        className={`bg-gray-800 left-0 text-white min-w-min w-56 h-screen ${
           isSidebarOpen ? "" : "hidden"
         }`}
       >
@@ -43,7 +43,7 @@ const AdminNav = () => {
               Users
             </li>
           </Link>
-          <Link to={"/admin/manage-products"}>
+          <Link to={"/admin/products-list"}>
             <li
               onClick={() => setMenu("products")}
               className={`py-4 px-6 ${
@@ -63,7 +63,7 @@ const AdminNav = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full p-3">
+      <div className="h-screen p-3 w-full overflow-scroll">
         <button
           onClick={toggleSidebar}
           className="px-2 py-1 bg-gray-400 text-gray-800 rounded-md absolute"

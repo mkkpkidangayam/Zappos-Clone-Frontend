@@ -90,9 +90,10 @@ const ManageUsers = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-3xl text-center text-green-800 font-bold mb-4">
+      <h1 className="text-3xl text-center text-green-800 font-bold mb-3">
         Manage Users
       </h1>
+      <hr />
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -127,7 +128,7 @@ const ManageUsers = () => {
             </div> */}
 
               {/* Pagination */}
-              <div className="flex justify-end">
+              <div className="flex justify-end mt-1">
                 <button
                   className={`px-1 rounded-lg ${
                     currentPage === 1
