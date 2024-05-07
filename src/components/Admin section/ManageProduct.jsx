@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { Link, useParams } from "react-router-dom";
-import { Axios } from "../../MainPage";
-import LoadingSpinner from "../Assets/LoadingSpinner";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import Axios from '../../MainPage';
+import LoadingSpinner from '../Assets/LoadingSpinner';
 
 const ManageProduct = () => {
   const { id } = useParams();
-  const [productById, setProductById] = useState(null);
+  const [product, setProduct] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [newImage, setNewImage] = useState(null);
+  const [newSize, setNewSize] = useState('');
+  const [newQuantity, setNewQuantity] = useState(1);
+  const [newInfo, setNewInfo] = useState('');
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await Axios.get(`/product/${id}`);
+        const response = await Axios.get(`/admin/product/${id}`);
         const product = response.data;
-        setProductById(product);
+        setProduct(product);
       } catch (error) {
-        toast.error("Failed to fetch product details");
         console.error(error);
       }
     };
@@ -24,101 +26,87 @@ const ManageProduct = () => {
     fetchProductDetails();
   }, [id]);
 
-  const handleInputChange = (e, field) => {
-    const value = e.target.value;
-    setProductById(prevState => ({
-      ...prevState,
-      [field]: value
-    }));
+  const handleEdit = () => {
+    setEditMode(true);
   };
 
-  const updateProduct = async () => {
+  const handleSave = async () => {
     try {
-      const response = await Axios.put(`/product/${id}`, productById);
-      toast.success(response.data.message);
-      setEditMode(false); // Exit edit mode after saving changes
+      const response = await Axios.put(`/admin/product/edit/${id}`, {
+        title: product.title,
+        price: product.price,
+        brand: product.brand,
+        images: [...product.images, newImage],
+        sizes: [...product.sizes, { size: newSize, quantity: newQuantity }],
+        info: [...product.info, newInfo],
+      });
+      setEditMode(false);
+      setNewImage(null);
+      setNewSize('');
+      setNewQuantity(1);
+      setNewInfo('');
     } catch (error) {
-      toast.error("Failed to update product details");
       console.error(error);
     }
   };
 
+  const handleImageChange = (e) => {
+    setNewImage(e.target.files[0]);
+  };
+
+  const handleSizeChange = (e) => {
+    setNewSize(e.target.value);
+  };
+
+  const handleQuantityChange = (e) => {
+    setNewQuantity(e.target.value);
+  };
+
+  const handleInfoChange = (e) => {
+    setNewInfo(e.target.value);
+  };
+
+  if (!product) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="container mx-auto px-4 bg-[#fff9f9]">
       <h1 className="text-4xl text-center mb-4 font-mono font-bold text-lime-800">
-        {productById?.title}
+        {product.title}
       </h1>
       <hr />
-      {productById ? (
+      {editMode? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative md:col-span-2 p-2">
-            <img
-              src={productById.images[0]}
-              alt={productById.title}
-              className="w-full h-auto mb-4 object-cover mix-blend-darken"
+            <input
+              type="text"
+              value={product.title}
+              onChange={(e) => setProduct({ ...product, title: e.target.value })}
+              className="text-3xl font-semibold mb-4 w-full border-b-2 focus:outline-none focus:border-blue-600"
             />
-
-            <div className="grid grid-cols-2 gap-3">
-              {productById.images.slice(1, 7).map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={productById.title}
-                  className="w-full h-auto mb-4 object-cover mix-blend-darken"
-                />
-              ))}
-            </div>
+            <input
+              type="number"
+              value={product.price}
+              onChange={(e) => setProduct({ ...product, price: e.target.value })}
+              className="text-4xl mb-2 text-blue-600 font-semibold w-full border-b-2 focus:outline-none focus:border-blue-600"
+            />
+            <input
+              type="text"
+              value={product.brand}
+              onChange={(e) => setProduct({ ...product, brand: e.target.value })}
+              className="text-2xl mb-2 font-semibold w-full border-b-2 focus:outline-none focus:border-blue-600"
+            />
+            <input
+              type="file"
+              onChange={handleImageChange}
+              className="mb-2"
+            />
+            <button onClick={handleSave} className="bg-orange-800 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700">
+              Save Changes
+            </button>
           </div>
           <div className="md:col-span-1">
-            {editMode ? ( // Show inputs only in edit mode
-              <>
-                <div className="flex justify-end mb-4">
-                  <button onClick={updateProduct} className="bg-orange-800 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700">
-                    Save Changes
-                  </button>
-                  <button onClick={() => setEditMode(false)} className="bg-gray-500 ml-3 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-gray-700">
-                    Cancel
-                  </button>
-                </div>
-                <input type="text" value={productById.title} onChange={(e) => handleInputChange(e, 'title')} className="text-3xl font-semibold mb-4 w-full border-b-2 focus:outline-none focus:border-blue-600" />
-                <input type="number" value={productById.price} onChange={(e) => handleInputChange(e, 'price')} className="text-4xl mb-2 text-blue-600 font-semibold w-full border-b-2 focus:outline-none focus:border-blue-600" />
-                <select value={productById.category.sub} onChange={(e) => handleInputChange(e, 'category')} className="text-lg mb-2 w-full border-b-2 focus:outline-none focus:border-blue-600">
-                  <option value="shoe">Shoe</option>
-                  <option value="cloth">Cloth</option>
-                  <option value="accessories">Accessories</option>
-                </select>
-                <select value={productById.gender} onChange={(e) => handleInputChange(e, 'gender')} className="text-lg mb-2 w-full border-b-2 focus:outline-none focus:border-blue-600">
-                  <option value="men">Men</option>
-                  <option value="women">Women</option>
-                  <option value="girls">Girls</option>
-                  <option value="boys">Boys</option>
-                </select>
-                <input type="text" value={productById.color} onChange={(e) => handleInputChange(e, 'color')} className="text-lg mb-2 w-full border-b-2 focus:outline-none focus:border-blue-600" />
-              </>
-            ) : (
-              <>
-                <div className="flex justify-end mb-4">
-                  <button onClick={() => setEditMode(true)} className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700">
-                    Edit
-                  </button>
-                </div>
-                <Link className="text-2xl mb-2 font-semibold hover:underline hover:text-blue-600">
-                  {productById.brand}
-                </Link>
-                <h1 className="text-3xl font-semibold mb-4">{productById.title}</h1>
-                <p className="text-4xl mb-2 text-blue-600 font-semibold">
-                  <sup>₹</sup>
-                  {productById.price.toFixed(2)}
-                </p>
-                <p className="text-lg mb-2">
-                  {productById.category.sub} for {productById.gender.toUpperCase()}
-                </p>
-                <p className="text-lg mb-2">
-                  <b>Color:</b> {productById.color}
-                </p>
-              </>
-            )}
-
             <h2 className="text-xl font-semibold mb-2">
               Available Sizes & Quantities:
             </h2>
@@ -130,21 +118,112 @@ const ManageProduct = () => {
                 </tr>
               </thead>
               <tbody>
-                {productById.sizes.map((sizeItem, index) => (
+                {product.sizes.map((size, index) => (
                   <tr key={index}>
-                    <td className="border font-semibold px-4 py-2">{sizeItem.size}</td>
-                    <td className="border px-4 py-2">{sizeItem.quantity}</td>
+                    <td className="border font-semibold px-4 py-2">{size.size}</td>
+                    <td className="border px-4 py-2">{size.quantity}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-
+            <input
+              type="text"
+              value={newSize}
+              onChange={handleSizeChange}
+              className="text-lg mb-2 w-full border-b-2 focus:outline-none focus:border-blue-600"
+              placeholder="Enter new size"
+            />
+            <input
+              type="number"
+              value={newQuantity}
+              onChange={handleQuantityChange}
+              className="text-lg mb-2 w-full border-b-2 focus:outline-none focus:border-blue-600"
+              placeholder="Enter new quantity"
+            />
+            <button onClick={() => {
+              setProduct({ ...product, sizes: [...product.sizes, { size: newSize, quantity: newQuantity }] });
+              setNewSize('');
+              setNewQuantity(1);
+            }} className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700">
+              Add Size
+            </button>
             <h2 className="text-xl font-semibold mt-5 mb-3">
               Product Information
             </h2>
             <hr className="border-t border-dashed border-black " />
             <ul className="my-4 list-disc pl-5">
-              {productById.info.map((info, index) => (
+              {product.info.map((info, index) => (
+                <li key={index} className="mb-2">
+                  {info}
+                </li>
+              ))}
+            </ul>
+            <input
+              type="text"
+              value={newInfo}
+              onChange={handleInfoChange}
+              className="text-lg mb-2 w-full border-b-2 focus:outline-none focus:border-blue-600"
+              placeholder="Enter new info"
+            />
+            <button onClick={() => {
+              setProduct({ ...product, info: [...product.info, newInfo] });
+              setNewInfo('');
+            }} className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700">
+              Add Info
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="relative md:col-span-2 p-2">
+            <img
+              src={product.images[0]}
+              alt={product.title}
+              className="w-full h-auto mb-4 object-cover mix-blend-darken"
+            />
+            {product.images.slice(1, 7).map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={product.title}
+                className="w-full h-auto mb-4 object-cover mix-blend-darken"
+              />
+            ))}
+          </div>
+          <div className="md:col-span-1">
+            <h2 className="text-xl font-semibold mb-2">
+              {product.title}
+            </h2>
+            <p className="text-lg mb-2">{product.brand}</p>
+            <p className="text-lg mb-2">
+              <sup>₹</sup>
+              {product.price.toFixed(2)}
+            </p>
+            <h2 className="text-xl font-semibold mb-2">
+              Available Sizes & Quantities:
+            </h2>
+            <table className="table-auto">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2">Size</th>
+                  <th className="px-4 py-2">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {product.sizes.map((size, index) => (
+                  <tr key={index}>
+                    <td className="border font-semibold px-4 py-2">{size.size}</td>
+                    <td className="border px-4 py-2">{size.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <h2 className="text-xl font-semibold mt-5 mb-3">
+              Product Information
+            </h2>
+            <hr className="border-t border-dashed border-black " />
+            <ul className="my-4 list-disc pl-5">
+              {product.info.map((info, index) => (
                 <li key={index} className="mb-2">
                   {info}
                 </li>
@@ -152,9 +231,10 @@ const ManageProduct = () => {
             </ul>
           </div>
         </div>
-      ) : (
-        <LoadingSpinner />
       )}
+      <button onClick={handleEdit} className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700">
+        Edit
+      </button>
     </div>
   );
 };
