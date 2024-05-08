@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import { Link, Outlet } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import CategoryIcon from "@mui/icons-material/Category";
+import LanguageIcon from "@mui/icons-material/Language";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const AdminNav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [menu, setMenu] = useState("");
+  const navigate = useNavigate()
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleLogOut = () => {
+    localStorage.removeItem("adminToken");
+    Cookies.remove("adminToken")
+    navigate('/admin-login')
+    toast.success('Successful logout')
+  }
 
   return (
     <div className="flex  h-full">
@@ -19,47 +34,56 @@ const AdminNav = () => {
           isSidebarOpen ? "" : "hidden"
         }`}
       >
-        <h1 className="text-3xl font-mono font-bold p-6 border-b-2 bg-gray-800 text-white">
-          Admin
-        </h1>
-        <ul className="font-medium">
-          <Link to={"/admin"}>
-            <li
-              onClick={() => setMenu("home")}
-              className={`py-4 px-6 ${
-                menu === "home" ? "bg-white text-black" : ""
-              }`}
-            >
-              Home
-            </li>
-          </Link>
-          <Link to={"/admin/manage-users"}>
-            <li
-              onClick={() => setMenu("users")}
-              className={`py-4 px-6 ${
-                menu === "users" ? "bg-white text-black" : ""
-              }`}
-            >
-              Users
-            </li>
-          </Link>
-          <Link to={"/admin/products-list"}>
-            <li
-              onClick={() => setMenu("products")}
-              className={`py-4 px-6 ${
-                menu === "products" ? "bg-white text-black" : ""
-              }`}
-            >
-              Products
-            </li>
-          </Link>
+        <div className="flex flex-col justify-between h-full">
+          <div>
+            <h1 className="text-3xl font-mono font-bold p-6 border-b-2 bg-gray-800 text-white">
+              Admin
+            </h1>
+            <ul className="font-medium">
+              <Link to={"/admin"}>
+                <li
+                  onClick={() => setMenu("home")}
+                  className={`py-4 px-6 hover:underline ${
+                    menu === "home" ? "bg-white text-gray-800" : ""
+                  }`}
+                >
+                  <HomeIcon /> Home
+                </li>
+              </Link>
+              <Link to={"/admin/manage-users"}>
+                <li
+                  onClick={() => setMenu("users")}
+                  className={`py-4 px-6 hover:underline ${
+                    menu === "users" ? "bg-white text-gray-800" : ""
+                  }`}
+                >
+                  <PeopleAltIcon /> Users
+                </li>
+              </Link>
+              <Link to={"/admin/products-list"}>
+                <li
+                  onClick={() => setMenu("products")}
+                  className={`py-4 px-6 hover:underline ${
+                    menu === "products" ? "bg-white text-gray-800" : ""
+                  }`}
+                >
+                  <CategoryIcon /> Products
+                </li>
+              </Link>
 
-          <Link to={"/"}>
-            <li className="py-4 px-6">Go to wbsite</li>
-          </Link>
-          <li className="py-4 px-6">Users</li>
-          <li className="py-4 px-6">Settings</li>
-        </ul>
+              <Link to={"/"}>
+                <li className="py-4 px-6 hover:underline">
+                  <LanguageIcon /> Go to wbsite
+                </li>
+              </Link>
+            </ul>
+          </div>
+          <div className="mb-10">
+            <button onClick={handleLogOut} className="px-5 hover:underline">
+              <LogoutIcon /> Log Out
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Main Content */}

@@ -22,12 +22,12 @@ const DropdownLogin = () => {
   const handleLogout = () => {
     navigate('/')
     SetIsMenuOpen(!isMenuOpen);
-    const userName = userData ? userData.name : "User";
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
     Cookies.remove("token");
     setIsLogin(false);
     setUserData(null);
+    const userName = userData ? userData.name : "User";
     toast.success(`${userName}, sign-out successful`);
   };
 

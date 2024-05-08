@@ -156,7 +156,11 @@ const ProductList = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           ₹{product.price}
                         </td>
-                        <td className={`px-6 py-4 whitespace-nowrap ${!product.isHide ? "text-green-600" : "text-red-600"}`}>
+                        <td
+                          className={`px-6 py-4 whitespace-nowrap ${
+                            !product.isHide ? "text-green-600" : "text-red-600"
+                          }`}
+                        >
                           {!product.isHide ? "Active" : "Hided"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
