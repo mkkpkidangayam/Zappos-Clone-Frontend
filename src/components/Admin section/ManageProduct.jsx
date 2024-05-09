@@ -66,9 +66,9 @@ const ManageProduct = () => {
       });
       setEditMode(false);
       setNewImage(null);
-      setNewSize('');
+      setNewSize("");
       setNewQuantity(1);
-      setNewInfo('');
+      setNewInfo("");
     } catch (error) {
       console.error(error);
     }
@@ -218,22 +218,33 @@ const ManageProduct = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="relative md:col-span-2 p-2">
-            <img
+          <div className="relative md:col-span-2 p-2 grid grid-cols-3 grid-rows-5 gap-2">
+            {/* <img
               src={product.images[0]}
               alt={product.title}
-              className="w-full h-auto mb-4 object-cover mix-blend-darken"
-            />
-            {product.images.slice(1, 7).map((image, index) => (
+              className="w h-auto mb-4 object-cover mix-blend-darken"
+            /> */}
+            {product.images.map((image, index) => (
+              <div className="border">
+
               <img
                 key={index}
                 src={image}
                 alt={product.title}
-                className="w-full h-auto mb-4 object-cover mix-blend-darken"
-              />
+                className="w-full  mb-4 object-cover mix-blend-darken"
+                />
+                <button>Change Image</button>
+                </div>
+              
             ))}
           </div>
           <div className="md:col-span-1">
+            <button
+              onClick={handleEdit}
+              className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
+            >
+              Edit
+            </button>
             <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
             <p className="text-lg mb-2">{product.brand}</p>
             <p className="text-lg mb-2">
@@ -275,12 +286,6 @@ const ManageProduct = () => {
           </div>
         </div>
       )}
-      <button
-        onClick={handleEdit}
-        className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
-      >
-        Edit
-      </button>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
+import Cookies from "js-cookie";
 
 const CartPage = () => {
   document.title = "Your Bag";
@@ -14,9 +15,11 @@ const CartPage = () => {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const response = await Axios.get(
-          `/get-cart/${userId}`
-        );
+        const response = await Axios.get(`/get-cart/${userId}`, {
+          headers: {
+            Authorization: Cookies.get("token"),
+          },
+        });
         setCartItems(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -28,10 +31,7 @@ const CartPage = () => {
 
   const updateCart = async (userId, updatedCart) => {
     try {
-      const response = await Axios.put(
-        `/update-cart/${userId}`,
-        updatedCart
-      );
+      const response = await Axios.put(`/update-cart/${userId}`, updatedCart);
       console.log(response.data);
     } catch (error) {
       console.error("Error updating cart:", error);

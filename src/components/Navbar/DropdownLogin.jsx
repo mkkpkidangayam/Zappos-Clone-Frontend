@@ -76,7 +76,7 @@ const DropdownLogin = () => {
       }}
     >
       <div role="group" className="flex flex-col gap-y-1">
-        <h2 className="flex w-40 items-center p-2 justify-start gap-1  rounded-xl font-bold transition-colors ">
+        <h2 className="flex w-40 items-center p-2 justify-start gap-1 capitalize rounded-xl font-bold transition-colors ">
           <FaUser /> {userData.name}
         </h2>
         <hr className="border-t-2 border-t-black" />

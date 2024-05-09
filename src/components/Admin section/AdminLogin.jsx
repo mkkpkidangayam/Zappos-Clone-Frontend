@@ -69,8 +69,8 @@ const AdminLogin = () => {
 
   return (
     <div className="container flex justify-center items-center h-screen bg-cover bg-[url('https://media.licdn.com/dms/image/C561BAQEIPV76nJFFsQ/company-background_10000/0/1584409661241/zapposcom_cover?e=2147483647&v=beta&t=rmXnB4efRTXuqmIrTBVpNbmtZIqWG-uiTtkfuozpXvw')]">
-      <div className="w-1/4 h-2/4 flex flex-col shadow-2xl rounded-2xl bg-gray-200 justify-around">
-        <h1 className="text-2xl text-green-950 mx-4 font-bold text-center border-b-2 border-blue-400 pb-4">
+      <div className="w-1/4 h-2/4 flex flex-col shadow-2xl rounded-2xl bg-gray-200 justify-around opacity-95">
+        <h1 className="text-2xl text-emerald-800 mx-4 font-bold text-center border-b-2 border-blue-400 pb-4">
           <Link to={"/"}>Admin Login</Link>
         </h1>
 
@@ -104,7 +104,7 @@ const AdminLogin = () => {
           {error && <p className="text-red-500 mb-4">{error}</p>}
           <button
             type="submit"
-            className="bg-blue-500 text-white w-full py-2 px-4 rounded"
+            className="bg-blue-700 text-white w-full py-2 px-4 font-bold rounded hover:bg-blue-500"
           >
             Login
           </button>
