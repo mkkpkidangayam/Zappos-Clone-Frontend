@@ -56,7 +56,7 @@ const ManageProduct = () => {
   // };
   const handleSave = async () => {
     try {
-      const response = await Axios.put(`/api/products/${id}`, {
+       await Axios.put(`/api/products/${id}`, {
         title: product.title,
         price: product.price,
         brand: product.brand,
@@ -93,6 +93,22 @@ const ManageProduct = () => {
   if (!product) {
     return <LoadingSpinner />;
   }
+
+  const deleteProduct = async (productId) => {
+    try {
+      await Axios.delete(`/admin/product/delete/${productId}`, {
+        headers: {
+          Authorization: Cookies.get("adminToken"),
+        },
+      });
+      const updatedProducts = product.filter(
+        (product) => product._id !== productId
+      );
+      setProduct(updatedProducts);
+    } catch (error) {
+      console.error("Failed to delete product", error);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 bg-[#fff9f9]">
@@ -231,9 +247,9 @@ const ManageProduct = () => {
                 key={index}
                 src={image}
                 alt={product.title}
-                className="w-full  mb-4 object-cover mix-blend-darken"
+                className="w-full mb-4 object-cover mix-blend-darken"
                 />
-                <button>Change Image</button>
+                <button >Change Image</button>
                 </div>
               
             ))}

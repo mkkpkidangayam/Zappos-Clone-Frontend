@@ -38,7 +38,10 @@ export default function Menu() {
           onClick={closeModal}
           className="absolute top-40 pt-2 right-0 left-0 z-50 w-full h-screen bg-[#242424df] bg-opacity-50"
         >
-          <div className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow">
+          <div
+            onMouseLeave={() => toggleModal()}
+            className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow "
+          >
             <button
               onClick={toggleModal}
               className="text-gray-400 bg-transparent float-right hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -71,7 +74,7 @@ export default function Menu() {
                           to={`/p/${gender}/${mainCategory}/all`}
                           onClick={() => {
                             setShowModal(false);
-                            setMenu('');
+                            setMenu("");
                           }}
                         >
                           All {gender}'s {mainCategory}
@@ -85,7 +88,7 @@ export default function Menu() {
                               to={`/p/${gender}/${mainCategory}/${subCategory}`}
                               onClick={() => {
                                 setShowModal(false);
-                                setMenu('');
+                                setMenu("");
                               }}
                             >
                               {subCategory} ({items.length})

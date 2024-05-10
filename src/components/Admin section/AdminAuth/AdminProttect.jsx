@@ -1,10 +1,12 @@
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 
 const AdminProttect = ({children}) => {
-  const token = localStorage.getItem("adminToken");
+  const admintoken = Cookies.get("adminToken");
+  // const admintoken = localStorage.getItem("adminToken");
 
-  if (token) { 
+  if (admintoken) { 
     return children;
   } else {
     return (

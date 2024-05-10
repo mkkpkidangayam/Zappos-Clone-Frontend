@@ -6,7 +6,7 @@ import DropdownLogin from "./DropdownLogin";
 import myContext from "../../context/myContextxt";
 import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
-import SubMenu from '../SubCategory/SubMenu'
+import SubMenu from "../SubCategory/SubMenu";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
@@ -22,7 +22,7 @@ const Navbar = () => {
     setShowModal,
     menu,
     setMenu,
-    setSubMenu
+    setSubMenu,
   } = useContext(myContext);
   const [search, setSearch] = useState("");
 
@@ -58,7 +58,7 @@ const Navbar = () => {
   };
 
   const toggleModal = () => {
-    setShowModal(!showModal);
+    setShowModal(true);
   };
 
   const handleSearchSubmit = (e) => {
@@ -178,11 +178,15 @@ const Navbar = () => {
           <div className="flex justify-between mt-4 pl-6">
             <div className="flex justify-between items-center">
               <ul className="flex text-dark font-bold">
-               
                 <button
+                  onMouseEnter={() => {
+                    setMenu("women");
+                    setSubMenu("women");
+                    toggleModal();
+                  }}
                   onClick={() => {
                     setMenu("women");
-                    setSubMenu('women')
+                    setSubMenu("women");
                     toggleModal();
                   }}
                 >
@@ -197,9 +201,14 @@ const Navbar = () => {
                   </li>
                 </button>
                 <button
+                  onMouseEnter={() => {
+                    setMenu("men");
+                    setSubMenu("men");
+                    toggleModal();
+                  }}
                   onClick={() => {
                     setMenu("men");
-                    setSubMenu("men")
+                    setSubMenu("men");
                     toggleModal();
                   }}
                 >
@@ -214,10 +223,14 @@ const Navbar = () => {
                   </li>
                 </button>
                 <button
-                  // onMouseEnter={toggleModal()}
+                  onMouseEnter={() => {
+                    setMenu("girls");
+                    setSubMenu("girls");
+                    toggleModal();
+                  }}
                   onClick={() => {
                     setMenu("girls");
-                    setSubMenu('girls')
+                    setSubMenu("girls");
                     toggleModal();
                   }}
                 >
@@ -231,10 +244,15 @@ const Navbar = () => {
                     Girls
                   </li>
                 </button>
-                 <button
+                <button
+                  onMouseEnter={() => {
+                    setMenu("boys");
+                    setSubMenu("boys");
+                    toggleModal();
+                  }}
                   onClick={() => {
                     setMenu("boys");
-                    setSubMenu('boys')
+                    setSubMenu("boys");
                     toggleModal();
                   }}
                 >
@@ -251,9 +269,8 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("collections");
-                    navigate('/products')
-                    setShowModal(false)
-
+                    navigate("/products");
+                    setShowModal(false);
                   }}
                 >
                   <li
@@ -269,7 +286,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("brands");
-                    setShowModal(false)
+                    setShowModal(false);
                   }}
                 >
                   <li
@@ -285,7 +302,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setMenu("sale");
-                    setShowModal(false)
+                    setShowModal(false);
                   }}
                 >
                   <li
@@ -309,7 +326,6 @@ const Navbar = () => {
               </a>
             </div>
           </div>
-         
         </div>
       </div>
       <hr className="my-2" />

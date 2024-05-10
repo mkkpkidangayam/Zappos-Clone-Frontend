@@ -18,9 +18,8 @@ const DropdownLogin = () => {
 
   useClickAway(ref, handleClickAway);
 
-
   const handleLogout = () => {
-    navigate('/')
+    navigate("/");
     SetIsMenuOpen(!isMenuOpen);
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
@@ -30,7 +29,6 @@ const DropdownLogin = () => {
     const userName = userData ? userData.name : "User";
     toast.success(`${userName}, sign-out successful`);
   };
-
 
   return (
     <div

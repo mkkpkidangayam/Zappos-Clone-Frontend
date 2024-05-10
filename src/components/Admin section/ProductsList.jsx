@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Axios } from "../../MainPage"; // Assuming Axios is set up elsewhere in your project
 import LoadingSpinner from "../Assets/LoadingSpinner";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Cookies from "js-cookie";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -12,14 +11,21 @@ const ProductList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [gender, setGender] = useState("all");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [category, setCategory] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    Axios.get(`/admin/products-list?page=${currentPage}`, {
-      headers: {
-        Authorization: Cookies.get("adminToken"),
-      },
-    })
+    Axios.get(
+      `/admin/products-list?page=${currentPage}&gender=${gender}&category=${category}`,
+      {
+        headers: {
+          Authorization: Cookies.get("adminToken"),
+        },
+      }
+    )
       .then((response) => {
         setProducts(response.data.products);
         setTotalPages(response.data.pagination.totalPages);
@@ -29,29 +35,71 @@ const ProductList = () => {
         console.error("Failed to fetch products", error);
         setIsLoading(false);
       });
-  }, [currentPage]);
+  }, [currentPage, gender, category]);
 
-  const deleteProduct = async (productId) => {
-    try {
-      await Axios.delete(`/admin/product/delete/${productId}`, {
-        headers: {
-          Authorization: Cookies.get("adminToken"),
-        },
-      });
-      const updatedProducts = products.filter(
-        (product) => product._id !== productId
-      );
-      setProducts(updatedProducts);
-    } catch (error) {
-      console.error("Failed to delete product", error);
+  useEffect(() => {
+    let filtered = products;
+    if (gender !== "all") {
+      filtered = products.filter((product) => product.gender === gender);
     }
+    
+    setFilteredProducts(filtered);
+  }, [gender, products, ]);
+
+  const handleGenderChanges = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
   };
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-3xl text-center text-green-800 font-bold mb-4">
-        Manage Products
-      </h1>
+      <div>
+        <label className="ml-7 font-medium" htmlFor="gender">
+          Gender:
+        </label>
+        <select
+          value={gender}
+          onChange={handleGenderChanges}
+          className="rounded-lg mx-2 border border-black"
+        >
+          <option value="all">ALL</option>
+          <option value="women">Women</option>
+          <option value="men">Men</option>
+          <option value="girls">Girls</option>
+          <option value="boys">Boys</option>
+        </select>
+        <label className="ml-7 font-medium" htmlFor="category">
+          Category:
+        </label>
+        <select
+          className="rounded-lg mx-2 border border-black"
+          value={category}
+          onChange={handleCategoryChange}
+        >
+          <option value="all">All</option>
+          <option value="shoe">Shoes</option>
+          <option value="cloth">Cloths</option>
+          <option value="accessories">Accessories</option>
+        </select>
+        <h1 className="text-3xl text-center text-green-800 font-bold mb-4">
+          Products
+        </h1>
+      </div>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -65,7 +113,7 @@ const ProductList = () => {
                       ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                       : "bg-slate-700 text-white"
                   }`}
-                  onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+                  onClick={handlePreviousPage}
                   disabled={currentPage === 1}
                 >
                   <ArrowBackIcon />
@@ -77,7 +125,7 @@ const ProductList = () => {
                       ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                       : "bg-slate-700 text-white"
                   }`}
-                  onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+                  onClick={handleNextPage}
                   disabled={currentPage === totalPages}
                 >
                   <ArrowForwardIcon />
@@ -109,6 +157,12 @@ const ProductList = () => {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                       >
+                        Gender
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                      >
                         Category
                       </th>
                       <th
@@ -129,13 +183,13 @@ const ProductList = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {products.map((product, index) => (
+                    {filteredProducts?.map((product, index) => (
                       <tr
                         onClick={() =>
                           navigate(`/admin/manage-product/${product._id}`)
                         }
                         key={product._id}
-                        className="hover:shadow-2xl duration-300 cursor-pointer"
+                        className="hover:bg-slate-200 duration-300 cursor-pointer"
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
                           {index + 1}
@@ -151,7 +205,10 @@ const ProductList = () => {
                           {product.title}
                         </td>
                         <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {product.gender}' {product.category.sub}
+                          {product.gender}{" "}
+                        </td>
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
+                          {product.category.main}' {product.category.sub}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           ₹{product.price}
@@ -162,14 +219,6 @@ const ProductList = () => {
                           }`}
                         >
                           {!product.isHide ? "Active" : "Hided"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button
-                            onClick={() => deleteProduct(product._id)}
-                            className="text-red-600 hover:text-red-900"
-                          >
-                            <DeleteIcon />
-                          </button>
                         </td>
                       </tr>
                     ))}
