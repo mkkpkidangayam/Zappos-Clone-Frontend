@@ -42,7 +42,7 @@ const ProductList = () => {
     if (gender !== "all") {
       filtered = products.filter((product) => product.gender === gender);
     }
-    
+      
     setFilteredProducts(filtered);
   }, [gender, products, ]);
 
