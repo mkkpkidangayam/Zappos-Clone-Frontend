@@ -20,7 +20,7 @@ import AddProductForm from "./components/Admin section/AddProductForm";
 import ProductDetails from "./pages/ProductDetails";
 import axios from "axios";
 import UserAddress from "./pages/UserAddress";
-import SubCategoryPage from "./pages/SubCategoryPage";
+import CategoryPage from "./pages/CategoryPage";
 import SuccessPage from "./pages/SuccessPage";
 import FailurePage from "./pages/FailurePage";
 import LoginProtect from "./components/Authentication/LoginProtect";
@@ -33,6 +33,7 @@ import ProductList from "./components/Admin section/ProductsList";
 import AdminLoginProttect from "./components/Admin section/AdminAuth/AdminLoginProttect";
 import AdminProttect from "./components/Admin section/AdminAuth/AdminProttect";
 import ManageProduct from "./components/Admin section/ManageProduct";
+import ContentPage from "./components/Admin section/ContentsPage";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4323/api",
@@ -126,7 +127,7 @@ const MainPage = () => {
               path="/p/:gender/:mainCategory/:subCategory"
               element={<Filteredproduct />}
             />
-            <Route path="/category/:sub" element={<SubCategoryPage />} />
+            <Route path="/category/:category" element={<CategoryPage />} />
             <Route
               path="/user/:userId/profile"
               element={
@@ -241,6 +242,14 @@ const MainPage = () => {
               element={
                 <AdminProttect>
                   <ManageProduct />
+                </AdminProttect>
+              }
+            />
+            <Route
+              path="/admin/manage-contents"
+              element={
+                <AdminProttect>
+                  <ContentPage />
                 </AdminProttect>
               }
             />

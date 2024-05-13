@@ -41,7 +41,12 @@ const WishlistPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between">
+
       <h1 className="text-3xl font-bold mb-4 ">Wishlist</h1>
+      <Link className="px-2 text-blue-600 rounded-lg hover:underline" to={'/products'}>Continue Shopping</Link>
+      </div>
+
       <hr className="mb-3" />
 
       {isLoding ? (
@@ -84,7 +89,6 @@ const WishlistPage = () => {
               </div>
             </div>
           ))}
-          <Link className="px-2 text-blue-600 rounded-lg hover:underline" to={'/products'}>Continue Shopping</Link>
         </div>
       )}
     </div>

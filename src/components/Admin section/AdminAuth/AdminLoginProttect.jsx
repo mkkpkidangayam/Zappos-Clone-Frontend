@@ -1,12 +1,15 @@
+import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 
 const AdminLoginProttect = ({children}) => {
-    const token = localStorage.getItem("adminToken");
+    // const token = localStorage.getItem("adminToken");
+    const admintoken = Cookies.get("adminToken");
+
   
-    if (!token) {
+    if (!admintoken) {
       return children;
     } else {
-      return (
+      return ( 
         <>
           <Navigate to="/admin" replace />
         </>

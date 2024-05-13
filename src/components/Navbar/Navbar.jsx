@@ -91,7 +91,7 @@ const Navbar = () => {
                   <input
                     type="text"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => setSearch(e.target.value)} 
                     placeholder={`${
                       userName ? `${firstName}, search` : "Search"
                     } for shoes, clothes, etc.`}

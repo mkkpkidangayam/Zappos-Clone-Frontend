@@ -14,6 +14,7 @@ const ProductList = () => {
   const [gender, setGender] = useState("all");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
@@ -39,12 +40,16 @@ const ProductList = () => {
 
   useEffect(() => {
     let filtered = products;
-    if (gender !== "all") {
+    if (gender !== "all" ) {
       filtered = products.filter((product) => product.gender === gender);
     }
 
+    filtered = products.filter((product) =>
+      product.title.toLowerCase().includes(search.toLowerCase())
+    );
+
     setFilteredProducts(filtered);
-  }, [gender, products]);
+  }, [gender, products, search, category]);
 
   const handleGenderChanges = (event) => {
     setGender(event.target.value);
@@ -68,37 +73,56 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <div>
-        <label className="ml-7 font-medium" htmlFor="gender">
-          Gender:
-        </label>
-        <select
-          value={gender}
-          onChange={handleGenderChanges}
-          className="rounded-lg mx-2 border border-black"
-        >
-          <option value="all">ALL</option>
-          <option value="women">Women</option>
-          <option value="men">Men</option>
-          <option value="girls">Girls</option>
-          <option value="boys">Boys</option>
-        </select>
-        <label className="ml-7 font-medium" htmlFor="category">
-          Category:
-        </label>
-        <select
-          className="rounded-lg mx-2 border border-black"
-          value={category}
-          onChange={handleCategoryChange}
-        >
-          <option value="all">All</option>
-          <option value="shoe">Shoes</option>
-          <option value="cloth">Cloths</option>
-          <option value="accessories">Accessories</option>
-        </select>
-        <h1 className="text-3xl text-center text-green-800 font-bold mb-4">
+      <div className="flex justify-around items-center">
+        <div>
+          <label className="ml-7 font-medium" htmlFor="gender">
+            Gender:
+          </label>
+          <select
+            value={gender}
+            onChange={handleGenderChanges}
+            className="rounded-lg mx-2 border border-black"
+          >
+            <option value="all">ALL</option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+            <option value="girls">Girls</option>
+            <option value="boys">Boys</option>
+          </select>
+          <label className="ml-7 font-medium" htmlFor="category">
+            Category:
+          </label>
+          <select
+            className="rounded-lg mx-2 border border-black"
+            value={category}
+            onChange={handleCategoryChange}
+          >
+            <option value="all">All</option>
+            <option value="shoe">Shoes</option>
+            <option value="cloth">Cloths</option>
+            <option value="accessories">Accessories</option>
+            {products.category?.sub?.map((SubCategory) => 
+            <option value={SubCategory}>{SubCategory}</option>
+            )}
+          </select>
+        </div>
+        <h1 className="text-3xl text-center w-1/4 text-green-800 font-bold mb-4">
           Products
         </h1>
+        <div>
+          <label className="font-medium" htmlFor="search">
+            Search:{" "}
+          </label>
+          <input
+            className="border-2 rounded-xl px-2 border-green-800"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            type="text"
+            placeholder="Search Products"
+            name="search"
+            id="search"
+          />
+        </div>
       </div>
       {isLoading ? (
         <LoadingSpinner />
@@ -163,7 +187,7 @@ const ProductList = () => {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                       >
-                        Category
+                        Category Main/Sub
                       </th>
                       <th
                         scope="col"
@@ -208,7 +232,7 @@ const ProductList = () => {
                           {product.gender}{" "}
                         </td>
                         <td className="px-6 py-4 capitalize whitespace-nowrap">
-                          {product.category.main}' {product.category.sub}
+                          {product.category.main} / {product.category.sub}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           ₹{product.price}

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { Axios } from "../../MainPage";
 import LoadingSpinner from "../Assets/LoadingSpinner";
 import Cookies from "js-cookie";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import toast from "react-hot-toast";
 
 const ManageProduct = () => {
   const { id } = useParams();
@@ -56,7 +58,7 @@ const ManageProduct = () => {
   // };
   const handleSave = async () => {
     try {
-       await Axios.put(`/api/products/${id}`, {
+      await Axios.put(`/api/products/${id}`, {
         title: product.title,
         price: product.price,
         brand: product.brand,
@@ -108,6 +110,13 @@ const ManageProduct = () => {
     } catch (error) {
       console.error("Failed to delete product", error);
     }
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => toast.success(`Copied: ${text}`))
+      .catch((err) => console.error("Failed to copy text: ", err));
   };
 
   return (
@@ -242,29 +251,31 @@ const ManageProduct = () => {
             /> */}
             {product.images.map((image, index) => (
               <div className="border">
-
-              <img
-                key={index}
-                src={image}
-                alt={product.title}
-                className="w-full mb-4 object-cover mix-blend-darken"
+                <img
+                  key={index}
+                  src={image}
+                  alt={product.title}
+                  className="w-full mb-4 object-cover mix-blend-darken"
                 />
-                <button >Change Image</button>
-                </div>
-              
+              </div>
             ))}
           </div>
           <div className="md:col-span-1">
-            <button
-              onClick={handleEdit}
-              className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
-            >
-              Edit
-            </button>
-            <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
-            <p className="text-lg mb-2">{product.brand}</p>
+            <div className="my-3 flex">
+              <h2 className="text-xl font-mono mb-2">Id:{product._id}</h2>
+              <button
+                onClick={() => copyToClipboard(product._id)}
+                className="mx-2 py-1 px-1  rounded hover:bg-slate-400"
+              >
+                <ContentCopyIcon />
+              </button>
+            </div>
+            <h2 className="text-xl font-semibold mb-2">
+              Title: {product.title}
+            </h2>
+            <p className="text-lg mb-2">Brand: {product.brand}</p>
             <p className="text-lg mb-2">
-              <sup>₹</sup>
+              Price: <sup>₹</sup>
               {product.price.toFixed(2)}
             </p>
             <h2 className="text-xl font-semibold mb-2">
@@ -288,6 +299,12 @@ const ManageProduct = () => {
                 ))}
               </tbody>
             </table>
+            <button
+              onClick={handleEdit}
+              className="bg-blue-600 w-2/5 text-white my-3 font-bold py-2 px-4 rounded-2xl hover:bg-blue-700"
+            >
+              Edit
+            </button>
             <h2 className="text-xl font-semibold mt-5 mb-3">
               Product Information
             </h2>

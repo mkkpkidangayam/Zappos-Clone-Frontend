@@ -4,17 +4,17 @@ import myContext from "../context/myContextxt";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const SubCategoryPage = () => {
-  const { sub } = useParams();
-  document.title = sub;
+  const { category } = useParams();
+  document.title = category;
   const { product } = useContext(myContext);
   const [subCategoryItems, setSubCategoryItems] = useState([]);
 
   useEffect(() => {
     if (product) {
-      const filteredItems = product.filter((item) => item.category.sub === sub);
+      const filteredItems = product.filter((item) => item.category.sub === category || item.category.main === category);
       setSubCategoryItems(filteredItems);
     }
-  }, [sub, product]);
+  }, [category, product]);
 
   if (!product) {
     return <LoadingSpinner />;
@@ -22,7 +22,7 @@ const SubCategoryPage = () => {
 
   return (
     <div className="container px-10">
-      <h1 className="ml-10 text-4xl font-bold">{sub}</h1>
+      <h1 className="ml-10 text-4xl capitalize font-bold">{category}</h1>
       <hr className="my-5" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {subCategoryItems.map((item) => (
