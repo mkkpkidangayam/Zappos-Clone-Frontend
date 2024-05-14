@@ -9,6 +9,10 @@ function AddressesPage() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [isLoding, setIsLoding] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [currentAddress, setCurrentAddress] = useState({
     street: "",
     city: "",
@@ -17,17 +21,13 @@ function AddressesPage() {
     label: "",
     phoneNumber: "",
   });
-  const [editing, setEditing] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    Axios
-      .get(`/user/${userId}/addresses`)
+    Axios.get(`/user/${userId}/addresses`)
       .then((response) => setAddresses(response.data))
       .catch((error) => console.error("Error fetching addresses:", error));
 
-    Axios
-      .get(`/get-cart/${userId}`)
+    Axios.get(`/get-cart/${userId}`)
       .then((response) => {
         setCartItems(response.data);
         setIsLoding(false);
@@ -80,8 +80,7 @@ function AddressesPage() {
       .catch((error) => console.error("Error saving the address:", error));
   };
   const deleteAddress = (addressId) => {
-    Axios
-      .delete(`/user/${userId}/address/${addressId}`)
+    Axios.delete(`/user/${userId}/address/${addressId}`)
       .then((response) => {
         console.log("Address deleted successfully");
         const updatedaddress = addresses.filter(
@@ -95,10 +94,27 @@ function AddressesPage() {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce(
+    let total = cartItems.reduce(
       (total, item) => total + (item.product.price || 0) * (item.quantity || 0),
       0
     );
+    total -= appliedDiscount;
+    return total;
+  };
+
+  const applyCoupon = async () => {
+    try {
+      const response = await Axios.post("/apply-coupon", {
+        userId,
+        couponCode,
+      });
+      const { discount } = response.data;
+      setAppliedDiscount(discount);
+      toast.success("Coupon applied successfully!");
+    } catch (error) {
+      console.error("Failed to apply coupon:", error);
+      toast.error(error.response.data.message);
+    }
   };
 
   const placeOrder = async (userId) => {
@@ -273,17 +289,35 @@ function AddressesPage() {
             ))}
           </ul>
 
-          <div className="sticky bottom-10 right-10 float-right">
-            <p className="text-xl text-blue-700 font-semibold">
-              Total: <sup>₹</sup>
-              {calculateTotal().toFixed(2)}
-            </p>
-            <button
-              onClick={() => placeOrder(userId)}
-              className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Go to Payment
-            </button>
+          <div className="sticky bottom-10 right-10 flex justify-between items-center ">
+            <div className="mt-5">
+              <input
+                type="text"
+                placeholder="Enter coupon code"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                className="border border-gray-300 rounded-md p-2 mb-2"
+              />
+              {/* Apply coupon button */}
+              <button
+                onClick={applyCoupon}
+                className="bg-blue-500 text-white px-4 py-2 mx-3 rounded hover:bg-blue-600 mb-4"
+              >
+                Apply Coupon
+              </button>
+            </div>
+            <div>
+              <p className="text-xl text-blue-700 font-semibold">
+                Total: <sup>₹</sup>
+                {calculateTotal().toFixed(2)}
+              </p>
+              <button
+                onClick={() => placeOrder(userId)}
+                className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Go to Payment
+              </button>
+            </div>
           </div>
         </div>
       )}
