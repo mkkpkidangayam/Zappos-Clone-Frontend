@@ -184,7 +184,7 @@ const ContentPage = () => {
                         }
                         className={`pr-1 rounded hover:underline ${
                           coupon.isBlocked
-                            ? "text-green-600 mr-2"
+                            ? "text-green-600 mr-3"
                             : "text-yellow-500 "
                         } `}
                       >
