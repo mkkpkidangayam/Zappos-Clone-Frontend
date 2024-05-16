@@ -53,6 +53,7 @@ const MainPage = () => {
   const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  
 
   useEffect(() => {
     const fetchProduct = async () => {

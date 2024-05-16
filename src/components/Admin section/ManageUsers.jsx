@@ -11,6 +11,8 @@ const ManageUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   // const [page, setPage] = useState(1);
   // const [limit, setLimit] = useState(10);
@@ -48,15 +50,26 @@ const ManageUsers = () => {
   //   setPage(1); // Reset page number when changing limit
   // };
 
-  const deleteUser = async (userId) => {
+  const openDeleteConfirmationModal = (userId) => {
+    setUserToDelete(userId);
+    setDeleteConfirmationOpen(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setUserToDelete(null);
+    setDeleteConfirmationOpen(false);
+  };
+
+  const handleDeleteUser = async () => {
     try {
-      await Axios.delete(`/admin/user/delete/${userId}`, {
+      await Axios.delete(`/admin/user/delete/${userToDelete}`, {
         headers: {
           Authorization: Cookies.get("adminToken"),
         },
       });
-      const updatedUsers = users.filter((user) => user._id !== userId);
+      const updatedUsers = users.filter((user) => user._id !== userToDelete);
       setUsers(updatedUsers);
+      closeDeleteConfirmationModal();
     } catch (error) {
       console.error("Failed to delete user", error);
     }
@@ -192,7 +205,7 @@ const ManageUsers = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {index + 1}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 capitalize whitespace-nowrap">
                           {user.name}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -205,7 +218,7 @@ const ManageUsers = () => {
                         >
                           {user.isBlocked === true ? "Blocked" : "Active"}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row justify-evenly">
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row justify-between">
                           <button
                             onClick={() =>
                               handleBlockUser(user._id, user.isBlocked)
@@ -223,7 +236,9 @@ const ManageUsers = () => {
                             {user.isBlocked ? "Unblock" : "Block"}
                           </button>
                           <button
-                            onClick={() => deleteUser(user._id)}
+                            onClick={() =>
+                              openDeleteConfirmationModal(user._id)
+                            }
                             className="text-red-600 hover:text-red-900"
                           >
                             <DeleteIcon />
@@ -234,6 +249,29 @@ const ManageUsers = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isDeleteConfirmationOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg">
+            <p className="text-lg font-semibold mb-4">
+              Are you sure you want to delete this user?
+            </p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 rounded text-white bg-red-500 hover:bg-red-700"
+                onClick={handleDeleteUser}
+              >
+                Delete
+              </button>
+              <button
+                className="px-4 py-2 rounded text-black bg-gray-200 hover:bg-gray-300 ml-2"
+                onClick={closeDeleteConfirmationModal}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

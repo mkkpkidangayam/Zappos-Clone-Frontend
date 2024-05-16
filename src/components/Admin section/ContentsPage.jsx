@@ -8,6 +8,7 @@ const ContentPage = () => {
   const [topBarContent, setTopBarContent] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(0);
+  const [contents, setContents] = useState([]);
   const [coupons, setCoupons] = useState([]);
   const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [couponToDelete, setCouponToDelete] = useState(null);
@@ -26,13 +27,32 @@ const ContentPage = () => {
 
   const handleAddTopBarContent = async () => {
     try {
-      await Axios.post("/api/topbar", { text: topBarContent });
-      alert("Top bar content added successfully!");
+      const response = await Axios.post("/admin/topbar-content/create", {
+        text: topBarContent,
+      });
+      const updatedContents = await Axios.get("/admin/get-contents", {
+        headers: {
+          Authorization: Cookies.get("adminToken"),
+        },
+      });
+      setTopBarContent("");
+      setContents(updatedContents);
+      toast.success(response.data.message);
     } catch (error) {
       console.error("Error adding top bar content:", error);
-      alert("Failed to add top bar content. Please try again.");
+      toast.error("Failed to add top bar content. Please try again.");
     }
   };
+
+  useEffect(() => {
+    Axios.get("/admin/get-contents", {
+      headers: {
+        Authorization: Cookies.get("adminToken"),
+      },
+    }).then((response) => {
+      setContents(response.data);
+    });
+  }, []);
 
   const handleAddCoupon = async () => {
     try {
@@ -129,8 +149,25 @@ const ContentPage = () => {
         Create Contents & Coupons
       </h1>
       <hr />
-      <div className="flex justify-around mt-6 ">
-        <div className="mb-6 ">
+      <div className="flex justify-between mt-6 ">
+        <div className="mb mr-4 mb-6 ">
+          <table className="min-w-full table-auto border mb-4">
+            <thead>
+              <tr className="bg-emerald-900 text-white rounded-2xl">
+                <th className="px-6 py-3 text-left">Topbar Content</th>
+                <th className="px-6 py-3 text-left">Created At</th>
+                <th className="px-6 py-3 text-left">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contents?.map((content) => (
+                <tr className="bg-white border-b">
+                  <td className="px-6 py-4">{content.text}</td>
+                  <td className="px-6 py-4">{new Date(content.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <div className="border border-black rounded p-4">
             <h2 className="text-xl text-emerald-800 font-bold mb-2">
               Add Top Bar Content
@@ -157,6 +194,7 @@ const ContentPage = () => {
                 <th className="px-6 py-3 text-left">Coupon</th>
                 <th className="px-6 py-3 text-left">Discount (%)</th>
                 <th className="px-6 py-3 text-left">Created At</th>
+                <th className="px-6 py-3 text-left">Usage</th>
                 <th className="px-6 py-3 text-left">Status</th>
                 <th className="px-6 py-3 text-left">Action</th>
               </tr>
@@ -169,6 +207,7 @@ const ContentPage = () => {
                   <td className="px-6 py-4">
                     {new Date(coupon.createdAt).toLocaleDateString()}
                   </td>
+                  <td className="px-6 py-4">{coupon.usageCount}</td>
                   <td
                     className={`px-6 py-4 font-medium ${
                       coupon.isBlocked ? "text-red-700" : "text-green-700 "
@@ -176,27 +215,23 @@ const ContentPage = () => {
                   >
                     {coupon.isBlocked ? "Blocked" : "Active"}
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex justify-between">
-                      <button
-                        onClick={() =>
-                          handleBlockCoupon(coupon._id, coupon.isBlocked)
-                        }
-                        className={`pr-1 rounded hover:underline ${
-                          coupon.isBlocked
-                            ? "text-green-600 mr-3"
-                            : "text-yellow-500 "
-                        } `}
-                      >
-                        {coupon.isBlocked ? "Unblock" : "Block"}
-                      </button>
-                      <button
-                        onClick={() => openDeleteConfirmationModal(coupon._id)}
-                        className="px-1  text-red-500  hover:text-red-700"
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </div>
+                  <td className="px-6 py-4 flex flex-row justify-between">
+                    <button
+                      onClick={() =>
+                        handleBlockCoupon(coupon._id, coupon.isBlocked)
+                      }
+                      className={`pr-1 rounded hover:underline ${
+                        coupon.isBlocked ? "text-green-600" : "text-yellow-500"
+                      } `}
+                    >
+                      {coupon.isBlocked ? "Unblock" : "Block"}
+                    </button>
+                    <button
+                      onClick={() => openDeleteConfirmationModal(coupon._id)}
+                      className="px-1  text-red-500  hover:text-red-700"
+                    >
+                      <DeleteIcon />
+                    </button>
                   </td>
                 </tr>
               ))}

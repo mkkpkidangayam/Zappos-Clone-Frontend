@@ -12,6 +12,11 @@ function AddressesPage() {
   const [editing, setEditing] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
+  const [couponMessage, setCouponMessage] = useState("");
+  const [couponMessageType, setCouponMessageType] = useState("");
+  const [itemTotal, setItemTotal] = useState();
+  const [total, setTotal] = useState();
+  const [discountAmount, setDiscountAmount] = useState();
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [currentAddress, setCurrentAddress] = useState({
     street: "",
@@ -93,14 +98,44 @@ function AddressesPage() {
       });
   };
 
-  const calculateTotal = () => {
-    let total = cartItems.reduce(
-      (total, item) => total + (item.product.price || 0) * (item.quantity || 0),
-      0
-    );
-    total -= appliedDiscount;
-    return total;
-  };
+  // const calculateTotal = () => {
+  //   let total = cartItems.reduce(
+  //     (total, item) => total + (item.product.price || 0) * (item.quantity || 0),
+  //     0
+  //   );
+  //   total -= appliedDiscount;
+  //   return total;
+  // };
+
+  //   const calculateTotal = () => {
+  //     // Calculate the subtotal of all items
+  //     const subtotal = cartItems.reduce((total, item) => {
+  //         return total + (item.product.price || 0) * (item.quantity || 0);
+  //     }, 0);
+  //     setItemtotal(subtotal)
+  //     // Calculate the discount amount
+  //     const discountAmount = (appliedDiscount / 100) * subtotal;
+  //     setDiscountAmount(discountAmount)
+
+  //     // Subtract the discount from the subtotal to get the total
+  //     const total = subtotal - discountAmount;
+
+  //     return total;
+  // };
+
+  useEffect(() => {
+    const subtotal = cartItems.reduce((total, item) => {
+      return total + (item.product.price || 0) * (item.quantity || 0);
+    }, 0);
+
+    const discountAmount = (appliedDiscount / 100) * subtotal;
+    const total = subtotal - discountAmount;
+
+    setItemTotal(subtotal);
+    setDiscountAmount(discountAmount);
+    // This assumes you have a state called `total` to store the final value
+    setTotal(total);
+  }, [cartItems, appliedDiscount]);
 
   const applyCoupon = async () => {
     try {
@@ -108,12 +143,16 @@ function AddressesPage() {
         userId,
         couponCode,
       });
-      const { discount } = response.data;
+      const { message, discount } = response.data;
       setAppliedDiscount(discount);
-      toast.success("Coupon applied successfully!");
+      setCouponMessage(message);
+      setCouponMessageType("success");
     } catch (error) {
       console.error("Failed to apply coupon:", error);
-      toast.error(error.response.data.message);
+      setCouponMessage(
+        error.response?.data.message || "Failed to apply coupon"
+      );
+      setCouponMessageType("error");
     }
   };
 
@@ -130,7 +169,7 @@ function AddressesPage() {
     try {
       const result = await Axios.post(
         `/checkout/${userId}`,
-        {},
+        { appliedDiscount },
         { withCredentials: true }
       );
       const paymentLink = result.data;
@@ -305,11 +344,28 @@ function AddressesPage() {
               >
                 Apply Coupon
               </button>
+              <p
+                className={`${
+                  couponMessageType === "success"
+                    ? "text-green-500"
+                    : "text-red-500"
+                } font-medium`}
+              >
+                {couponMessage}
+              </p>
             </div>
             <div>
-              <p className="text-xl text-blue-700 font-semibold">
+              {appliedDiscount ? (
+                <div>
+                  <span className="text-gray-500">Items: {itemTotal}</span>
+                  <p className="text-gray-500 ">
+                    Promotion: -{discountAmount.toFixed(2)}
+                  </p>
+                </div>
+              ) : null}
+              <p className="text-xl text-blue-700 font-semibold border-t my-2">
                 Total: <sup>₹</sup>
-                {calculateTotal().toFixed(2)}
+                {total.toFixed(2)}
               </p>
               <button
                 onClick={() => placeOrder(userId)}
