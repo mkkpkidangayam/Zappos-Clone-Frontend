@@ -8,8 +8,8 @@ const ContentPage = () => {
   const [topBarContent, setTopBarContent] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(0);
-  const [contents, setContents] = useState([]);
   const [coupons, setCoupons] = useState([]);
+  const [contents, setContents] = useState([]);
   const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [couponToDelete, setCouponToDelete] = useState(null);
 
@@ -50,9 +50,33 @@ const ContentPage = () => {
         Authorization: Cookies.get("adminToken"),
       },
     }).then((response) => {
-      setContents(response.data);
+      if (Array.isArray(response.data)) {
+        setContents(response.data);
+      } else {
+        console.error("API response is not an array:", response.data);
+      }
     });
   }, []);
+
+  const handleDeleteContent = async (contentId) => {
+    try {
+      const response = await Axios.delete(
+        `/admin/delete-content/${contentId}`,
+        {
+          headers: {
+            Authorization: Cookies.get("adminToken"),
+          },
+        }
+      );
+      const updatedContents = contents.filter(
+        (content) => content._id !== contentId
+      );
+      setContents(updatedContents);
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error("Failed to delete content", error);
+    }
+  };
 
   const handleAddCoupon = async () => {
     try {
@@ -161,9 +185,19 @@ const ContentPage = () => {
             </thead>
             <tbody>
               {contents?.map((content) => (
-                <tr className="bg-white border-b">
+                <tr key={content._id} className="bg-white border-b">
                   <td className="px-6 py-4">{content.text}</td>
-                  <td className="px-6 py-4">{new Date(content.createdAt).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">
+                    {new Date(content.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => handleDeleteContent(content._id)}
+                      className="px-1  text-red-500  hover:text-red-700"
+                    >
+                      <DeleteIcon />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
