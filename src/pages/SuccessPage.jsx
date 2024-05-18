@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../MainPage";
@@ -6,9 +6,9 @@ import { Axios } from "../MainPage";
 const SuccessPage = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
+  const [orderId, setOrderId] = useState("");
   const selectedAddressId = localStorage.getItem("selectedAddressId");
-  const coupon = localStorage.getItem("cpo");
-  const couponCode = coupon ? coupon : "nil";
+  const couponCode = localStorage.getItem("cpo");
   const hasExecuted = useRef(false);
 
   console.log("couponCode: ", couponCode);
@@ -22,7 +22,8 @@ const SuccessPage = () => {
       couponCode: couponCode,
     })
       .then((response) => {
-        toast.success(response.data);
+        setOrderId(response.data.orderId);
+        toast.success(response.data.message);
         localStorage.removeItem("selectedAddressId");
         localStorage.removeItem("cpo");
       })
@@ -40,6 +41,7 @@ const SuccessPage = () => {
         <p className="text-green-600">
           Your payment has been processed successfully.
         </p>
+        <p>OrderId: {orderId ? orderId : "Order success"}</p>
         <button
           onClick={() => navigate("/")}
           className="mt-4 px-4 py-2 bg-teal-700 text-white rounded hover:bg-fuchsia-600"
