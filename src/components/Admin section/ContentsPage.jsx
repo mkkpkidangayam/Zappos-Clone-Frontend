@@ -36,7 +36,7 @@ const ContentPage = () => {
         },
       });
       setTopBarContent("");
-      setContents(updatedContents);
+      setContents(updatedContents.data);
       toast.success(response.data.message);
     } catch (error) {
       console.error("Error adding top bar content:", error);
@@ -184,7 +184,7 @@ const ContentPage = () => {
               </tr>
             </thead>
             <tbody>
-              {contents?.map((content) => (
+              {contents && contents.map((content) => (
                 <tr key={content._id} className="bg-white border-b">
                   <td className="px-6 py-4">{content.text}</td>
                   <td className="px-6 py-4">

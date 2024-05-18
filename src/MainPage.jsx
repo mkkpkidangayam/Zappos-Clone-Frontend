@@ -34,6 +34,7 @@ import AdminLoginProttect from "./components/Admin section/AdminAuth/AdminLoginP
 import AdminProttect from "./components/Admin section/AdminAuth/AdminProttect";
 import ManageProduct from "./components/Admin section/ManageProduct";
 import ContentPage from "./components/Admin section/ContentsPage";
+import ManageOrders from "./components/Admin section/ManageOrders";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4323/api",
@@ -53,7 +54,6 @@ const MainPage = () => {
   const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -251,6 +251,14 @@ const MainPage = () => {
               element={
                 <AdminProttect>
                   <ContentPage />
+                </AdminProttect>
+              }
+            />
+            <Route
+              path="/admin/manage-orders"
+              element={
+                <AdminProttect>
+                  <ManageOrders />
                 </AdminProttect>
               }
             />

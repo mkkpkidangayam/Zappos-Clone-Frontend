@@ -42,7 +42,6 @@ function AddressesPage() {
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
-    console.log(addressId);
     localStorage.setItem("selectedAddressId", addressId);
   };
 
@@ -147,6 +146,7 @@ function AddressesPage() {
       setAppliedDiscount(discount);
       setCouponMessage(message);
       setCouponMessageType("success");
+      localStorage.setItem("cpo", couponCode)
     } catch (error) {
       console.error("Failed to apply coupon:", error);
       setCouponMessage(
@@ -357,7 +357,7 @@ function AddressesPage() {
             <div>
               {appliedDiscount ? (
                 <div>
-                  <span className="text-gray-500">Items: {itemTotal}</span>
+                  <span className="text-gray-500">Items: {itemTotal.toFixed(2)}</span>
                   <p className="text-gray-500 ">
                     Promotion: -{discountAmount.toFixed(2)}
                   </p>

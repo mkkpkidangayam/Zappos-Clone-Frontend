@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../MainPage";
@@ -6,21 +6,31 @@ import { Axios } from "../MainPage";
 const SuccessPage = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
-
   const selectedAddressId = localStorage.getItem("selectedAddressId");
+  const coupon = localStorage.getItem("cpo");
+  const couponCode = coupon ? coupon : "nil";
+  const hasExecuted = useRef(false);
+
+  console.log("couponCode: ", couponCode);
+
   useEffect(() => {
-    Axios
-      .post(`/create-order/${userId}`, {
-        selectedAddressId: selectedAddressId,
-      })
+    if (hasExecuted.current) return;
+    hasExecuted.current = true;
+
+    Axios.post(`/create-order/${userId}`, {
+      selectedAddressId: selectedAddressId,
+      couponCode: couponCode,
+    })
       .then((response) => {
-        toast.success("Order processed successfully!");
+        toast.success(response.data);
         localStorage.removeItem("selectedAddressId");
+        localStorage.removeItem("cpo");
       })
       .catch((error) => {
         console.error("Error processing order:", error);
       });
   }, [userId, selectedAddressId]);
+
   return (
     <div className="flex items-center justify-center h-screen bg-green-100">
       <div className="text-center">
@@ -32,9 +42,15 @@ const SuccessPage = () => {
         </p>
         <button
           onClick={() => navigate("/")}
-          className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          className="mt-4 px-4 py-2 bg-teal-700 text-white rounded hover:bg-fuchsia-600"
         >
-          Go to Dashboard
+          Go to Home
+        </button>
+        <button
+          onClick={() => navigate("/")}
+          className="m-4 px-4 py-2 bg-fuchsia-800 text-white rounded hover:bg-teal-600"
+        >
+          Go to Order
         </button>
       </div>
     </div>

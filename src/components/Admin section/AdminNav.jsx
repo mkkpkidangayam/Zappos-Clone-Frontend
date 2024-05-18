@@ -10,6 +10,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const AdminNav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -69,6 +70,16 @@ const AdminNav = () => {
                   }`}
                 >
                   <CategoryIcon /> Products
+                </li>
+              </Link>
+              <Link to={"/admin/manage-orders"}>
+                <li
+                  onClick={() => setMenu("order")}
+                  className={`py-4 px-6 hover:underline ${
+                    menu === "order" ? "bg-white text-gray-800" : ""
+                  }`}
+                >
+                  <LocalShippingIcon /> Orders
                 </li>
               </Link>
               <Link to={"/admin/manage-contents"}>

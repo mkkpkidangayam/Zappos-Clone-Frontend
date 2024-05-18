@@ -8,6 +8,7 @@ const Filteredproduct = () => {
   const { gender, mainCategory, subCategory } = useParams();
   const { product, isLoading } = useContext(myContext);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [sortedProducts, setSortedProducts] = useState([]);
   const [sortOrder, setSortOrder] = useState("newArrivals");
 
   useEffect(() => {
@@ -22,27 +23,28 @@ const Filteredproduct = () => {
         );
       }
     });
+    console.log(filtered);
     setFilteredProducts(filtered);
-  }, [product, gender, mainCategory, subCategory, setFilteredProducts]);
+  }, [product, gender, mainCategory, subCategory]);
 
   useEffect(() => {
-    let sortedProducts = [...filteredProducts];
+    let sorted = filteredProducts ? [...filteredProducts] : null;
     switch (sortOrder) {
-      //   case "customerRating":
-      //     sortedProducts.sort((a, b) => a.rating - b.rating);
-      //     break;
+      // case "customerRating":
+      //   sorted?.sort((a, b) => a.rating - b.rating);
+      //   break;
       case "lowToHigh":
-        sortedProducts.sort((a, b) => a.price - b.price);
+        sorted?.sort((a, b) => a.price - b.price);
         break;
       case "highToLow":
-        sortedProducts.sort((a, b) => b.price - a.price);
+        sorted?.sort((a, b) => b.price - a.price);
         break;
       default:
-        sortedProducts.sort((a, b) => a.timestamp - b.timestamp);
+        sorted?.sort((a, b) => a.timestamp - b.timestamp);
         break;
     }
-    setFilteredProducts(sortedProducts);
-  }, [sortOrder, setFilteredProducts]);
+    setSortedProducts(sorted);
+  }, [sortOrder, filteredProducts]);
 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
@@ -61,8 +63,8 @@ const Filteredproduct = () => {
             {filteredProducts?.length > 0 && (
               <p className="font-semibold text-gray-600">
                 {filteredProducts?.length === 1
-                  ? `( ${filteredProducts.length} item found )`
-                  : `( ${filteredProducts.length} items found )`}
+                  ? `( ${filteredProducts?.length} item found )`
+                  : `( ${filteredProducts?.length} items found )`}
               </p>
             )}
           </div>
@@ -99,7 +101,7 @@ const Filteredproduct = () => {
               <LoadingSpinner />
             </div>
           ) : (
-            filteredProducts?.map((product) => (
+            sortedProducts?.map((product) => (
               <article
                 key={product._id}
                 className="bg-white shadow-md border rounded-lg p-6 mb-4"

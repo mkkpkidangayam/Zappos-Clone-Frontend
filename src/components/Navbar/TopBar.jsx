@@ -5,7 +5,6 @@ const TopBar = () => {
   const [topBarContents, setTopBarContents] = useState([]);
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
 
-  console.log(topBarContents);
   useEffect(() => {
     Axios.get("/admin/get-contents")
       .then((response) => {

@@ -170,12 +170,11 @@ const ProductDetails = () => {
                 {productById.category.sub}
               </Link>{" "}
               /
-              <Link
-                className="hover:underline hover:text-blue-700"
-                to={`/product/${productById._id}`}
+              <span
+                className="font-medium"
               >
                 {productById.title}
-              </Link>
+              </span>
             </div>
             <div className="flex">
               <div className="flex flex-col justify-normal mr-4">
