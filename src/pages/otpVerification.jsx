@@ -3,7 +3,7 @@ import logo from "../components/Assets/logo-blue-small._CB485919770_.svg";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { Axios } from "../MainPage";
 
 function OtpVerification() {
   const navigate = useNavigate();
@@ -15,10 +15,9 @@ function OtpVerification() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:4323/api/register",
+      const response = await Axios.post(
+        "/register",
         { userData, otp },
-        { withCredentials: true }
       );
 
       if (response.data.success) {

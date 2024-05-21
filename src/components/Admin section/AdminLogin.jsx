@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import myContext from "../../context/myContextxt";
 import Cookies from "js-cookie";
+import { Axios } from "../../MainPage";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -24,10 +24,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:4323/api/admin/login",
-        formData
-      );
+      const response = await Axios.post("/admin/login", formData);
       const { adminToken } = response.data;
       localStorage.setItem("adminToken", adminToken);
       Cookies.set("adminToken", adminToken, { expires: 1 });
@@ -40,32 +37,6 @@ const AdminLogin = () => {
       console.error("Login failed:", error);
     }
   };
-  // axios
-  //   .post("http://localhost:4323/api/admin/login", formData)
-  //   .then((response) => {
-  //     const { adminToken } = response.data;
-  //     console.log(adminToken);
-  //     localStorage.setItem("adminToken", adminToken)
-  //     setIsAdminLogin(true)
-  //     navigate('/add-product')
-
-  //   }).catch((error)=> {
-  //     setError("Invalid username or password");
-  //   toast.error("Invalid username or password");
-  //   console.error("Login failed:", error);
-  //   })
-
-  // try {
-  //   const response = await axios.post("http://localhost:4323/api/admin/login", formData);
-
-  //     toast.success("Login success")
-
-  // } catch (error) {
-  //   setError("Invalid username or password");
-  //   toast.error("Invalid username or password");
-  //   console.error("Login failed:", error);
-  // }
-  // };
 
   return (
     <div className="container flex justify-center items-center h-screen bg-cover bg-[url('https://media.licdn.com/dms/image/C561BAQEIPV76nJFFsQ/company-background_10000/0/1584409661241/zapposcom_cover?e=2147483647&v=beta&t=rmXnB4efRTXuqmIrTBVpNbmtZIqWG-uiTtkfuozpXvw')]">

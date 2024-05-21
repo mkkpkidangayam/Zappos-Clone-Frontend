@@ -30,7 +30,7 @@ const SuccessPage = () => {
       .catch((error) => {
         console.error("Error processing order:", error);
       });
-  }, [userId, selectedAddressId]);
+  }, [userId, selectedAddressId, couponCode]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-green-100">

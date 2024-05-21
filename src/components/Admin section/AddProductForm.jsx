@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import { Axios } from "../../MainPage";
+import Cookies from "js-cookie";
 
 const AddProduct = () => {
   document.title = "Add-Product";
@@ -89,14 +90,13 @@ const AddProduct = () => {
           formData.append(key, value);
         }
       });
-      await axios.post("http://localhost:4323/api/admin/addproduct", formData, {
+      await Axios.post("/admin/addproduct", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
-        },
+          Authorization: Cookies.get("adminToken"),
+        }
       });
 
       toast.success("Product added successfully!");
-      // Optionally, you can redirect the user to another page
     } catch (error) {
       console.error("Error adding product:", error);
       toast.error("Error adding product. Please try again.");

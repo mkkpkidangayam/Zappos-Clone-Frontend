@@ -27,9 +27,17 @@ const ContentPage = () => {
 
   const handleAddTopBarContent = async () => {
     try {
-      const response = await Axios.post("/admin/topbar-content/create", {
-        text: topBarContent,
-      });
+      const response = await Axios.post(
+        "/admin/topbar-content/create",
+        {
+          text: topBarContent,
+        },
+        {
+          headers: {
+            Authorization: Cookies.get("adminToken"),
+          },
+        }
+      );
       const updatedContents = await Axios.get("/admin/get-contents", {
         headers: {
           Authorization: Cookies.get("adminToken"),
@@ -80,10 +88,18 @@ const ContentPage = () => {
 
   const handleAddCoupon = async () => {
     try {
-      await Axios.post("/admin/create-coupon", {
-        code: couponCode,
-        discount: couponDiscount,
-      }).then(async (response) => {
+      await Axios.post(
+        "/admin/create-coupon",
+        {
+          code: couponCode,
+          discount: couponDiscount,
+        },
+        {
+          headers: {
+            Authorization: Cookies.get("adminToken"),
+          },
+        }
+      ).then(async (response) => {
         toast.success(response.data.message);
         const updatedCouponsResponse = await Axios.get("/admin/get-coupons", {
           headers: {
@@ -184,22 +200,23 @@ const ContentPage = () => {
               </tr>
             </thead>
             <tbody>
-              {contents && contents.map((content) => (
-                <tr key={content._id} className="bg-white border-b">
-                  <td className="px-6 py-4">{content.text}</td>
-                  <td className="px-6 py-4">
-                    {new Date(content.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => handleDeleteContent(content._id)}
-                      className="px-1  text-red-500  hover:text-red-700"
-                    >
-                      <DeleteIcon />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {contents &&
+                contents.map((content) => (
+                  <tr key={content._id} className="bg-white border-b">
+                    <td className="px-6 py-4">{content.text}</td>
+                    <td className="px-6 py-4">
+                      {new Date(content.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleDeleteContent(content._id)}
+                        className="px-1  text-red-500  hover:text-red-700"
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <div className="border border-black rounded p-4">

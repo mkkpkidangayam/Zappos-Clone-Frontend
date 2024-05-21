@@ -1,7 +1,7 @@
 import React from "react";
 
 const FailurePage = () => {
-    document.title = "Payment Failed"
+  document.title = "Payment Failed";
   return (
     <div className="flex items-center justify-center h-screen bg-red-100">
       <div className="text-center">

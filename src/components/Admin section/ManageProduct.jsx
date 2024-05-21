@@ -37,35 +37,24 @@ const ManageProduct = () => {
     setEditMode(true);
   };
 
-  // const handleSave = async () => {
-  //   try {
-  //     const response = await Axios.put(`/admin/product/edit/${id}`, {
-  //       title: product.title,
-  //       price: product.price,
-  //       brand: product.brand,
-  //       images: [...product.images, newImage],
-  //       sizes: [...product.sizes, { size: newSize, quantity: newQuantity }],
-  //       info: [...product.info, newInfo],
-  //     });
-  //     setEditMode(false);
-  //     setNewImage(null);
-  //     setNewSize("");
-  //     setNewQuantity(1);
-  //     setNewInfo("");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
   const handleSave = async () => {
     try {
-      await Axios.put(`/api/products/${id}`, {
-        title: product.title,
-        price: product.price,
-        brand: product.brand,
-        images: [...product.images, newImage],
-        sizes: [...product.sizes, { size: newSize, quantity: newQuantity }],
-        info: [...product.info, newInfo],
-      });
+      await Axios.put(
+        `/api/products/${id}`,
+        {
+          title: product.title,
+          price: product.price,
+          brand: product.brand,
+          images: [...product.images, newImage],
+          sizes: [...product.sizes, { size: newSize, quantity: newQuantity }],
+          info: [...product.info, newInfo],
+        },
+        {
+          headers: {
+            Authorization: Cookies.get("adminToken"),
+          },
+        }
+      );
       setEditMode(false);
       setNewImage(null);
       setNewSize("");
@@ -96,21 +85,21 @@ const ManageProduct = () => {
     return <LoadingSpinner />;
   }
 
-  const deleteProduct = async (productId) => {
-    try {
-      await Axios.delete(`/admin/product/delete/${productId}`, {
-        headers: {
-          Authorization: Cookies.get("adminToken"),
-        },
-      });
-      const updatedProducts = product.filter(
-        (product) => product._id !== productId
-      );
-      setProduct(updatedProducts);
-    } catch (error) {
-      console.error("Failed to delete product", error);
-    }
-  };
+  // const deleteProduct = async (productId) => {
+  //   try {
+  //     await Axios.delete(`/admin/product/delete/${productId}`, {
+  //       headers: {
+  //         Authorization: Cookies.get("adminToken"),
+  //       },
+  //     });
+  //     const updatedProducts = product.filter(
+  //       (product) => product._id !== productId
+  //     );
+  //     setProduct(updatedProducts);
+  //   } catch (error) {
+  //     console.error("Failed to delete product", error);
+  //   }
+  // };
 
   const copyToClipboard = (text) => {
     navigator.clipboard

@@ -8,7 +8,6 @@ const TopBar = () => {
   useEffect(() => {
     Axios.get("/admin/get-contents")
       .then((response) => {
-
         setTopBarContents(response.data);
       })
       .catch((error) => {
@@ -33,7 +32,11 @@ const TopBar = () => {
       <div className="flex justify-center">
         <div className="max-w-full">
           <div className="text-center text-black py-2 px-4 ">
-            <p className="font-sans">{topBarContents.length > 0 ? topBarContents[currentContentIndex].text : "Loading..."}</p>
+            <p className="font-sans font-medium">
+              {topBarContents.length > 0
+                ? topBarContents[currentContentIndex].text
+                : "Loading..."}
+            </p>
           </div>
         </div>
       </div>

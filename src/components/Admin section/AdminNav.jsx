@@ -9,13 +9,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 const AdminNav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [menu, setMenu] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -23,10 +23,10 @@ const AdminNav = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("adminToken");
-    Cookies.remove("adminToken")
-    navigate('/admin-login')
-    toast.success('Successful logout')
-  }
+    Cookies.remove("adminToken");
+    navigate("/admin-login");
+    toast.success("Successful logout");
+  };
 
   return (
     <div className="flex  h-full">

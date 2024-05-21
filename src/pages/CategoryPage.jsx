@@ -11,7 +11,10 @@ const SubCategoryPage = () => {
 
   useEffect(() => {
     if (product) {
-      const filteredItems = product.filter((item) => item.category.sub === category || item.category.main === category);
+      const filteredItems = product.filter(
+        (item) =>
+          item.category.sub === category || item.category.main === category
+      );
       setSubCategoryItems(filteredItems);
     }
   }, [category, product]);

@@ -13,8 +13,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-  },[setIsLogin])
+  useEffect(() => {}, [setIsLogin]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,24 +23,23 @@ function Login() {
       return;
     }
 
-    Axios
-      .post("/login", {
-        email,
-        password,
-      })
+    Axios.post("/login", {
+      email,
+      password,
+    })
       .then((response) => {
         const { token } = response.data;
         Cookies.set("token", token, { expires: 1 });
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(response.data.userData);
         localStorage.setItem("userInfo", userInfo);
-        setIsLogin(true); 
+        setIsLogin(true);
         navigate(-1);
         const userDetails = response.data.userData;
         toast.success(`${userDetails?.name}, ${response.data.message}`);
       })
       .catch((error) => {
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.message);
         console.log("Login error:", error);
       });
   };
@@ -62,27 +60,28 @@ function Login() {
             <form onSubmit={handleSubmit}>
               <label className="font-bold text-sm" htmlFor="email">
                 Email
+                <br />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="border mb-5 pl-2 border-black w-[296px] h-[31px] rounded"
+                  autoComplete="current-email"
+                />
               </label>
-              <br />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border mb-5 pl-2 border-black w-[296px] h-[31px] rounded"
-              />
               <label className="font-bold text-sm" htmlFor="password">
                 Password
+                <Link className="ml-[80px] text-sm" href="/">
+                  Forgot your password?
+                </Link>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border pl-2 border-black w-[296px] h-[31px] rounded"
+                  autoComplete="current-password"
+                />
               </label>
-              <a className="ml-[90px] text-sm" href="/">
-                Forgot your password?
-              </a>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border pl-2 border-black w-[296px] h-[31px] rounded"
-                autocomplete="current-password"
-              />
               <button
                 type="submit"
                 className="bg-[#153e51] text-white font-bold my-5 w-[296px] h-[31px] rounded"

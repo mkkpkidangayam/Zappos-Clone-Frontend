@@ -9,15 +9,16 @@ const UserAccount = () => {
   console.log(userData);
 
   useEffect(() => {
-    Axios
-      .get(`/user/profile/${userId}`)
+    Axios.get(`/user/profile/${userId}`)
       .then((response) => {
         setUserData(response.data);
       })
       .catch((error) => console.error("Error fetching userdata", error));
   }, [userId]);
   const userAddress = userData?.address;
+
   console.log(userAddress);
+  // console.log(userAddress.street);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100">
@@ -44,20 +45,23 @@ const UserAccount = () => {
               </h2>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold">Primary Shipping Address</h3>
-                  {userAddress && userAddress.street ? (
-                    <div className="text-gray-600">
-                      <p>
-                        {userAddress.street}, {userAddress.city},{" "}
-                        {userAddress.state}, {userAddress.zipCode}
-                      </p>
-                      <p>{userAddress.phoneNumber}</p>
-                      {userAddress.label && (
-                        <p>{`Label: ${userAddress.label}`}</p>
-                      )}
-                    </div>
+                  <h3 className="font-semibold">Shipping Addresses</h3>
+                  {userAddress.length > 0 ? (
+                    userAddress.map((address, index) => (
+                      <div key={address._id} className="text-gray-800">
+                        <h3 className="font-bold">Address {index + 1}</h3>
+                        <p className="font-medium">
+                          {`Label: ${address?.label}`}
+                        </p>
+                        <p>
+                          {address.street}, {address.city},{address.state},{" "}
+                          {address.zipCode}
+                        </p>
+                        <p>{address.phoneNumber}</p>
+                      </div>
+                    ))
                   ) : (
-                    <p className="text-gray-600">No address available</p>
+                    <p className="text-gray-600">Address not available</p>
                   )}
                   <a
                     href="/addresses/new"
@@ -105,54 +109,6 @@ const UserAccount = () => {
             <div className="bg-gray-50 p-6 rounded-lg shadow">
               <p className="text-gray-600">Your order history is empty.</p>
             </div>
-          </div>
-          <div className="mt-8">
-            <ul className="flex justify-center space-x-4">
-              <li>
-                <a href="/orders" className="text-blue-600 hover:underline">
-                  View Order History
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/account/favorites"
-                  className="text-blue-600 hover:underline"
-                >
-                  Favorites
-                </a>
-              </li>
-              <li>
-                <a href="/c/vip-dash" className="text-blue-600 hover:underline">
-                  Rewards
-                </a>
-              </li>
-              <li>
-                <a href="/payments" className="text-blue-600 hover:underline">
-                  Payment Information
-                </a>
-              </li>
-              <li>
-                <a href="/addresses" className="text-blue-600 hover:underline">
-                  Shipping Information
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.zappos.com/ap/cnep"
-                  className="text-blue-600 hover:underline"
-                >
-                  Account Information
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/subscriptions"
-                  className="text-blue-600 hover:underline"
-                >
-                  Subscriptions
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       ) : (

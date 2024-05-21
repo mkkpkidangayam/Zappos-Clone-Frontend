@@ -35,9 +35,11 @@ import AdminProttect from "./components/Admin section/AdminAuth/AdminProttect";
 import ManageProduct from "./components/Admin section/ManageProduct";
 import ContentPage from "./components/Admin section/ContentsPage";
 import ManageOrders from "./components/Admin section/ManageOrders";
+import OrderDetailsAdmin from "./components/Admin section/OrderDetailsAdmin";
+import OrderDetails from "./pages/OrderDetails";
 
 export const Axios = axios.create({
-  baseURL: "http://localhost:4323/api",
+  baseURL: "https://zappos-clone-backend.onrender.com/api",
   headers: {
     Authorization: Cookies.get("token"),
   },
@@ -56,28 +58,22 @@ const MainPage = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get("http://localhost:4323/api/products");
-
-        const data = await response.data;
+    Axios.get("/products")
+      .then((response) => {
+        const data = response.data;
         setProduct(data);
         setIsLoading(false);
-      } catch (error) {
+      })
+      .catch((error) => {
         console.error("Failed to fetch product:", error);
-      }
-    };
-
-    fetchProduct();
-  }, [setProduct]);
+      });
+  }, []);
 
   useEffect(() => {
-    // Check if the user is logged in from local storage
     if (localStorage.getItem("token")) {
       setIsLogin(true);
     }
 
-    // Retrieve user data from local storage if available
     const userInfoString = localStorage.getItem("userInfo");
     if (userInfoString) {
       const userData = JSON.parse(userInfoString);
@@ -134,6 +130,14 @@ const MainPage = () => {
               element={
                 <ProtectedRoute>
                   <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/c/:userId/orders"
+              element={
+                <ProtectedRoute>
+                  <OrderDetails />
                 </ProtectedRoute>
               }
             />
@@ -259,6 +263,14 @@ const MainPage = () => {
               element={
                 <AdminProttect>
                   <ManageOrders />
+                </AdminProttect>
+              }
+            />
+            <Route
+              path="/admin/order/:orderId"
+              element={
+                <AdminProttect>
+                  <OrderDetailsAdmin />
                 </AdminProttect>
               }
             />

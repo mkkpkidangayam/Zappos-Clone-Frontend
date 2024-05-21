@@ -100,7 +100,7 @@ const DropdownLogin = () => {
           aria-label="View Orders/Return"
           className="flex w-40 items-center justify-between p-2 rounded-xl transition-colors border hover:bg-slate-300 hover:border-blue-700"
           onClick={() => {
-            navigate(`/user/${userData._id}/profile`);
+            navigate(`/c/${userData._id}/orders`);
             SetIsMenuOpen(!isMenuOpen);
           }}
           role="menuitem"
