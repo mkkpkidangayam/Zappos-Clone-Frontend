@@ -39,29 +39,30 @@ export default function Menu() {
           onClick={closeModal}
           className="absolute top-40 pt-2 right-0 left-0 z-50 w-full h-screen bg-[#242424df] bg-opacity-50"
         >
-          {product ? (
-            <div
-              onMouseLeave={() => toggleModal()}
-              className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow "
+          <div
+            onMouseLeave={() => toggleModal()}
+            className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow "
+          >
+            <button
+              onClick={toggleModal}
+              className="text-gray-400 bg-transparent float-right hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
             >
-              <button
-                onClick={toggleModal}
-                className="text-gray-400 bg-transparent float-right hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                viewBox="0 0 14 14"
+                stroke="currentColor"
               >
-                <svg
-                  className="w-3 h-3"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7L1 13"
-                  />
-                </svg>
-              </button>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7L1 13"
+                />
+              </svg>
+            </button>
+
+            {product ? (
               <div className="p-4 grid grid-cols-3 gap-5">
                 {Object.entries(categories).map(
                   ([mainCategory, subCategories]) => (
@@ -103,10 +104,10 @@ export default function Menu() {
                   )
                 )}
               </div>
-            </div>
-          ) : (
-            <LoadingSpinner />
-          )}
+            ) : (
+              <LoadingSpinner />
+            )}
+          </div>
         </div>
       )}
     </div>
