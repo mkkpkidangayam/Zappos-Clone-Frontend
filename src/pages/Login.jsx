@@ -28,14 +28,14 @@ function Login() {
       password,
     })
       .then((response) => {
-        const { token } = response.data;
+        const { token, userData } = response.data;
         Cookies.set("token", token, { expires: 1 });
         localStorage.setItem("token", token);
-        const userInfo = JSON.stringify(response.data.userData);
+        const userInfo = JSON.stringify(userData);
         localStorage.setItem("userInfo", userInfo);
         setIsLogin(true);
         navigate(-1);
-        const userDetails = response.data.userData;
+        const userDetails = userData;
         toast.success(`${userDetails?.name}, ${response.data.message}`);
       })
       .catch((error) => {
