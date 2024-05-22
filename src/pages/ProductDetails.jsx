@@ -245,7 +245,7 @@ const ProductDetails = () => {
                     <li
                       key={index}
                       onClick={() => handleSelectSize(sizeItem.size)}
-                      className={`m-2 px-3 h-10 text-center pt-1 font-semibold rounded-full border-2 hover:border-black ${
+                      className={`m-2 px-3 py-2 text-center pt-1 font-semibold rounded-full border-2 hover:border-black ${
                         selectedSize === sizeItem.size &&
                         "text-white bg-blue-600"
                       }`}
