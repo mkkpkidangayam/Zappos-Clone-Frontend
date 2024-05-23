@@ -7,12 +7,11 @@ const ScrollingText = ({ text }) => {
   useEffect(() => {
     const textWidth = textRef.current.scrollWidth;
     const containerWidth = textRef.current.offsetWidth;
-    const scrollAmount = textWidth + containerWidth + 10;
-    console.log(scrollAmount);
+    const scrollAmount = textWidth + containerWidth;
     
     const animateScroll = () => {
       textRef.current.style.transition = `transform ${scrollAmount / 100}s linear`;
-      textRef.current.style.transform = `translateX(-${textWidth + 50}px)`;
+      textRef.current.style.transform = `translateX(-${textWidth}px)`;
     };
 
     const resetScroll = () => {
