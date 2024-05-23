@@ -6,6 +6,7 @@ const ScrollingText = ({ text }) => {
 
   useEffect(() => {
     const textWidth = textRef.current.scrollWidth;
+    console.log(textWidth);
     const containerWidth = textRef.current.offsetWidth;
     const scrollAmount = textWidth + containerWidth;
 
@@ -73,7 +74,7 @@ const TopBar = () => {
             {topBarContents.length > 0 ? (
               <ScrollingText text={topBarContents[currentContentIndex].text} />
             ) : (
-              "Loading..."
+              "Coming soon..."
             )}
           </div>
         </div>
