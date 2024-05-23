@@ -5,7 +5,6 @@ import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import FooterSecond from "../components/Footer/FooterSecond";
 import { Axios } from "../MainPage";
-import { response } from "../../../Backend/Routes/adminRout";
 
 function Register() {
   const navigate = useNavigate();
@@ -60,19 +59,6 @@ function Register() {
           withCredentials: true,
         });
 
-        const saveSettings = async (response) => {
-          return new Promise((resolve, reject) => {
-            if (response.status === 200) {
-              // Handle success
-              console.log("Success:", response.data);
-              resolve(response.data); // Resolve the promise with response data
-            } else {
-              console.error("Error:", response.error);
-              reject(response.error); // Reject the promise with error message
-            }
-          });
-        };
-
         setIsLoading(false);
         setUserData(formData);
         toast(response.data.message);
@@ -80,7 +66,7 @@ function Register() {
       } catch (error) {
         setIsLoading(false);
         toast.error(error.response.data.message);
-        console.log("there is an errror happened", error);
+        console.log("there is an errror happened");
       }
     } else {
       toast.error("Please fill all data");
