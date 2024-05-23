@@ -5,6 +5,7 @@ import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import FooterSecond from "../components/Footer/FooterSecond";
 import { Axios } from "../MainPage";
+import { response } from "../../../Backend/Routes/adminRout";
 
 function Register() {
   const navigate = useNavigate();
@@ -54,15 +55,10 @@ function Register() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        setIsLoading(true)
-        const response = await Axios.post(
-          "/otpsend",
-          formData,
-          {
-            withCredentials: true,
-          }
-        );
-
+        setIsLoading(true);
+        const response = await Axios.post("/otpsend", formData, {
+          withCredentials: true,
+        });
 
         const saveSettings = async (response) => {
           return new Promise((resolve, reject) => {
@@ -71,35 +67,20 @@ function Register() {
               console.log("Success:", response.data);
               resolve(response.data); // Resolve the promise with response data
             } else {
-              // Handle error
               console.error("Error:", response.error);
               reject(response.error); // Reject the promise with error message
             }
           });
         };
-        
-        toast.promise(
-          saveSettings(response),
-          {
-            loading: 'OTP sending...',
-            success: (data) => {
-              console.log("Success:", data);
-              return <b>Success...!</b>; // Return JSX for success toast
-            },
-            error: (error) => {
-              console.error("Error:", error);
-              return <b>Can't send OTP.</b>; // Return JSX for error toast
-            }
-          }
-        );
 
-        setIsLoading(false)
+        setIsLoading(false);
         setUserData(formData);
         toast(response.data.message);
         navigate(`/otp-verify?email=${formData.email}`);
       } catch (error) {
         setIsLoading(false);
-        console.log("there is an errror happened");
+        toast.error(error.response.data.message);
+        console.log("there is an errror happened", error);
       }
     } else {
       toast.error("Please fill all data");
@@ -107,11 +88,11 @@ function Register() {
   };
   return (
     <>
-        <div className="h-24  flex justify-center items-center ">
-          <Link to="/">
-            <img src={logo} alt="Logo" />
-          </Link>
-        </div>
+      <div className="h-24  flex justify-center items-center ">
+        <Link to="/">
+          <img src={logo} alt="Logo" />
+        </Link>
+      </div>
       <div className="mb-10 flex justify-center">
         <div className="w-[650px] flex justify-center  ">
           <div className="w-[348px] rounded p-6 border border-black">
@@ -171,7 +152,7 @@ function Register() {
                 type="submit"
                 className="bg-[#153e51] text-white text-sm font-semibold my-5 w-[296px] h-[31px] rounded"
               >
-                {isLoading ? "Sending OTP..." :"Create your Zappose account"}
+                {isLoading ? "Sending OTP..." : "Create your Zappose account"}
               </button>
             </form>
             {Object.keys(errors).length > 0 && (
@@ -204,7 +185,7 @@ function Register() {
           </div>
         </div>
       </div>
-      <div >
+      <div>
         <hr />
         <FooterSecond />
       </div>
