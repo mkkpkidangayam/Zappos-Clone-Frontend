@@ -6,13 +6,13 @@ const ScrollingText = ({ text }) => {
 
   useEffect(() => {
     const textWidth = textRef.current.scrollWidth;
-    console.log(textWidth);
     const containerWidth = textRef.current.offsetWidth;
-    const scrollAmount = textWidth + containerWidth;
-
+    const scrollAmount = textWidth + containerWidth + 10;
+    console.log(scrollAmount);
+    
     const animateScroll = () => {
       textRef.current.style.transition = `transform ${scrollAmount / 100}s linear`;
-      textRef.current.style.transform = `translateX(-${textWidth}px)`;
+      textRef.current.style.transform = `translateX(-${textWidth + 50}px)`;
     };
 
     const resetScroll = () => {
@@ -68,9 +68,9 @@ const TopBar = () => {
 
   return (
     <div className="relative z-10 bg-[#e7f4ff]">
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center">
         <div className="max-w-full">
-          <div className="text-center text-black py-2 px-4">
+          <div className="text-center font-medium text-black py-3 px-4">
             {topBarContents.length > 0 ? (
               <ScrollingText text={topBarContents[currentContentIndex].text} />
             ) : (
