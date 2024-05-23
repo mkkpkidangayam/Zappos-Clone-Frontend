@@ -32,11 +32,15 @@ const TopBar = () => {
       <div className="flex justify-center">
         <div className="max-w-full">
           <div className="text-center text-black py-2 px-4 ">
-            <p className="font-sans font-medium">
+            <marquee
+              className="font-sans font-medium"
+              behavior="scroll"
+              direction="left"
+            >
               {topBarContents.length > 0
                 ? topBarContents[currentContentIndex].text
                 : "Loading..."}
-            </p>
+            </marquee>
           </div>
         </div>
       </div>
