@@ -1,7 +1,5 @@
 # Live:
-
 ## For user: https://mkkp-zappos.vercel.app/ 
-
 ## For admin: https://mkkp-zappos.vercel.app/admin
 #### Admin Username: zappos 
 #### Admin Password: zappos123 
