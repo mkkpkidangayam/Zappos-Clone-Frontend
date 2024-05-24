@@ -3,8 +3,8 @@
 ## For user: https://mkkp-zappos.vercel.app/ 
 
 ## For admin: https://mkkp-zappos.vercel.app/admin
-Admin Username: zappos 
-Admin Password: zappos123 
+#### Admin Username: zappos 
+#### Admin Password: zappos123 
 
 # Getting Started with Create React App
 
