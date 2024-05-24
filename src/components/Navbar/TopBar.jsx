@@ -69,7 +69,7 @@ const TopBar = () => {
     <div className="relative z-10 bg-[#e7f4ff]">
       <div className="flex justify-center items-center">
         <div className="max-w-full">
-          <div className="text-center font-medium text-black py-3 px-4">
+          <div className="text-center font-medium text-black py-2 px-4">
             {topBarContents.length > 0 ? (
               <ScrollingText text={topBarContents[currentContentIndex].text} />
             ) : (
