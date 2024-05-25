@@ -12,7 +12,7 @@ function OtpVerification() {
   const { userData } = useContext(myContext);
 
   const [otp, setOtp] = useState();
-  const otpInCookie = Cookies.get("otp")
+  const otpInCookie = localStorage.getItem("otp")
   console.log(otpInCookie);
 
   const handleSubmit = async (e) => {
