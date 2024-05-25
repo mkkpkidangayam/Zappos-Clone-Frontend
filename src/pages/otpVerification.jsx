@@ -12,21 +12,22 @@ function OtpVerification() {
   const { userData } = useContext(myContext);
 
   const [otp, setOtp] = useState();
-  const otpInCookie = localStorage.getItem("otp")
-  console.log(otpInCookie);
+  const otpInCookie = localStorage.getItem("otp");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await Axios.post(
-        "/register",
-        { userData, otp, otpInCookie },
-      );
+      const response = await Axios.post("/register", {
+        userData,
+        otp,
+        otpInCookie,
+      });
 
       if (response.data.success) {
         toast.success("OTP verified successfully, Registration Completed");
         navigate("/login");
+        localStorage.removeItem("otp");
       } else {
         toast.error("An error occured");
       }
@@ -49,7 +50,10 @@ function OtpVerification() {
             <b>OTP Verification </b>
           </h1>
           <form onSubmit={handleSubmit}>
-            <label className="font-bold text-gray-700 text-sm mb-2" htmlFor="email">
+            <label
+              className="font-bold text-gray-700 text-sm mb-2"
+              htmlFor="email"
+            >
               Enter the OTP sented to {userData.email}
             </label>
             <input

@@ -49,7 +49,7 @@ const SuccessPage = () => {
           Go to Home
         </button>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(`/c/${userId}/orders`)}
           className="m-4 px-4 py-2 bg-fuchsia-800 text-white rounded hover:bg-teal-600"
         >
           Go to Order
