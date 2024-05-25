@@ -35,7 +35,7 @@ function OtpVerification() {
 
   return (
     <div className="container ">
-      <div className="h-24  flex justify-center items-center ">
+      <div className="h-24 flex justify-center items-center ">
         <Link to="/">
           <img src={logo} alt="Logo" />
         </Link>
@@ -46,10 +46,9 @@ function OtpVerification() {
             <b>OTP Verification </b>
           </h1>
           <form onSubmit={handleSubmit}>
-            <label className="font-bold text-sm my-2" htmlFor="email">
+            <label className="font-bold text-sm mb-2" htmlFor="email">
               Enter the OTP sented to {userData.email}
             </label>
-            <br />
             <input
               type="text"
               maxLength="6"
@@ -57,7 +56,7 @@ function OtpVerification() {
               placeholder="Enter Your OTP"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="border pl-2 border-black w-[296px] h-[31px] rounded "
+              className="border pl-2 mt-2 border-black w-[296px] h-[31px] rounded "
             />
             <br />
 
