@@ -58,7 +58,8 @@ function Register() {
         const response = await Axios.post("/otpsend", formData, {
           withCredentials: true,
         });
-
+        const {otp} = response.data
+        localStorage.setItem("otp", otp)
         setIsLoading(false);
         setUserData(formData);
         toast.success(response.data.message,);

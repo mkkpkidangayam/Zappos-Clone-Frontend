@@ -12,11 +12,11 @@ function OtpVerification() {
   const { userData } = useContext(myContext);
 
   const [otp, setOtp] = useState();
+  const otpInCookie = Cookies.get("otp")
+  console.log(otpInCookie);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const otpInCookie = Cookies.get("otp")
-    console.log(otpInCookie);
 
     try {
       const response = await Axios.post(
