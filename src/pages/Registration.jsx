@@ -61,7 +61,7 @@ function Register() {
 
         setIsLoading(false);
         setUserData(formData);
-        toast.success(response.data.message);
+        toast.success(response.data.message,);
         navigate(`/otp-verify?email=${formData.email}`);
       } catch (error) {
         setIsLoading(false);
