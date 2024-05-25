@@ -7,6 +7,7 @@ import { Axios } from "../MainPage";
 
 function OtpVerification() {
   const navigate = useNavigate();
+
   const { userData } = useContext(myContext);
 
   const [otp, setOtp] = useState();
@@ -45,8 +46,8 @@ function OtpVerification() {
             <b>OTP Verification </b>
           </h1>
           <form onSubmit={handleSubmit}>
-            <label className="font-bold text-sm" htmlFor="email">
-              Enter the OTP sented to
+            <label className="font-bold text-sm py-2" htmlFor="email">
+              Enter the OTP sented to {userData.email}
             </label>
             <br />
             <input
