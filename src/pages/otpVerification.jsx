@@ -46,7 +46,7 @@ function OtpVerification() {
             <b>OTP Verification </b>
           </h1>
           <form onSubmit={handleSubmit}>
-            <label className="font-bold text-sm mb-2" htmlFor="email">
+            <label className="font-bold text-gray-700 text-sm mb-2" htmlFor="email">
               Enter the OTP sented to {userData.email}
             </label>
             <input

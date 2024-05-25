@@ -61,12 +61,12 @@ function Register() {
 
         setIsLoading(false);
         setUserData(formData);
-        toast(response.data.message);
+        toast.success(response.data.message);
         navigate(`/otp-verify?email=${formData.email}`);
       } catch (error) {
         setIsLoading(false);
         toast.error(error.response.data.message);
-        console.log("there is an errror happened");
+        console.log("there is an errror happened", error);
       }
     } else {
       toast.error("Please fill all data");
