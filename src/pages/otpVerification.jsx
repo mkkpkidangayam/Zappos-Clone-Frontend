@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import { Axios } from "../MainPage";
+import Cookies from "js-cookie";
 
 function OtpVerification() {
   const navigate = useNavigate();
@@ -14,11 +15,13 @@ function OtpVerification() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const otpInCookie = Cookies.get("otp")
+    console.log(otpInCookie);
 
     try {
       const response = await Axios.post(
         "/register",
-        { userData, otp },
+        { userData, otp, otpInCookie },
       );
 
       if (response.data.success) {
