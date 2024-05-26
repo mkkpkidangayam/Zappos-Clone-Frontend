@@ -193,7 +193,7 @@ const ContentPage = () => {
         <div className="mb mr-4 mb-6 ">
           <table className="min-w-full table-auto border mb-4">
             <thead>
-              <tr className="bg-emerald-900 text-white rounded-2xl">
+              <tr className="bg-gray-800 text-white rounded-2xl">
                 <th className="px-6 py-3 text-left">Topbar Content</th>
                 <th className="px-6 py-3 text-left">Created At</th>
                 <th className="px-6 py-3 text-left">Action</th>
@@ -231,7 +231,7 @@ const ContentPage = () => {
               placeholder="Enter top bar content"
             />
             <button
-              className="bg-emerald-800 text-white font-semibold py-2 px-4 rounded-md hover:bg-emerald-600"
+              className="bg-gray-800 text-white font-semibold py-2 px-4 rounded-md hover:bg-emerald-600"
               onClick={handleAddTopBarContent}
             >
               Add Top Bar Content
@@ -241,7 +241,7 @@ const ContentPage = () => {
         <div>
           <table className="min-w-full table-auto border">
             <thead>
-              <tr className="bg-emerald-900 text-white rounded-2xl">
+              <tr className="bg-gray-800 text-white rounded-2xl">
                 <th className="px-6 py-3 text-left">Coupon</th>
                 <th className="px-6 py-3 text-left">Discount (%)</th>
                 <th className="px-6 py-3 text-left">Created At</th>
@@ -308,7 +308,7 @@ const ContentPage = () => {
               placeholder="Discount percentage"
             />
             <button
-              className="bg-emerald-800 text-white font-semibold py-2 px-4 rounded-md hover:bg-emerald-600"
+              className="bg-gray-800 text-white font-semibold py-2 px-4 rounded-md hover:bg-emerald-600"
               onClick={handleAddCoupon}
             >
               Add Coupon
