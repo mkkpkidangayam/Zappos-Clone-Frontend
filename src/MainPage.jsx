@@ -253,9 +253,9 @@ const MainPage = () => {
             <Route
               path="/admin/manage-contents"
               element={
-                // <AdminProttect>
+                <AdminProttect>
                   <ContentPage />
-                // </AdminProttect>
+                </AdminProttect>
               }
             />
             <Route
