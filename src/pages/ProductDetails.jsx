@@ -5,6 +5,7 @@ import myContext from "../context/myContextxt";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import Cookies from "js-cookie";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -52,12 +53,20 @@ const ProductDetails = () => {
 
   const addToCart = async (userId, productId, size, quantity) => {
     try {
-      await Axios.post("/add-to-cart", {
-        userId,
-        productId,
-        size,
-        quantity,
-      });
+      await Axios.post(
+        "/add-to-cart",
+        {
+          userId,
+          productId,
+          size,
+          quantity,
+        },
+        {
+          headers: {
+            Authorization: Cookies.get("token"),
+          },
+        }
+      );
     } catch (error) {
       console.error(error);
       toast.error("Failed to add product to cart.");
@@ -158,23 +167,20 @@ const ProductDetails = () => {
               /
               <Link
                 className="hover:underline capitalize hover:text-blue-700"
-                to={`/category/${encodeURIComponent(productById.category.main)}`}
-                >
-                {productById.category.main} 
+                to={`/category/${encodeURIComponent(
+                  productById.category.main
+                )}`}
+              >
+                {productById.category.main}
               </Link>{" "}
               /
-              <Link 
+              <Link
                 className="hover:underline hover:text-blue-700"
                 to={`/category/${encodeURIComponent(productById.category.sub)}`}
               >
                 {productById.category.sub}
               </Link>{" "}
-              /
-              <span
-                className="font-medium"
-              >
-                {productById.title}
-              </span>
+              /<span className="font-medium">{productById.title}</span>
             </div>
             <div className="flex">
               <div className="flex flex-col justify-normal mr-4">
