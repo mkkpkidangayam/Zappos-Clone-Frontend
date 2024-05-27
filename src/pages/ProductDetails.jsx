@@ -133,10 +133,18 @@ const ProductDetails = () => {
     }
 
     try {
-      const response = await Axios.post("/add-to-wishlist", {
-        userId: userData._id,
-        productId: productById._id,
-      });
+      const response = await Axios.post(
+        "/add-to-wishlist",
+        {
+          userId: userData._id,
+          productId: productById._id,
+        },
+        {
+          headers: {
+            Authorization: Cookies.get("token"),
+          },
+        }
+      );
 
       if (response.data.success) {
         setIsInWishlist(true);
