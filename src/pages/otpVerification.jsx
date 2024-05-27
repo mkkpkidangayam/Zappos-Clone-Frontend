@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import { Axios } from "../MainPage";
-import Cookies from "js-cookie";
 
 function OtpVerification() {
   const navigate = useNavigate();

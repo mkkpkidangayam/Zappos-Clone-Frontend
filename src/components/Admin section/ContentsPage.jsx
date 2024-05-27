@@ -201,17 +201,20 @@ const ContentPage = () => {
       <hr />
       <div className="flex justify-between mt-6 ">
         <div className="mb mr-4 mb-6 ">
-          <table className="min-w-full table-auto border mb-4">
-            <thead>
-              <tr className="bg-gray-800 text-white rounded-2xl">
-                <th className="px-6 py-3 text-left">Topbar Content</th>
-                <th className="px-6 py-3 text-left">Created At</th>
-                <th className="px-6 py-3 text-left">Action</th>
-              </tr>
-            </thead>
-            {isLoding ? (
+          {isLoding ? (
+            <div className="border-2">
               <LoadingSpinner />
-            ) : (
+            </div>
+          ) : (
+            <table className="min-w-full table-auto border mb-4">
+              <thead>
+                <tr className="bg-gray-800 text-white rounded-2xl">
+                  <th className="px-6 py-3 text-left">Topbar Content</th>
+                  <th className="px-6 py-3 text-left">Created At</th>
+                  <th className="px-6 py-3 text-left">Action</th>
+                </tr>
+              </thead>
+
               <tbody>
                 {contents &&
                   contents.map((content) => (
@@ -231,8 +234,8 @@ const ContentPage = () => {
                     </tr>
                   ))}
               </tbody>
-            )}
-          </table>
+            </table>
+          )}
           <div className="border border-black rounded p-4">
             <h2 className="text-xl text-emerald-800 font-bold mb-2">
               Add Top Bar Content
@@ -253,20 +256,23 @@ const ContentPage = () => {
           </div>
         </div>
         <div>
-          <table className="min-w-full table-auto border">
-            <thead>
-              <tr className="bg-gray-800 text-white rounded-2xl">
-                <th className="px-6 py-3 text-left">Coupon</th>
-                <th className="px-6 py-3 text-left">Discount (%)</th>
-                <th className="px-6 py-3 text-left">Created At</th>
-                <th className="px-6 py-3 text-left">Usage</th>
-                <th className="px-6 py-3 text-left">Status</th>
-                <th className="px-6 py-3 text-left">Action</th>
-              </tr>
-            </thead>
-            {isLoding ? (
+          {isLoding ? (
+            <div className="border-2">
               <LoadingSpinner />
-            ) : (
+            </div>
+          ) : (
+            <table className="min-w-full table-auto border">
+              <thead>
+                <tr className="bg-gray-800 text-white rounded-2xl">
+                  <th className="px-6 py-3 text-left">Coupon</th>
+                  <th className="px-6 py-3 text-left">Discount (%)</th>
+                  <th className="px-6 py-3 text-left">Created At</th>
+                  <th className="px-6 py-3 text-left">Usage</th>
+                  <th className="px-6 py-3 text-left">Status</th>
+                  <th className="px-6 py-3 text-left">Action</th>
+                </tr>
+              </thead>
+
               <tbody>
                 {coupons?.map((coupon) => (
                   <tr key={coupon._id} className="bg-white border-b">
@@ -306,8 +312,8 @@ const ContentPage = () => {
                   </tr>
                 ))}
               </tbody>
-            )}
-          </table>
+            </table>
+          )}
           <div className="my-4 border border-black mb-4 p-4 rounded">
             <h2 className="text-xl text-emerald-800 font-bold mb-2">
               Add Coupon
