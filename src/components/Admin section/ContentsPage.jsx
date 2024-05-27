@@ -3,6 +3,7 @@ import { Axios } from "../../MainPage";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoadingSpinner from "../Assets/LoadingSpinner";
 
 const ContentPage = () => {
   const [topBarContent, setTopBarContent] = useState("");
@@ -12,6 +13,7 @@ const ContentPage = () => {
   const [contents, setContents] = useState([]);
   const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [couponToDelete, setCouponToDelete] = useState(null);
+  const [isLoding, setIsLoading] = useState(true);
 
   const handleTopBarContentChange = (e) => {
     setTopBarContent(e.target.value);
@@ -60,8 +62,10 @@ const ContentPage = () => {
     }).then((response) => {
       if (Array.isArray(response.data)) {
         setContents(response.data);
+        setIsLoading(false);
       } else {
         console.error("API response is not an array:", response.data);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -121,9 +125,15 @@ const ContentPage = () => {
       headers: {
         Authorization: Cookies.get("adminToken"),
       },
-    }).then((response) => {
-      setCoupons(response.data);
-    });
+    })
+      .then((response) => {
+        setCoupons(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Coupon fetching error", error);
+        setIsLoading(false);
+      });
   }, []);
 
   const handleBlockCoupon = async (couponId, isBlocked) => {
@@ -199,25 +209,29 @@ const ContentPage = () => {
                 <th className="px-6 py-3 text-left">Action</th>
               </tr>
             </thead>
-            <tbody>
-              {contents &&
-                contents.map((content) => (
-                  <tr key={content._id} className="bg-white border-b">
-                    <td className="px-6 py-4">{content.text}</td>
-                    <td className="px-6 py-4">
-                      {new Date(content.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <button
-                        onClick={() => handleDeleteContent(content._id)}
-                        className="px-1  text-red-500  hover:text-red-700"
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
+            {isLoding ? (
+              <LoadingSpinner />
+            ) : (
+              <tbody>
+                {contents &&
+                  contents.map((content) => (
+                    <tr key={content._id} className="bg-white border-b">
+                      <td className="px-6 py-4">{content.text}</td>
+                      <td className="px-6 py-4">
+                        {new Date(content.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleDeleteContent(content._id)}
+                          className="px-1  text-red-500  hover:text-red-700"
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            )}
           </table>
           <div className="border border-black rounded p-4">
             <h2 className="text-xl text-emerald-800 font-bold mb-2">
@@ -250,43 +264,49 @@ const ContentPage = () => {
                 <th className="px-6 py-3 text-left">Action</th>
               </tr>
             </thead>
-            <tbody>
-              {coupons?.map((coupon) => (
-                <tr key={coupon._id} className="bg-white border-b">
-                  <td className="px-6 py-4">{coupon.code}</td>
-                  <td className="px-6 py-4">{coupon.discount}</td>
-                  <td className="px-6 py-4">
-                    {new Date(coupon.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4">{coupon.usageCount}</td>
-                  <td
-                    className={`px-6 py-4 font-medium ${
-                      coupon.isBlocked ? "text-red-700" : "text-green-700 "
-                    }`}
-                  >
-                    {coupon.isBlocked ? "Blocked" : "Active"}
-                  </td>
-                  <td className="px-6 py-4 flex flex-row justify-between">
-                    <button
-                      onClick={() =>
-                        handleBlockCoupon(coupon._id, coupon.isBlocked)
-                      }
-                      className={`pr-1 rounded hover:underline ${
-                        coupon.isBlocked ? "text-green-600" : "text-yellow-500"
-                      } `}
+            {isLoding ? (
+              <LoadingSpinner />
+            ) : (
+              <tbody>
+                {coupons?.map((coupon) => (
+                  <tr key={coupon._id} className="bg-white border-b">
+                    <td className="px-6 py-4">{coupon.code}</td>
+                    <td className="px-6 py-4">{coupon.discount}</td>
+                    <td className="px-6 py-4">
+                      {new Date(coupon.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">{coupon.usageCount}</td>
+                    <td
+                      className={`px-6 py-4 font-medium ${
+                        coupon.isBlocked ? "text-red-700" : "text-green-700 "
+                      }`}
                     >
-                      {coupon.isBlocked ? "Unblock" : "Block"}
-                    </button>
-                    <button
-                      onClick={() => openDeleteConfirmationModal(coupon._id)}
-                      className="px-1  text-red-500  hover:text-red-700"
-                    >
-                      <DeleteIcon />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                      {coupon.isBlocked ? "Blocked" : "Active"}
+                    </td>
+                    <td className="px-6 py-4 flex flex-row justify-between">
+                      <button
+                        onClick={() =>
+                          handleBlockCoupon(coupon._id, coupon.isBlocked)
+                        }
+                        className={`pr-1 rounded hover:underline ${
+                          coupon.isBlocked
+                            ? "text-green-600"
+                            : "text-yellow-500"
+                        } `}
+                      >
+                        {coupon.isBlocked ? "Unblock" : "Block"}
+                      </button>
+                      <button
+                        onClick={() => openDeleteConfirmationModal(coupon._id)}
+                        className="px-1  text-red-500  hover:text-red-700"
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
           </table>
           <div className="my-4 border border-black mb-4 p-4 rounded">
             <h2 className="text-xl text-emerald-800 font-bold mb-2">
