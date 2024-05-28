@@ -193,6 +193,41 @@ const AddProduct = () => {
   //   }
   // };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   try {
+  //     const formData = new FormData();
+  //     Object.entries(productData).forEach(([key, value]) => {
+  //       if (key === "imageFiles") {
+  //         value.forEach((image) => formData.append("images", image));
+  //       } else if (key === "category") {
+  //         formData.append("category[main]", value.main);
+  //         formData.append("category[sub]", value.sub);
+  //       } else {
+  //         formData.append(key, JSON.stringify(value));
+  //       }
+  //     });
+
+  //     await Axios.post("/admin/addproduct-form", formData, {
+  //       headers: {
+  //         Authorization: Cookies.get("adminToken"),
+  //       },
+  //     }).then((response) => {
+  //       toast.success(response.data.message);
+  //       setIsLoading(false);
+  //     }).catch((error) => {
+  //       console.error("Error adding product:", error);
+  //       setIsLoading(false);
+  //       toast.error("Error adding product. Please try again.");
+  //     })
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     console.error("Error adding product:", error);
+  //     toast.error("Error adding product. Please try again.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -204,30 +239,37 @@ const AddProduct = () => {
         } else if (key === "category") {
           formData.append("category[main]", value.main);
           formData.append("category[sub]", value.sub);
+        } else if (key === "price") {
+          formData.append(key, parseFloat(value)); // Convert price to number
+        } else if (key === "images") {
+          value.forEach((image) => formData.append("images", image)); // Assuming images are URLs
+        } else if (key === "sizes") {
+          formData.append(key, JSON.stringify(value)); // Convert sizes array to string
+        } else if (key === "gender") {
+          if (["men", "women", "girls", "boys"].includes(value)) {
+            formData.append(key, value);
+          } else {
+            throw new Error("Invalid gender value");
+          }
         } else {
-          formData.append(key, JSON.stringify(value));
+          formData.append(key, value);
         }
       });
-
-      await Axios.post("/admin/addproduct-form", formData, {
+  
+      const response = await Axios.post("/admin/addproduct-form", formData, {
         headers: {
           Authorization: Cookies.get("adminToken"),
         },
-      }).then((response) => {
-        toast.success(response.data.message);
-        setIsLoading(false);
-      }).catch((error) => {
-        console.error("Error adding product:", error);
-        setIsLoading(false);
-        toast.error("Error adding product. Please try again.");
-      })
+      });
+      toast.success(response.data.message);
     } catch (error) {
-      setIsLoading(false);
       console.error("Error adding product:", error);
       toast.error("Error adding product. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  
 
   return (
     <div className="container">
