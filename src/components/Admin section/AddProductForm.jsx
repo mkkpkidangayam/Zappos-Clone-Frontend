@@ -20,7 +20,7 @@ const AddProduct = () => {
     },
     sizes: [],
     color: "",
-    ratings: [],
+    // ratings: [],
   });
 
   const handleChange = (e) => {
@@ -126,31 +126,34 @@ const AddProduct = () => {
     });
   };
 
-  const handleRatingChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedRatings = [...productData.ratings];
-    updatedRatings[index] = { ...updatedRatings[index], [name]: value };
-    setProductData({
-      ...productData,
-      ratings: updatedRatings,
-    });
-  };
+  // const handleRatingChange = (index, e) => {
+  //   const { name, value } = e.target;
+  //   const updatedRatings = [...productData.ratings];
+  //   updatedRatings[index] = { ...updatedRatings[index], [name]: value };
+  //   setProductData({
+  //     ...productData,
+  //     ratings: updatedRatings,
+  //   });
+  // };
 
-  const handleAddRating = () => {
-    setProductData({
-      ...productData,
-      ratings: [...productData.ratings, { score: "", customer: "", comment: "" }],
-    });
-  };
+  // const handleAddRating = () => {
+  //   setProductData({
+  //     ...productData,
+  //     ratings: [
+  //       ...productData.ratings,
+  //       { score: "", customer: "", comment: "" },
+  //     ],
+  //   });
+  // };
 
-  const handleRemoveRating = (index) => {
-    const updatedRatings = [...productData.ratings];
-    updatedRatings.splice(index, 1);
-    setProductData({
-      ...productData,
-      ratings: updatedRatings,
-    });
-  };
+  // const handleRemoveRating = (index) => {
+  //   const updatedRatings = [...productData.ratings];
+  //   updatedRatings.splice(index, 1);
+  //   setProductData({
+  //     ...productData,
+  //     ratings: updatedRatings,
+  //   });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -159,7 +162,12 @@ const AddProduct = () => {
       Object.entries(productData).forEach(([key, value]) => {
         if (key === "imageFiles") {
           value.forEach((image) => formData.append("images", image));
-        } else if (key === "sizes" || key === "ratings" || key === "info" || key === "imageUrls") {
+        } else if (
+          key === "sizes" ||
+          key === "ratings" ||
+          key === "info" ||
+          key === "imageUrls"
+        ) {
           formData.append(key, JSON.stringify(value));
         } else if (key === "category") {
           formData.append("category[main]", value.main);
@@ -172,7 +180,7 @@ const AddProduct = () => {
       await Axios.post("/admin/addproduct", formData, {
         headers: {
           Authorization: Cookies.get("adminToken"),
-        }
+        },
       });
 
       toast.success("Product added successfully!");
@@ -184,11 +192,13 @@ const AddProduct = () => {
 
   return (
     <div className="container">
-      <div className="w-2/4 mx-auto border p-10">
-        <h1 className="text-2xl font-bold mb-4">Add Product</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Add Product</h1>
+      <div className="w-2/4 mx-auto border p-10 shadow-md">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="title" className="block mb-2">Title:</label>
+            <label htmlFor="title" className="block mb-2">
+              Title:
+            </label>
             <input
               type="text"
               id="title"
@@ -199,7 +209,9 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="info" className="block mb-2">Info:</label>
+            <label htmlFor="info" className="block mb-2">
+              Info:
+            </label>
             {productData.info.map((infoItem, index) => (
               <div key={index} className="mb-2 flex items-center">
                 <input
@@ -226,7 +238,9 @@ const AddProduct = () => {
             </button>
           </div>
           <div className="mb-4">
-            <label htmlFor="price" className="block mb-2">Price:</label>
+            <label htmlFor="price" className="block mb-2">
+              Price:
+            </label>
             <input
               type="number"
               id="price"
@@ -237,7 +251,9 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="brand" className="block mb-2">Brand:</label>
+            <label htmlFor="brand" className="block mb-2">
+              Brand:
+            </label>
             <input
               type="text"
               id="brand"
@@ -248,7 +264,9 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="gender" className="block mb-2">Gender:</label>
+            <label htmlFor="gender" className="block mb-2">
+              Gender:
+            </label>
             <select
               id="gender"
               name="gender"
@@ -264,7 +282,9 @@ const AddProduct = () => {
             </select>
           </div>
           <div className="mb-4">
-            <label htmlFor="mainCategory" className="block mb-2">Main Category:</label>
+            <label htmlFor="mainCategory" className="block mb-2">
+              Main Category:
+            </label>
             <select
               id="mainCategory"
               name="category[main]"
@@ -279,7 +299,9 @@ const AddProduct = () => {
             </select>
           </div>
           <div className="mb-4">
-            <label htmlFor="subCategory" className="block mb-2">Sub Category:</label>
+            <label htmlFor="subCategory" className="block mb-2">
+              Sub Category:
+            </label>
             <input
               type="text"
               id="subCategory"
@@ -290,7 +312,9 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="color" className="block mb-2">Color:</label>
+            <label htmlFor="color" className="block mb-2">
+              Color:
+            </label>
             <input
               type="text"
               id="color"
@@ -301,7 +325,9 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="imageUrls" className="block mb-2">Image URLs:</label>
+            <label htmlFor="imageUrls" className="block mb-2">
+              Image URLs:
+            </label>
             {productData.imageUrls.map((url, index) => (
               <div key={index} className="mb-2 flex items-center">
                 <input
@@ -328,7 +354,9 @@ const AddProduct = () => {
             </button>
           </div>
           <div className="mb-4">
-            <label htmlFor="images" className="block mb-2">Image Files:</label>
+            <label htmlFor="images" className="block mb-2">
+              Image Files:
+            </label>
             <input
               type="file"
               id="images"
@@ -375,7 +403,7 @@ const AddProduct = () => {
               Add Size
             </button>
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block mb-2">Ratings:</label>
             {productData.ratings.map((rating, index) => (
               <div key={index} className="mb-2 flex items-center">
@@ -419,10 +447,10 @@ const AddProduct = () => {
             >
               Add Rating
             </button>
-          </div>
+          </div> */}
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-600 w-full text-white font-bold py-2 px-4 rounded"
           >
             Add Product
           </button>
