@@ -168,7 +168,7 @@ function AddressesPage() {
   return (
     <div className="grid grid-cols-2 gap-8">
       <div className="w-3/4 mx-auto">
-        <h2 className="text-3xl font-semibold my-10">Manage Addresses</h2>
+        <h2 className="text-3xl font-semibold my-10">My Addresses</h2>
         <form onSubmit={handleSubmit} className="mb-4">
           <input
             type="text"
