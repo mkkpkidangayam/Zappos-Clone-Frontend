@@ -46,7 +46,7 @@ function AddressesPage() {
         setIsLoding(false);
       })
       .catch((error) => console.error("Error fetching cart items:", error));
-  }, [userId, selectedAddressId, setAddresses]);
+  }, [userId, handleSubmit]);
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
