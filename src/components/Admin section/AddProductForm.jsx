@@ -8,10 +8,11 @@ const AddProduct = () => {
 
   const [productData, setProductData] = useState({
     title: "",
-    description: "",
+    info: [""],
     price: "",
     brand: "",
-    images: [],
+    imageUrls: [""],
+    imageFiles: [],
     gender: "",
     category: {
       main: "",
@@ -19,6 +20,7 @@ const AddProduct = () => {
     },
     sizes: [],
     color: "",
+    ratings: [],
   });
 
   const handleChange = (e) => {
@@ -40,11 +42,61 @@ const AddProduct = () => {
     }
   };
 
+  const handleInfoChange = (index, value) => {
+    const updatedInfo = [...productData.info];
+    updatedInfo[index] = value;
+    setProductData({
+      ...productData,
+      info: updatedInfo,
+    });
+  };
+
+  const handleAddInfo = () => {
+    setProductData({
+      ...productData,
+      info: [...productData.info, ""],
+    });
+  };
+
+  const handleRemoveInfo = (index) => {
+    const updatedInfo = [...productData.info];
+    updatedInfo.splice(index, 1);
+    setProductData({
+      ...productData,
+      info: updatedInfo,
+    });
+  };
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     setProductData({
       ...productData,
-      images: files,
+      imageFiles: files,
+    });
+  };
+
+  const handleImageUrlChange = (index, value) => {
+    const updatedImageUrls = [...productData.imageUrls];
+    updatedImageUrls[index] = value;
+    setProductData({
+      ...productData,
+      imageUrls: updatedImageUrls,
+    });
+  };
+
+  const handleAddImageUrl = () => {
+    setProductData({
+      ...productData,
+      imageUrls: [...productData.imageUrls, ""],
+    });
+  };
+
+  const handleRemoveImageUrl = (index) => {
+    const updatedImageUrls = [...productData.imageUrls];
+    updatedImageUrls.splice(index, 1);
+    setProductData({
+      ...productData,
+      imageUrls: updatedImageUrls,
     });
   };
 
@@ -74,15 +126,41 @@ const AddProduct = () => {
     });
   };
 
+  const handleRatingChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedRatings = [...productData.ratings];
+    updatedRatings[index] = { ...updatedRatings[index], [name]: value };
+    setProductData({
+      ...productData,
+      ratings: updatedRatings,
+    });
+  };
+
+  const handleAddRating = () => {
+    setProductData({
+      ...productData,
+      ratings: [...productData.ratings, { score: "", customer: "", comment: "" }],
+    });
+  };
+
+  const handleRemoveRating = (index) => {
+    const updatedRatings = [...productData.ratings];
+    updatedRatings.splice(index, 1);
+    setProductData({
+      ...productData,
+      ratings: updatedRatings,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       Object.entries(productData).forEach(([key, value]) => {
-        if (key === "images") {
+        if (key === "imageFiles") {
           value.forEach((image) => formData.append("images", image));
-        } else if (key === "sizes") {
-          formData.append("sizes", JSON.stringify(value));
+        } else if (key === "sizes" || key === "ratings" || key === "info" || key === "imageUrls") {
+          formData.append(key, JSON.stringify(value));
         } else if (key === "category") {
           formData.append("category[main]", value.main);
           formData.append("category[sub]", value.sub);
@@ -90,6 +168,7 @@ const AddProduct = () => {
           formData.append(key, value);
         }
       });
+
       await Axios.post("/admin/addproduct", formData, {
         headers: {
           Authorization: Cookies.get("adminToken"),
@@ -102,16 +181,14 @@ const AddProduct = () => {
       toast.error("Error adding product. Please try again.");
     }
   };
-  console.log(productData);
+
   return (
     <div className="container">
       <div className="w-2/4 mx-auto border p-10">
         <h1 className="text-2xl font-bold mb-4">Add Product</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="title" className="block mb-2">
-              Title:
-            </label>
+            <label htmlFor="title" className="block mb-2">Title:</label>
             <input
               type="text"
               id="title"
@@ -122,21 +199,34 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="description" className="block mb-2">
-              Description:
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={productData.description}
-              onChange={handleChange}
-              className="border border-gray-400 p-2 rounded w-full"
-            />
+            <label htmlFor="info" className="block mb-2">Info:</label>
+            {productData.info.map((infoItem, index) => (
+              <div key={index} className="mb-2 flex items-center">
+                <input
+                  type="text"
+                  value={infoItem}
+                  onChange={(e) => handleInfoChange(index, e.target.value)}
+                  className="border border-gray-400 p-2 rounded mr-2 flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveInfo(index)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+                >
+                  -
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={handleAddInfo}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded"
+            >
+              Add Info
+            </button>
           </div>
           <div className="mb-4">
-            <label htmlFor="price" className="block mb-2">
-              Price:
-            </label>
+            <label htmlFor="price" className="block mb-2">Price:</label>
             <input
               type="number"
               id="price"
@@ -147,9 +237,7 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="brand" className="block mb-2">
-              Brand:
-            </label>
+            <label htmlFor="brand" className="block mb-2">Brand:</label>
             <input
               type="text"
               id="brand"
@@ -159,11 +247,8 @@ const AddProduct = () => {
               className="border border-gray-400 p-2 rounded w-full"
             />
           </div>
-          {/* Add other input fields for gender, category, color */}
           <div className="mb-4">
-            <label htmlFor="gender" className="block mb-2">
-              Gender:
-            </label>
+            <label htmlFor="gender" className="block mb-2">Gender:</label>
             <select
               id="gender"
               name="gender"
@@ -178,11 +263,8 @@ const AddProduct = () => {
               <option value="boys">Boys</option>
             </select>
           </div>
-          {/* Add category field */}
           <div className="mb-4">
-            <label htmlFor="mainCategory" className="block mb-2">
-              Main Category:
-            </label>
+            <label htmlFor="mainCategory" className="block mb-2">Main Category:</label>
             <select
               id="mainCategory"
               name="category[main]"
@@ -197,9 +279,7 @@ const AddProduct = () => {
             </select>
           </div>
           <div className="mb-4">
-            <label htmlFor="subCategory" className="block mb-2">
-              Sub Category:
-            </label>
+            <label htmlFor="subCategory" className="block mb-2">Sub Category:</label>
             <input
               type="text"
               id="subCategory"
@@ -209,11 +289,46 @@ const AddProduct = () => {
               className="border border-gray-400 p-2 rounded w-full"
             />
           </div>
-          {/* Add file input for images */}
           <div className="mb-4">
-            <label htmlFor="images" className="block mb-2">
-              Images:
-            </label>
+            <label htmlFor="color" className="block mb-2">Color:</label>
+            <input
+              type="text"
+              id="color"
+              name="color"
+              value={productData.color}
+              onChange={handleChange}
+              className="border border-gray-400 p-2 rounded w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="imageUrls" className="block mb-2">Image URLs:</label>
+            {productData.imageUrls.map((url, index) => (
+              <div key={index} className="mb-2 flex items-center">
+                <input
+                  type="text"
+                  value={url}
+                  onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                  className="border border-gray-400 p-2 rounded mr-2 flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImageUrl(index)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+                >
+                  -
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={handleAddImageUrl}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded"
+            >
+              Add Image URL
+            </button>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="images" className="block mb-2">Image Files:</label>
             <input
               type="file"
               id="images"
@@ -223,7 +338,6 @@ const AddProduct = () => {
               multiple
             />
           </div>
-          {/* Add size input fields */}
           <div className="mb-4">
             <label className="block mb-2">Sizes:</label>
             {productData.sizes.map((size, index) => (
@@ -262,17 +376,49 @@ const AddProduct = () => {
             </button>
           </div>
           <div className="mb-4">
-            <label htmlFor="color" className="block mb-2">
-              Color:
-            </label>
-            <input
-              type="text"
-              id="color"
-              name="color"
-              value={productData.color}
-              onChange={handleChange}
-              className="border border-gray-400 p-2 rounded w-full"
-            />
+            <label className="block mb-2">Ratings:</label>
+            {productData.ratings.map((rating, index) => (
+              <div key={index} className="mb-2 flex items-center">
+                <input
+                  type="number"
+                  name="score"
+                  value={rating.score}
+                  onChange={(e) => handleRatingChange(index, e)}
+                  placeholder="Score (1-5)"
+                  className="border border-gray-400 p-2 rounded mr-2"
+                />
+                <input
+                  type="text"
+                  name="customer"
+                  value={rating.customer}
+                  onChange={(e) => handleRatingChange(index, e)}
+                  placeholder="Customer ID"
+                  className="border border-gray-400 p-2 rounded mr-2"
+                />
+                <input
+                  type="text"
+                  name="comment"
+                  value={rating.comment}
+                  onChange={(e) => handleRatingChange(index, e)}
+                  placeholder="Comment"
+                  className="border border-gray-400 p-2 rounded flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveRating(index)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+                >
+                  -
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={handleAddRating}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded"
+            >
+              Add Rating
+            </button>
           </div>
           <button
             type="submit"

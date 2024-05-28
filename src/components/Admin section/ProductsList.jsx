@@ -106,9 +106,10 @@ const ProductList = () => {
             <option value={SubCategory}>{SubCategory}</option>
             )}
           </select>
+          
         </div>
         <h1 className="text-3xl text-center w-1/4 text-green-800 font-bold mb-4">
-          Products
+          Products List
         </h1>
         <div>
           <label className="font-medium" htmlFor="search">
@@ -124,6 +125,7 @@ const ProductList = () => {
             id="search"
           />
         </div>
+        <button onClick={() => navigate("/admin/add-products")} className="bg-green-800 text-white font-medium py-1 px-2 rounded-lg hover:bg-green-600">Add Product</button>
       </div>
       {isLoading ? (
         <LoadingSpinner />

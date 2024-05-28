@@ -37,6 +37,7 @@ import ContentPage from "./components/Admin section/ContentsPage";
 import ManageOrders from "./components/Admin section/ManageOrders";
 import OrderDetailsAdmin from "./components/Admin section/OrderDetailsAdmin";
 import OrderDetails from "./pages/OrderDetails";
+import NotFoundPage from "./components/Assets/PageNotFond";
 
 export const Axios = axios.create({
   baseURL: "https://zappos-clone-backend.onrender.com/api",
@@ -229,17 +230,17 @@ const MainPage = () => {
             <Route
               path="/admin/products-list"
               element={
-                <AdminProttect>
+                // <AdminProttect>
                   <ProductList />
-                </AdminProttect>
+                // </AdminProttect>
               }
             />
             <Route
               path="/admin/add-products"
               element={
-                <AdminProttect>
+                // <AdminProttect>
                   <AddProductForm />
-                </AdminProttect>
+                // </AdminProttect>
               }
             />
             <Route
@@ -275,6 +276,7 @@ const MainPage = () => {
               }
             />
           </Route>
+          <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
       </myContext.Provider>
     </>
