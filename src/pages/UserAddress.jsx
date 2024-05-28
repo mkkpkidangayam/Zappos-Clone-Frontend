@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
+import { isEqual } from "lodash";
 
 function AddressesPage() {
   const { userId } = useParams();
@@ -64,7 +65,10 @@ function AddressesPage() {
       try {
         const addressResponse = await Axios.get(`/user/${userId}/addresses`);
         const fetchedAddresses = addressResponse.data;
-        setAddresses(fetchedAddresses);
+        if (!isEqual(addresses, fetchedAddresses)) {
+          setAddresses(fetchedAddresses);   
+          
+        }
         if (fetchedAddresses.length > 0) {
           const defaultAddressId = fetchedAddresses[0]._id;
           setSelectedAddressId(defaultAddressId);
@@ -81,7 +85,7 @@ function AddressesPage() {
     };
 
     fetchData();
-  }, [userId]);
+  }, [userId, addresses]);
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
