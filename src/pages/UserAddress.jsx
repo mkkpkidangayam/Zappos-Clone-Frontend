@@ -8,7 +8,7 @@ function AddressesPage() {
   const { userId } = useParams();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
-  const [isLoding, setIsLoding] = useState(true);   
+  const [isLoding, setIsLoding] = useState(true);
   const [editing, setEditing] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
@@ -46,7 +46,7 @@ function AddressesPage() {
         setIsLoding(false);
       })
       .catch((error) => console.error("Error fetching cart items:", error));
-  }, [userId]);
+  }, [userId, selectedAddressId, setAddresses]);
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
@@ -68,7 +68,11 @@ function AddressesPage() {
     Axios[method](apiEndpoint, currentAddress)
       .then((response) => {
         if (editing) {
-          setAddresses(addresses.map((addr) => (addr._id === currentAddress._id ? currentAddress : addr)));
+          setAddresses(
+            addresses.map((addr) =>
+              addr._id === currentAddress._id ? currentAddress : addr
+            )
+          );
         } else {
           setAddresses([...addresses, response.data]);
         }
@@ -89,7 +93,9 @@ function AddressesPage() {
     Axios.delete(`/user/${userId}/address/${addressId}`)
       .then(() => {
         console.log("Address deleted successfully");
-        const updatedAddresses = addresses.filter((item) => item._id !== addressId);
+        const updatedAddresses = addresses.filter(
+          (item) => item._id !== addressId
+        );
         setAddresses(updatedAddresses);
         if (selectedAddressId === addressId && updatedAddresses.length > 0) {
           const newDefaultAddressId = updatedAddresses[0]._id;
@@ -333,7 +339,9 @@ function AddressesPage() {
             <div>
               {appliedDiscount ? (
                 <div>
-                  <span className="text-gray-500">Items: {itemTotal.toFixed(2)}</span>
+                  <span className="text-gray-500">
+                    Items: {itemTotal.toFixed(2)}
+                  </span>
                   <p className="text-gray-500">
                     Promotion: -{discountAmount.toFixed(2)}
                   </p>
