@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 const AddProduct = () => {
   document.title = "Add-Product";
-
+  const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState({
     title: "",
     info: [""],
@@ -157,6 +157,7 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formData = new FormData();
       Object.entries(productData).forEach(([key, value]) => {
@@ -164,7 +165,7 @@ const AddProduct = () => {
           value.forEach((image) => formData.append("images", image));
         } else if (
           key === "sizes" ||
-          key === "ratings" ||
+          // key === "ratings" ||
           key === "info" ||
           key === "imageUrls"
         ) {
@@ -177,13 +178,14 @@ const AddProduct = () => {
         }
       });
 
-      await Axios.post("/admin/addproduct", formData, {
+      await Axios.post("/admin/addproduct-form", formData, {
         headers: {
           Authorization: Cookies.get("adminToken"),
         },
+      }).then((response) => {
+        toast.success(response.data.message);
+        setIsLoading(false);
       });
-
-      toast.success("Product added successfully!");
     } catch (error) {
       console.error("Error adding product:", error);
       toast.error("Error adding product. Please try again.");
@@ -452,7 +454,7 @@ const AddProduct = () => {
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 w-full text-white font-bold py-2 px-4 rounded"
           >
-            Add Product
+            {isLoading ? "Loading..." : "Add Product"}
           </button>
         </form>
       </div>
