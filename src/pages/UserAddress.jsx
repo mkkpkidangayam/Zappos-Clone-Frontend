@@ -27,56 +27,60 @@ function AddressesPage() {
     phoneNumber: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const apiEndpoint = editing
       ? `/user/${userId}/address/${currentAddress._id}`
       : `/user/${userId}/address`;
     const method = editing ? "put" : "post";
 
-    Axios[method](apiEndpoint, currentAddress)
-      .then((response) => {
-        if (editing) {
-          setAddresses(
-            addresses.map((addr) =>
-              addr._id === currentAddress._id ? response.data : addr
-            )
-          );
-        } else {
-          setAddresses([...addresses, response.data]);
-        }
-        setCurrentAddress({
-          street: "",
-          city: "",
-          state: "",
-          zipCode: "",
-          label: "",
-          phoneNumber: "",
-        });
-        setEditing(false);
-      })
-      .catch((error) => console.error("Error saving the address:", error));
+    try {
+      const response = await Axios[method](apiEndpoint, currentAddress);
+      if (editing) {
+        setAddresses(
+          addresses.map((addr) =>
+            addr._id === currentAddress._id ? response.data : addr
+          )
+        );
+      } else {
+        setAddresses([...addresses, response.data]);
+      }
+      setCurrentAddress({
+        street: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        label: "",
+        phoneNumber: "",
+      });
+      setEditing(false);
+    } catch (error) {
+      console.error("Error saving the address:", error);
+    }
   };
 
   useEffect(() => {
-    Axios.get(`/user/${userId}/addresses`)
-      .then((response) => {
-        const fetchedAddresses = response.data;
+    const fetchData = async () => {
+      try {
+        const addressResponse = await Axios.get(`/user/${userId}/addresses`);
+        const fetchedAddresses = addressResponse.data;
         setAddresses(fetchedAddresses);
         if (fetchedAddresses.length > 0) {
           const defaultAddressId = fetchedAddresses[0]._id;
           setSelectedAddressId(defaultAddressId);
           localStorage.setItem("selectedAddressId", defaultAddressId);
         }
-      })
-      .catch((error) => console.error("Error fetching addresses:", error));
 
-    Axios.get(`/get-cart/${userId}`)
-      .then((response) => {
-        setCartItems(response.data);
+        const cartResponse = await Axios.get(`/get-cart/${userId}`);
+        setCartItems(cartResponse.data);
         setIsLoading(false);
-      })
-      .catch((error) => console.error("Error fetching cart items:", error));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [userId]);
 
   const handleSelectAddress = (addressId) => {
@@ -89,23 +93,19 @@ function AddressesPage() {
     setCurrentAddress({ ...currentAddress, [name]: value });
   };
 
-  const deleteAddress = (addressId) => {
-    Axios.delete(`/user/${userId}/address/${addressId}`)
-      .then(() => {
-        console.log("Address deleted successfully");
-        const updatedAddresses = addresses.filter(
-          (item) => item._id !== addressId
-        );
-        setAddresses(updatedAddresses);
-        if (selectedAddressId === addressId && updatedAddresses.length > 0) {
-          const newDefaultAddressId = updatedAddresses[0]._id;
-          setSelectedAddressId(newDefaultAddressId);
-          localStorage.setItem("selectedAddressId", newDefaultAddressId);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting address:", error);
-      });
+  const deleteAddress = async (addressId) => {
+    try {
+      await Axios.delete(`/user/${userId}/address/${addressId}`);
+      const updatedAddresses = addresses.filter((item) => item._id !== addressId);
+      setAddresses(updatedAddresses);
+      if (selectedAddressId === addressId && updatedAddresses.length > 0) {
+        const newDefaultAddressId = updatedAddresses[0]._id;
+        setSelectedAddressId(newDefaultAddressId);
+        localStorage.setItem("selectedAddressId", newDefaultAddressId);
+      }
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
   };
 
   useEffect(() => {
@@ -123,10 +123,7 @@ function AddressesPage() {
 
   const applyCoupon = async () => {
     try {
-      const response = await Axios.post("/apply-coupon", {
-        userId,
-        couponCode,
-      });
+      const response = await Axios.post("/apply-coupon", { userId, couponCode });
       const { message, discount } = response.data;
       setAppliedDiscount(discount);
       setCouponMessage(message);
@@ -134,9 +131,7 @@ function AddressesPage() {
       localStorage.setItem("couponCode", couponCode);
     } catch (error) {
       console.error("Failed to apply coupon:", error);
-      setCouponMessage(
-        error.response?.data.message || "Failed to apply coupon"
-      );
+      setCouponMessage(error.response?.data.message || "Failed to apply coupon");
       setCouponMessageType("error");
     }
   };
@@ -169,7 +164,7 @@ function AddressesPage() {
     <div className="grid grid-cols-2 gap-8">
       <div className="w-3/4 mx-auto">
         <h2 className="text-3xl font-semibold my-10">My Addresses</h2>
-        <form onSubmit={handleSubmit} className="mb-4">
+        <form onSubmit={handleSubmit} className="mb-4" key={currentAddress._id || 'new'}>
           <input
             type="text"
             name="street"
