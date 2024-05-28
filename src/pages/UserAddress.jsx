@@ -256,44 +256,48 @@ function AddressesPage() {
             {editing ? "Update Address" : "Add Address"}
           </button>
         </form>
-        <ul>
-          {addresses.map((addr) => (
-            <li key={addr._id} className="border-b flex items-center py-4">
-              <input
-                type="radio"
-                id={addr._id}
-                name="selectedAddress"
-                value={addr._id}
-                checked={selectedAddressId === addr._id}
-                onChange={() => handleSelectAddress(addr._id)}
-                className="mr-2"
-              />
-              <div>
-                <b>{addr.label}</b>
-                <br />
-                {`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}
-              </div>
-              <div>
-                <b>Mobile Number:</b> {addr.phoneNumber}
-              </div>
-              <button
-                onClick={() => {
-                  setCurrentAddress(addr);
-                  setEditing(true);
-                }}
-                className="text-blue-500 mt-2 hover:underline"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => deleteAddress(addr._id)}
-                className="text-red-500 ml-2 mt-2 hover:underline"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        {addressLoding ? (
+          <LoadingSpinner />
+        ) : (
+          <ul>
+            {addresses.map((addr) => (
+              <li key={addr._id} className="border-b flex items-center py-4">
+                <input
+                  type="radio"
+                  id={addr._id}
+                  name="selectedAddress"
+                  value={addr._id}
+                  checked={selectedAddressId === addr._id}
+                  onChange={() => handleSelectAddress(addr._id)}
+                  className="mr-2"
+                />
+                <div>
+                  <b>{addr.label}</b>
+                  <br />
+                  {`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}
+                </div>
+                <div>
+                  <b>Mobile Number:</b> {addr.phoneNumber}
+                </div>
+                <button
+                  onClick={() => {
+                    setCurrentAddress(addr);
+                    setEditing(true);
+                  }}
+                  className="text-blue-500 mt-2 hover:underline"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteAddress(addr._id)}
+                  className="text-red-500 ml-2 mt-2 hover:underline"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       {isLoading ? (
         <LoadingSpinner />
