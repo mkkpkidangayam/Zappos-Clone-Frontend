@@ -10,6 +10,7 @@ function AddressesPage() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [addressLoding, setAddressesLoding] = useState(true);
   const [editing, setEditing] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
@@ -66,8 +67,8 @@ function AddressesPage() {
         const addressResponse = await Axios.get(`/user/${userId}/addresses`);
         const fetchedAddresses = addressResponse.data;
         if (!isEqual(addresses, fetchedAddresses)) {
-          setAddresses(fetchedAddresses);   
-          
+          setAddresses(fetchedAddresses);
+          setAddressesLoding(flase);
         }
         if (fetchedAddresses.length > 0) {
           const defaultAddressId = fetchedAddresses[0]._id;
@@ -76,8 +77,10 @@ function AddressesPage() {
         }
 
         const cartResponse = await Axios.get(`/get-cart/${userId}`);
-        setCartItems(cartResponse.data);
-        setIsLoading(false);
+        if (isEqual(cartItems, cartResponse.data)) {
+          setCartItems(cartResponse.data);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false);
@@ -100,7 +103,9 @@ function AddressesPage() {
   const deleteAddress = async (addressId) => {
     try {
       await Axios.delete(`/user/${userId}/address/${addressId}`);
-      const updatedAddresses = addresses.filter((item) => item._id !== addressId);
+      const updatedAddresses = addresses.filter(
+        (item) => item._id !== addressId
+      );
       setAddresses(updatedAddresses);
       if (selectedAddressId === addressId && updatedAddresses.length > 0) {
         const newDefaultAddressId = updatedAddresses[0]._id;
@@ -127,7 +132,10 @@ function AddressesPage() {
 
   const applyCoupon = async () => {
     try {
-      const response = await Axios.post("/apply-coupon", { userId, couponCode });
+      const response = await Axios.post("/apply-coupon", {
+        userId,
+        couponCode,
+      });
       const { message, discount } = response.data;
       setAppliedDiscount(discount);
       setCouponMessage(message);
@@ -135,7 +143,9 @@ function AddressesPage() {
       localStorage.setItem("couponCode", couponCode);
     } catch (error) {
       console.error("Failed to apply coupon:", error);
-      setCouponMessage(error.response?.data.message || "Failed to apply coupon");
+      setCouponMessage(
+        error.response?.data.message || "Failed to apply coupon"
+      );
       setCouponMessageType("error");
     }
   };
@@ -168,7 +178,11 @@ function AddressesPage() {
     <div className="grid grid-cols-2 gap-8">
       <div className="w-3/4 mx-auto">
         <h2 className="text-3xl font-semibold my-10">My Addresses</h2>
-        <form onSubmit={handleSubmit} className="mb-4" key={currentAddress._id || 'new'}>
+        <form
+          onSubmit={handleSubmit}
+          className="mb-4"
+          key={currentAddress._id || "new"}
+        >
           <input
             type="text"
             name="street"
