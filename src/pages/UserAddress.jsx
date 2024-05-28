@@ -27,6 +27,37 @@ function AddressesPage() {
     phoneNumber: "",
   });
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const apiEndpoint = editing
+      ? `/user/${userId}/address/${currentAddress._id}`
+      : `/user/${userId}/address`;
+    const method = editing ? "put" : "post";
+
+    Axios[method](apiEndpoint, currentAddress)
+      .then((response) => {
+        if (editing) {
+          setAddresses(
+            addresses.map((addr) =>
+              addr._id === currentAddress._id ? currentAddress : addr
+            )
+          );
+        } else {
+          setAddresses([...addresses, response.data]);
+        }
+        setCurrentAddress({
+          street: "",
+          city: "",
+          state: "",
+          zipCode: "",
+          label: "",
+          phoneNumber: "",
+        });
+        setEditing(false);
+      })
+      .catch((error) => console.error("Error saving the address:", error));
+  };
+
   useEffect(() => {
     Axios.get(`/user/${userId}/addresses`)
       .then((response) => {
@@ -58,36 +89,7 @@ function AddressesPage() {
     setCurrentAddress({ ...currentAddress, [name]: value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const apiEndpoint = editing
-      ? `/user/${userId}/address/${currentAddress._id}`
-      : `/user/${userId}/address`;
-    const method = editing ? "put" : "post";
-
-    Axios[method](apiEndpoint, currentAddress)
-      .then((response) => {
-        if (editing) {
-          setAddresses(
-            addresses.map((addr) =>
-              addr._id === currentAddress._id ? currentAddress : addr
-            )
-          );
-        } else {
-          setAddresses([...addresses, response.data]);
-        }
-        setCurrentAddress({
-          street: "",
-          city: "",
-          state: "",
-          zipCode: "",
-          label: "",
-          phoneNumber: "",
-        });
-        setEditing(false);
-      })
-      .catch((error) => console.error("Error saving the address:", error));
-  };
+  
 
   const deleteAddress = (addressId) => {
     Axios.delete(`/user/${userId}/address/${addressId}`)
