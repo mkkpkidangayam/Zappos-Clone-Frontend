@@ -37,17 +37,14 @@ function AddressesPage() {
     Axios[method](apiEndpoint, currentAddress)
       .then((response) => {
         if (editing) {
-          // Update the existing address
           setAddresses(
             addresses.map((addr) =>
               addr._id === currentAddress._id ? response.data : addr
             )
           );
         } else {
-          // Add the new address
           setAddresses([...addresses, response.data]);
         }
-        // Reset the form and editing state
         setCurrentAddress({
           street: "",
           city: "",
@@ -57,11 +54,6 @@ function AddressesPage() {
           phoneNumber: "",
         });
         setEditing(false);
-        // Select the new or updated address
-        if (!editing) {
-          setSelectedAddressId(response.data._id);
-          localStorage.setItem("selectedAddressId", response.data._id);
-        }
       })
       .catch((error) => console.error("Error saving the address:", error));
   };
@@ -269,92 +261,106 @@ function AddressesPage() {
                 {`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}
               </div>
               <div>
-                <button
-                  onClick={() => {
-                    setCurrentAddress(addr);
-                    setEditing(true);
-                  }}
-                  className="ml-4 text-blue-500"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteAddress(addr._id)}
-                  className="ml-4 text-red-500"
-                >
-                  Delete
-                </button>
+                <b>Mobile Number:</b> {addr.phoneNumber}
               </div>
+              <button
+                onClick={() => {
+                  setCurrentAddress(addr);
+                  setEditing(true);
+                }}
+                className="text-blue-500 mt-2 hover:underline"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => deleteAddress(addr._id)}
+                className="text-red-500 ml-2 mt-2 hover:underline"
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
       </div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="w-3/4 mx-auto">
+          <h2 className="text-3xl font-semibold my-10">Bag</h2>
+          <hr />
+          <ul>
+            {cartItems.map((item) => (
+              <li key={item._id} className="border-b py-4">
+                <div className="flex justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="font-medium"> {item.product.title}</p>
+                    <p>Color: {item.product.color}</p>
+                    <p>Size: {item.size}</p>
+                    <p>Quantity: {item.quantity}</p>
+                  </div>
+                  <div>
+                    <p>Price: ₹{item.product.price.toFixed(2)}</p>
+                    <p>
+                      Total: ₹{(item.product.price * item.quantity).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-      <div className="w-3/4 mx-auto">
-        <h2 className="text-3xl font-semibold my-10">Order Summary</h2>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <ul>
-              {cartItems.map((item) => (
-                <li key={item.product._id} className="flex justify-between">
-                  <span>{item.product.name}</span>
-                  <span>
-                    {item.quantity} x ${item.product.price.toFixed(2)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <div className="border-t mt-4 pt-4">
-              <div className="flex justify-between">
-                <span>Subtotal</span>
-                <span>${itemTotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Discount</span>
-                <span>-${discountAmount.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
-            <div className="mt-4">
+          <div className="sticky bottom-10 right-10 flex justify-between items-center">
+            <div className="mt-5">
               <input
                 type="text"
+                placeholder="Enter coupon code"
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
-                placeholder="Coupon code"
-                className="border rounded px-4 py-2"
+                className="border border-gray-300 rounded-md p-2 mb-2"
               />
+              {/* Apply coupon button */}
               <button
                 onClick={applyCoupon}
-                className="ml-2 bg-green-500 text-white px-4 py-2 rounded"
+                className="bg-blue-500 text-white px-4 py-2 mx-3 rounded hover:bg-blue-600 mb-4"
               >
-                Apply
+                Apply Coupon
               </button>
-              {couponMessage && (
-                <div
-                  className={`mt-2 ${
-                    couponMessageType === "success"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {couponMessage}
-                </div>
-              )}
+              <p
+                className={`${
+                  couponMessageType === "success"
+                    ? "text-green-500"
+                    : "text-red-500"
+                } font-medium`}
+              >
+                {couponMessage}
+              </p>
             </div>
-            <button
-              onClick={placeOrder}
-              className="bg-blue-500 text-white mt-4 px-4 py-2 rounded"
-            >
-              Place Order
-            </button>
-          </>
-        )}
-      </div>
+            <div>
+              {appliedDiscount ? (
+                <div>
+                  <span className="text-gray-500">
+                    Items: {itemTotal.toFixed(2)}
+                  </span>
+                  <p className="text-gray-500">
+                    Promotion: -{discountAmount.toFixed(2)}
+                  </p>
+                </div>
+              ) : null}
+              <p className="text-xl text-blue-700 font-semibold border-t my-2">
+                Total: <sup>₹</sup>
+                {total.toFixed(2)}
+              </p>
+              <button
+                onClick={placeOrder}
+                className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Go to Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
