@@ -68,7 +68,7 @@ function AddressesPage() {
         const fetchedAddresses = addressResponse.data;
         if (!isEqual(addresses, fetchedAddresses)) {
           setAddresses(fetchedAddresses);
-          setAddressesLoding(flase);
+          setAddressesLoding(false);
         }
         if (fetchedAddresses.length > 0) {
           const defaultAddressId = fetchedAddresses[0]._id;
