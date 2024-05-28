@@ -185,8 +185,11 @@ const AddProduct = () => {
       }).then((response) => {
         toast.success(response.data.message);
         setIsLoading(false);
-      });
+      }).catch((error) => {
+        console.error("Error adding product:", error);
+      })
     } catch (error) {
+      setIsLoading(false);
       console.error("Error adding product:", error);
       toast.error("Error adding product. Please try again.");
     }
