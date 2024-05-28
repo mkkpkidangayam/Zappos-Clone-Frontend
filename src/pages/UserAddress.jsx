@@ -14,9 +14,9 @@ function AddressesPage() {
   const [couponCode, setCouponCode] = useState("");
   const [couponMessage, setCouponMessage] = useState("");
   const [couponMessageType, setCouponMessageType] = useState("");
-  const [itemTotal, setItemTotal] = useState();
-  const [total, setTotal] = useState();
-  const [discountAmount, setDiscountAmount] = useState();
+  const [itemTotal, setItemTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState(0);
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [currentAddress, setCurrentAddress] = useState({
     street: "",
@@ -29,7 +29,15 @@ function AddressesPage() {
 
   useEffect(() => {
     Axios.get(`/user/${userId}/addresses`)
-      .then((response) => setAddresses(response.data))
+      .then((response) => {
+        const fetchedAddresses = response.data;
+        setAddresses(fetchedAddresses);
+        if (fetchedAddresses.length > 0) {
+          const defaultAddressId = fetchedAddresses[0]._id;
+          setSelectedAddressId(defaultAddressId);
+          localStorage.setItem("selectedAddressId", defaultAddressId);
+        }
+      })
       .catch((error) => console.error("Error fetching addresses:", error));
 
     Axios.get(`/get-cart/${userId}`)
@@ -38,7 +46,7 @@ function AddressesPage() {
         setIsLoding(false);
       })
       .catch((error) => console.error("Error fetching cart items:", error));
-  }, [userId, setCurrentAddress, selectedAddressId]);
+  }, [userId]);
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
@@ -47,12 +55,7 @@ function AddressesPage() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    if (name === "label") {
-      setCurrentAddress({ ...currentAddress, [name]: value });
-    } else {
-      setCurrentAddress({ ...currentAddress, [name]: value });
-    }
+    setCurrentAddress({ ...currentAddress, [name]: value });
   };
 
   const handleSubmit = (event) => {
@@ -63,14 +66,12 @@ function AddressesPage() {
     const method = editing ? "put" : "post";
 
     Axios[method](apiEndpoint, currentAddress)
-      .then(() => {
-        setAddresses(
-          editing
-            ? addresses.map((addr) =>
-                addr._id === currentAddress._id ? currentAddress : addr
-              )
-            : [...addresses, currentAddress]
-        );
+      .then((response) => {
+        if (editing) {
+          setAddresses(addresses.map((addr) => (addr._id === currentAddress._id ? currentAddress : addr)));
+        } else {
+          setAddresses([...addresses, response.data]);
+        }
         setCurrentAddress({
           street: "",
           city: "",
@@ -83,44 +84,23 @@ function AddressesPage() {
       })
       .catch((error) => console.error("Error saving the address:", error));
   };
+
   const deleteAddress = (addressId) => {
     Axios.delete(`/user/${userId}/address/${addressId}`)
-      .then((response) => {
+      .then(() => {
         console.log("Address deleted successfully");
-        const updatedaddress = addresses.filter(
-          (item) => item._id !== addressId
-        );
-        setAddresses(updatedaddress);
+        const updatedAddresses = addresses.filter((item) => item._id !== addressId);
+        setAddresses(updatedAddresses);
+        if (selectedAddressId === addressId && updatedAddresses.length > 0) {
+          const newDefaultAddressId = updatedAddresses[0]._id;
+          setSelectedAddressId(newDefaultAddressId);
+          localStorage.setItem("selectedAddressId", newDefaultAddressId);
+        }
       })
       .catch((error) => {
         console.error("Error deleting address:", error);
       });
   };
-
-  // const calculateTotal = () => {
-  //   let total = cartItems.reduce(
-  //     (total, item) => total + (item.product.price || 0) * (item.quantity || 0),
-  //     0
-  //   );
-  //   total -= appliedDiscount;
-  //   return total;
-  // };
-
-  //   const calculateTotal = () => {
-  //     // Calculate the subtotal of all items
-  //     const subtotal = cartItems.reduce((total, item) => {
-  //         return total + (item.product.price || 0) * (item.quantity || 0);
-  //     }, 0);
-  //     setItemtotal(subtotal)
-  //     // Calculate the discount amount
-  //     const discountAmount = (appliedDiscount / 100) * subtotal;
-  //     setDiscountAmount(discountAmount)
-
-  //     // Subtract the discount from the subtotal to get the total
-  //     const total = subtotal - discountAmount;
-
-  //     return total;
-  // };
 
   useEffect(() => {
     const subtotal = cartItems.reduce((total, item) => {
@@ -132,7 +112,6 @@ function AddressesPage() {
 
     setItemTotal(subtotal);
     setDiscountAmount(discountAmount);
-    // This assumes you have a state called `total` to store the final value
     setTotal(total);
   }, [cartItems, appliedDiscount]);
 
@@ -146,7 +125,7 @@ function AddressesPage() {
       setAppliedDiscount(discount);
       setCouponMessage(message);
       setCouponMessageType("success");
-      localStorage.setItem("cpo", couponCode)
+      localStorage.setItem("couponCode", couponCode);
     } catch (error) {
       console.error("Failed to apply coupon:", error);
       setCouponMessage(
@@ -156,7 +135,7 @@ function AddressesPage() {
     }
   };
 
-  const placeOrder = async (userId) => {
+  const placeOrder = async () => {
     if (cartItems.length === 0) {
       toast.error("Your cart is empty.");
       return;
@@ -174,7 +153,6 @@ function AddressesPage() {
       );
       const paymentLink = result.data;
       window.location.href = paymentLink;
-      // window.open(paymentLink, );
     } catch (error) {
       console.error("Failed to place order:", error);
       toast.error("Error placing order. Please try again.");
@@ -289,9 +267,7 @@ function AddressesPage() {
                 Edit
               </button>
               <button
-                onClick={() => {
-                  deleteAddress(addr._id);
-                }}
+                onClick={() => deleteAddress(addr._id)}
                 className="text-red-500 ml-2 mt-2 hover:underline"
               >
                 Delete
@@ -328,7 +304,7 @@ function AddressesPage() {
             ))}
           </ul>
 
-          <div className="sticky bottom-10 right-10 flex justify-between items-center ">
+          <div className="sticky bottom-10 right-10 flex justify-between items-center">
             <div className="mt-5">
               <input
                 type="text"
@@ -358,7 +334,7 @@ function AddressesPage() {
               {appliedDiscount ? (
                 <div>
                   <span className="text-gray-500">Items: {itemTotal.toFixed(2)}</span>
-                  <p className="text-gray-500 ">
+                  <p className="text-gray-500">
                     Promotion: -{discountAmount.toFixed(2)}
                   </p>
                 </div>
@@ -368,7 +344,7 @@ function AddressesPage() {
                 {total.toFixed(2)}
               </p>
               <button
-                onClick={() => placeOrder(userId)}
+                onClick={placeOrder}
                 className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
               >
                 Go to Payment
