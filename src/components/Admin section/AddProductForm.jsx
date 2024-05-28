@@ -8,11 +8,10 @@ const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState({
     title: "",
-    info: [""],
+    info: [],
     price: "",
     brand: "",
-    imageUrls: [""],
-    imageFiles: [],
+    imageUrls: [],
     gender: "",
     category: {
       main: "",
@@ -20,7 +19,6 @@ const AddProduct = () => {
     },
     sizes: [],
     color: "",
-    // ratings: [],
   });
 
   const handleChange = (e) => {
@@ -155,6 +153,46 @@ const AddProduct = () => {
   //   });
   // };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   try {
+  //     const formData = new FormData();
+  //     Object.entries(productData).forEach(([key, value]) => {
+  //       if (key === "imageFiles") {
+  //         value.forEach((image) => formData.append("images", image));
+  //       } else if (
+  //         key === "sizes" ||
+  //         // key === "ratings" ||
+  //         key === "info" ||
+  //         key === "imageUrls"
+  //       ) {
+  //         formData.append(key, JSON.stringify(value));
+  //       } else if (key === "category") {
+  //         formData.append("category[main]", value.main);
+  //         formData.append("category[sub]", value.sub);
+  //       } else {
+  //         formData.append(key, value);
+  //       }
+  //     });
+
+  //     await Axios.post("/admin/addproduct-form", formData, {
+  //       headers: {
+  //         Authorization: Cookies.get("adminToken"),
+  //       },
+  //     }).then((response) => {
+  //       toast.success(response.data.message);
+  //       setIsLoading(false);
+  //     }).catch((error) => {
+  //       console.error("Error adding product:", error);
+  //     })
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     console.error("Error adding product:", error);
+  //     toast.error("Error adding product. Please try again.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -163,18 +201,11 @@ const AddProduct = () => {
       Object.entries(productData).forEach(([key, value]) => {
         if (key === "imageFiles") {
           value.forEach((image) => formData.append("images", image));
-        } else if (
-          key === "sizes" ||
-          // key === "ratings" ||
-          key === "info" ||
-          key === "imageUrls"
-        ) {
-          formData.append(key, JSON.stringify(value));
         } else if (key === "category") {
           formData.append("category[main]", value.main);
           formData.append("category[sub]", value.sub);
         } else {
-          formData.append(key, value);
+          formData.append(key, JSON.stringify(value));
         }
       });
 
@@ -187,6 +218,8 @@ const AddProduct = () => {
         setIsLoading(false);
       }).catch((error) => {
         console.error("Error adding product:", error);
+        setIsLoading(false);
+        toast.error("Error adding product. Please try again.");
       })
     } catch (error) {
       setIsLoading(false);
@@ -194,6 +227,7 @@ const AddProduct = () => {
       toast.error("Error adding product. Please try again.");
     }
   };
+
 
   return (
     <div className="container">
