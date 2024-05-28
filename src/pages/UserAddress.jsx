@@ -79,8 +79,8 @@ function AddressesPage() {
         const cartResponse = await Axios.get(`/get-cart/${userId}`);
         if (isEqual(cartItems, cartResponse.data)) {
           setCartItems(cartResponse.data);
-          setIsLoading(false);
         }
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false);
