@@ -8,7 +8,7 @@ function AddressesPage() {
   const { userId } = useParams();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
-  const [isLoding, setIsLoding] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
@@ -39,7 +39,7 @@ function AddressesPage() {
         if (editing) {
           setAddresses(
             addresses.map((addr) =>
-              addr._id === currentAddress._id ? currentAddress : addr
+              addr._id === currentAddress._id ? response.data : addr
             )
           );
         } else {
@@ -74,7 +74,7 @@ function AddressesPage() {
     Axios.get(`/get-cart/${userId}`)
       .then((response) => {
         setCartItems(response.data);
-        setIsLoding(false);
+        setIsLoading(false);
       })
       .catch((error) => console.error("Error fetching cart items:", error));
   }, [userId]);
@@ -88,8 +88,6 @@ function AddressesPage() {
     const { name, value } = event.target;
     setCurrentAddress({ ...currentAddress, [name]: value });
   };
-
-  
 
   const deleteAddress = (addressId) => {
     Axios.delete(`/user/${userId}/address/${addressId}`)
@@ -284,7 +282,7 @@ function AddressesPage() {
           ))}
         </ul>
       </div>
-      {isLoding ? (
+      {isLoading ? (
         <LoadingSpinner />
       ) : (
         <div className="w-3/4 mx-auto">
