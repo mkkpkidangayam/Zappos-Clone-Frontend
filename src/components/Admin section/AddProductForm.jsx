@@ -270,7 +270,6 @@ const AddProduct = () => {
     }
   };
   
-
   return (
     <div className="container">
       <h1 className="text-2xl font-bold mb-4 text-center">Add Product</h1>
