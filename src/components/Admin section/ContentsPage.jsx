@@ -202,7 +202,7 @@ const ContentPage = () => {
       <div className="flex justify-between mt-6 ">
         <div className="mb mr-4 mb-6 ">
           {isLoding ? (
-            <div className="border-2">
+            <div className="border-2 my-4">
               <LoadingSpinner />
             </div>
           ) : (
