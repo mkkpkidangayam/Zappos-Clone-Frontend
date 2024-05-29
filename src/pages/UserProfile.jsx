@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
+import Cookies from "js-cookie";
 
 const UserAccount = () => {
   const { userId } = useParams();
@@ -9,7 +10,11 @@ const UserAccount = () => {
   console.log(userData);
 
   useEffect(() => {
-    Axios.get(`/user/profile/${userId}`)
+    Axios.get(`/user/profile/${userId}`,{
+      headers: {
+        Authorization: Cookies.get("token"),
+      },
+    })
       .then((response) => {
         setUserData(response.data);
       })
