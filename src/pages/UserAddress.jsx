@@ -86,7 +86,7 @@ function AddressesPage() {
     };
 
     fetchData();
-  }, [userId, addresses]);
+  }, [userId, addresses, cartItems]);
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
