@@ -17,6 +17,10 @@ const DropdownLogin = () => {
   };
 
   useClickAway(ref, handleClickAway);
+  function capitalize(str) {
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
 
   const handleLogout = () => {
     navigate("/");
@@ -26,7 +30,7 @@ const DropdownLogin = () => {
     Cookies.remove("token");
     setIsLogin(false);
     setUserData(null);
-    const userName = userData ? userData.name : "User";
+    const userName = userData ? capitalize(userData.name) : "User";
     toast.success(`${userName}, sign-out successful`);
   };
 
