@@ -77,8 +77,12 @@ function AddressesPage() {
         }
 
         const cartResponse = await Axios.get(`/get-cart/${userId}`);
-        setCartItems(cartResponse.data);
-        setIsLoading(false);
+        const fetchedCartItems = cartResponse.data;
+        if (!isEqual(cartItems, fetchedCartItems)) {
+          setCartItems(fetchedCartItems);
+          setIsLoading(false);
+        }
+        // setCartItems(cartResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false);
