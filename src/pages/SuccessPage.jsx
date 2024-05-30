@@ -25,7 +25,7 @@ const SuccessPage = () => {
         setOrderId(response.data.orderId);
         toast.success(response.data.message);
         localStorage.removeItem("selectedAddressId");
-        // localStorage.removeItem("cpo");
+        localStorage.removeItem("cpo");
       })
       .catch((error) => {
         console.error("Error processing order:", error);
