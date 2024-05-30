@@ -7,6 +7,11 @@ import FooterSecond from "../components/Footer/FooterSecond";
 import Cookies from "js-cookie";
 import { Axios } from "../MainPage";
 
+function capitalize(str) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 function Login() {
   const navigate = useNavigate();
   const { setIsLogin } = useContext(myContext);
@@ -36,7 +41,9 @@ function Login() {
         setIsLogin(true);
         navigate(-1);
         const userDetails = userData;
-        toast.success(`${userDetails?.name}, ${response.data.message}`);
+        toast.success(
+          `${capitalize(userDetails?.name)}, ${response.data.message}`
+        );
       })
       .catch((error) => {
         toast.error(error.response.data.message);

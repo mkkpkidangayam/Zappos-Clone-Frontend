@@ -17,6 +17,7 @@ const DropdownLogin = () => {
   };
 
   useClickAway(ref, handleClickAway);
+  
   function capitalize(str) {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
