@@ -141,7 +141,7 @@ function AddressesPage() {
       setAppliedDiscount(discount);
       setCouponMessage(message);
       setCouponMessageType("success");
-      localStorage.setItem("couponCode", couponCode);
+      localStorage.setItem("cpo", couponCode);
     } catch (error) {
       console.error("Failed to apply coupon:", error);
       setCouponMessage(
