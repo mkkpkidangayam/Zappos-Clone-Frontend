@@ -82,7 +82,6 @@ function AddressesPage() {
           setCartItems(fetchedCartItems);
           setIsLoading(false);
         }
-        // setCartItems(cartResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false);
