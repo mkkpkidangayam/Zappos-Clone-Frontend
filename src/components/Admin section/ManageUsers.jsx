@@ -25,7 +25,6 @@ const ManageUsers = () => {
     })
       .then((response) => {
         setUsers(response.data.users);
-        console.log(response.data.users);
         setTotalPages(response.data.pagination.totalPages);
         setIsLoading(false);
       })

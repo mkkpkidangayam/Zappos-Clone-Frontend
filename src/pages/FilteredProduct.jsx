@@ -23,7 +23,6 @@ const Filteredproduct = () => {
         );
       }
     });
-    console.log(filtered);
     setFilteredProducts(filtered);
   }, [product, gender, mainCategory, subCategory]);
 

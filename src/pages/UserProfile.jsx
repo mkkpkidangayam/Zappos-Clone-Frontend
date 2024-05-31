@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 const UserAccount = () => {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
-  console.log(userData);
 
   useEffect(() => {
     Axios.get(`/user/profile/${userId}`,{
@@ -21,9 +20,6 @@ const UserAccount = () => {
       .catch((error) => console.error("Error fetching userdata", error));
   }, [userId]);
   const userAddress = userData?.address;
-
-  console.log(userAddress);
-  // console.log(userAddress.street);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100">

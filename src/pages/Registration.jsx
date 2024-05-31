@@ -67,7 +67,7 @@ function Register() {
       } catch (error) {
         setIsLoading(false);
         toast.error(error.response.data.message);
-        console.log("there is an errror happened", error);
+        console.error("there is an errror happened", error);
       }
     } else {
       toast.error("Please fill all data");

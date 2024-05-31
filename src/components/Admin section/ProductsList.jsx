@@ -29,7 +29,6 @@ const ProductList = () => {
     )
       .then((response) => {
         setProducts(response.data.products);
-        console.log(response.data.products);
         setTotalPages(response.data.pagination.totalPages);
         setIsLoading(false);
       })

@@ -11,8 +11,6 @@ const SuccessPage = () => {
   const couponCode = localStorage.getItem("cpo");
   const hasExecuted = useRef(false);
 
-  console.log("couponCode: ", couponCode);
-
   useEffect(() => {
     if (hasExecuted.current) return;
     hasExecuted.current = true;
