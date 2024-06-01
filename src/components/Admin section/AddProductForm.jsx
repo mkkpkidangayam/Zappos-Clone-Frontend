@@ -255,7 +255,7 @@ const AddProduct = () => {
           formData.append(key, value);
         }
       });
-  
+
       const response = await Axios.post("/admin/addproduct-form", formData, {
         headers: {
           Authorization: Cookies.get("adminToken"),
@@ -269,7 +269,7 @@ const AddProduct = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className="container">
       <h1 className="text-2xl font-bold mb-4 text-center">Add Product</h1>
