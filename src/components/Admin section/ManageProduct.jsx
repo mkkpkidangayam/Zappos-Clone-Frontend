@@ -241,7 +241,7 @@ const ManageProduct = () => {
             <p className="text-lg mb-2">Brand: {product.brand}</p>
             <p className="text-lg mb-2">
               Price: <sup>₹</sup>
-              {product?.price.toFixed(2)}
+              {product?.price?.toFixed(2)}
             </p>
             <h2 className="text-xl font-semibold mb-2">
               Available Sizes & Quantities:
