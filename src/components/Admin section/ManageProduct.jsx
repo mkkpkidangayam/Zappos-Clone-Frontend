@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Axios } from "../../MainPage";
+import axios from "axios"; // Ensure you have installed axios
 import LoadingSpinner from "../Assets/LoadingSpinner";
 import Cookies from "js-cookie";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -18,15 +18,15 @@ const ManageProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await Axios.get(`/admin/product/${id}`, {
+        const response = await axios.get(`/admin/product/${id}`, {
           headers: {
-            Authorization: Cookies.get("adminToken"),
+            Authorization: `Bearer ${Cookies.get("adminToken")}`,
           },
         });
         const product = response.data;
         setProduct(product);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch product details", error);
       }
     };
 
@@ -38,20 +38,24 @@ const ManageProduct = () => {
   };
 
   const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("title", product.title);
+    formData.append("price", product.price);
+    formData.append("brand", product.brand);
+    if (newImage) {
+      formData.append("images", newImage);
+    }
+    formData.append("sizes", JSON.stringify([...product.sizes, { size: newSize, quantity: newQuantity }]));
+    formData.append("info", JSON.stringify([...product.info, newInfo]));
+
     try {
-      await Axios.put(
+      await axios.put(
         `/api/products/${id}`,
-        {
-          title: product.title,
-          price: product.price,
-          brand: product.brand,
-          images: [...product.images, newImage],
-          sizes: [...product.sizes, { size: newSize, quantity: newQuantity }],
-          info: [...product.info, newInfo],
-        },
+        formData,
         {
           headers: {
-            Authorization: Cookies.get("adminToken"),
+            Authorization: `Bearer ${Cookies.get("adminToken")}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -60,8 +64,10 @@ const ManageProduct = () => {
       setNewSize("");
       setNewQuantity(1);
       setNewInfo("");
+      toast.success("Product updated successfully!");
     } catch (error) {
-      console.error(error);
+      console.error("Failed to save changes", error);
+      toast.error("Failed to save changes");
     }
   };
 
@@ -85,22 +91,6 @@ const ManageProduct = () => {
     return <LoadingSpinner />;
   }
 
-  // const deleteProduct = async (productId) => {
-  //   try {
-  //     await Axios.delete(`/admin/product/delete/${productId}`, {
-  //       headers: {
-  //         Authorization: Cookies.get("adminToken"),
-  //       },
-  //     });
-  //     const updatedProducts = product.filter(
-  //       (product) => product._id !== productId
-  //     );
-  //     setProduct(updatedProducts);
-  //   } catch (error) {
-  //     console.error("Failed to delete product", error);
-  //   }
-  // };
-
   const copyToClipboard = (text) => {
     navigator.clipboard
       .writeText(text)
@@ -120,25 +110,19 @@ const ManageProduct = () => {
             <input
               type="text"
               value={product.title}
-              onChange={(e) =>
-                setProduct({ ...product, title: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, title: e.target.value })}
               className="text-3xl font-semibold mb-4 w-full border-b-2 focus:outline-none focus:border-blue-600"
             />
             <input
               type="number"
               value={product.price}
-              onChange={(e) =>
-                setProduct({ ...product, price: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, price: e.target.value })}
               className="text-4xl mb-2 text-blue-600 font-semibold w-full border-b-2 focus:outline-none focus:border-blue-600"
             />
             <input
               type="text"
               value={product.brand}
-              onChange={(e) =>
-                setProduct({ ...product, brand: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, brand: e.target.value })}
               className="text-2xl mb-2 font-semibold w-full border-b-2 focus:outline-none focus:border-blue-600"
             />
             <input type="file" onChange={handleImageChange} className="mb-2" />
@@ -233,15 +217,9 @@ const ManageProduct = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative md:col-span-2 p-2 grid grid-cols-3 grid-rows-5 gap-2">
-            {/* <img
-              src={product.images[0]}
-              alt={product.title}
-              className="w h-auto mb-4 object-cover mix-blend-darken"
-            /> */}
             {product.images.map((image, index) => (
-              <div className="border">
+              <div key={index} className="border">
                 <img
-                  key={index}
                   src={image}
                   alt={product.title}
                   className="w-full mb-4 object-cover mix-blend-darken"
@@ -251,17 +229,15 @@ const ManageProduct = () => {
           </div>
           <div className="md:col-span-1">
             <div className="my-3 flex">
-              <h2 className="text-xl font-mono mb-2">Id:{product._id}</h2>
+              <h2 className="text-xl font-mono mb-2">Id: {product._id}</h2>
               <button
                 onClick={() => copyToClipboard(product._id)}
-                className="mx-2 py-1 px-1  rounded hover:bg-slate-400"
+                className="mx-2 py-1 px-1 rounded hover:bg-slate-400"
               >
                 <ContentCopyIcon />
               </button>
             </div>
-            <h2 className="text-xl font-semibold mb-2">
-              Title: {product.title}
-            </h2>
+            <h2 className="text-xl font-semibold mb-2">Title: {product.title}</h2>
             <p className="text-lg mb-2">Brand: {product.brand}</p>
             <p className="text-lg mb-2">
               Price: <sup>₹</sup>
