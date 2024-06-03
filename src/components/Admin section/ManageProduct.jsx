@@ -217,7 +217,7 @@ const ManageProduct = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative md:col-span-2 p-2 grid grid-cols-3 grid-rows-5 gap-2">
-            {product.images.map((image, index) => (
+            {product?.images?.map((image, index) => (
               <div key={index} className="border">
                 <img
                   src={image}
@@ -241,7 +241,7 @@ const ManageProduct = () => {
             <p className="text-lg mb-2">Brand: {product.brand}</p>
             <p className="text-lg mb-2">
               Price: <sup>₹</sup>
-              {product.price.toFixed(2)}
+              {product?.price.toFixed(2)}
             </p>
             <h2 className="text-xl font-semibold mb-2">
               Available Sizes & Quantities:
@@ -254,7 +254,7 @@ const ManageProduct = () => {
                 </tr>
               </thead>
               <tbody>
-                {product.sizes.map((size, index) => (
+                {product?.sizes?.map((size, index) => (
                   <tr key={index}>
                     <td className="border font-semibold px-4 py-2">
                       {size.size}
@@ -275,7 +275,7 @@ const ManageProduct = () => {
             </h2>
             <hr className="border-t border-dashed border-black " />
             <ul className="my-4 list-disc pl-5">
-              {product.info.map((info, index) => (
+              {product?.info?.map((info, index) => (
                 <li key={index} className="mb-2">
                   {info}
                 </li>
