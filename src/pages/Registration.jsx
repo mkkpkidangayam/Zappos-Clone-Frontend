@@ -5,11 +5,15 @@ import myContext from "../context/myContextxt";
 import toast from "react-hot-toast";
 import FooterSecond from "../components/Footer/FooterSecond";
 import { Axios } from "../MainPage";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function Register() {
   const navigate = useNavigate();
   const { setUserData } = useContext(myContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const initialFormData = {
     name: "",
@@ -58,11 +62,11 @@ function Register() {
         const response = await Axios.post("/otpsend", formData, {
           withCredentials: true,
         });
-        const {otp} = response.data
-        localStorage.setItem("otp", otp)
+        const { otp } = response.data;
+        localStorage.setItem("otp", otp);
         setIsLoading(false);
         setUserData(formData);
-        toast.success(response.data.message,);
+        toast.success(response.data.message);
         navigate(`/otp-verify?email=${formData.email}`);
       } catch (error) {
         setIsLoading(false);
@@ -89,52 +93,69 @@ function Register() {
             <form onSubmit={handleSubmit}>
               <label className="font-bold text-sm" htmlFor="email">
                 Your name
+                <input
+                  type="text"
+                  maxLength="24"
+                  name="name"
+                  placeholder="First and last name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="border pl-2 border-black w-[296px] h-[31px] rounded "
+                />
               </label>
-              <br />
-              <input
-                type="text"
-                maxLength="24"
-                name="name"
-                placeholder="First and last name"
-                value={formData.name}
-                onChange={handleChange}
-                className="border pl-2 border-black w-[296px] h-[31px] rounded "
-              />
-              <br />
+
               <label className="font-bold text-sm mt-5" htmlFor="email">
                 Email
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="border pl-2 mb-5 border-black w-[296px] h-[31px] rounded"
+                />
               </label>
-              <br />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="border pl-2 mb-5 border-black w-[296px] h-[31px] rounded"
-              />
               <label className="font-bold text-sm" htmlFor="password">
                 Password
+                <div className="w-[296px] border border-black rounded">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    minLength="6"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="At least 6 characters"
+                    className="mx-2 w-[245px] h-[31px] outline-none"
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="pb-1 text-[#153e51] cursor-pointer"
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </span>
+                </div>
               </label>
-              <input
-                type="password"
-                minLength="6"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="At least 6 characters"
-                className="border pl-2 mb-2 border-black w-[296px] h-[31px] rounded"
-              />
-
               <label className="font-bold text-sm" htmlFor="password">
                 Re-enter password
+                <div className="w-[296px] border border-black rounded">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="mx-2 w-[245px] h-[31px] outline-none"
+                  />
+                  <span
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="pb-1 text-[#153e51] cursor-pointer"
+                  >
+                    {showConfirmPassword ? (
+                      <VisibilityOffIcon />
+                    ) : (
+                      <VisibilityIcon />
+                    )}
+                  </span>
+                </div>
               </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="border pl-2 border-black w-[296px] h-[31px] rounded"
-              />
               <button
                 type="submit"
                 className="bg-[#153e51] text-white text-sm font-semibold my-5 w-[296px] h-[31px] rounded"
