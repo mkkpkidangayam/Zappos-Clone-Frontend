@@ -40,7 +40,7 @@ const AdminLogin = () => {
 
   return (
     <div className="container flex justify-center items-center h-screen bg-cover bg-[url('https://media.licdn.com/dms/image/C561BAQEIPV76nJFFsQ/company-background_10000/0/1584409661241/zapposcom_cover?e=2147483647&v=beta&t=rmXnB4efRTXuqmIrTBVpNbmtZIqWG-uiTtkfuozpXvw')]">
-      <div className="md:w-1/4 md:h-2/4 flex flex-col shadow-2xl rounded-2xl bg-gray-200 justify-around opacity-95">
+      <div className="md:w-1/4 md:h-2/4 py-2 flex flex-col shadow-2xl rounded-2xl bg-gray-200 justify-around opacity-95">
         <h1 className="text-2xl text-emerald-800 mx-4 font-bold text-center border-b-2 border-blue-400 pb-4">
           <Link to={"/"}>Admin Login</Link>
         </h1>
