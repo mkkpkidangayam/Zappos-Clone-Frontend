@@ -38,9 +38,20 @@ const AdminNav = () => {
       >
         <div className="flex flex-col justify-between h-full">
           <div>
-            <h1 className="text-3xl font-mono font-bold p-6 border-b-2 bg-gray-800 text-white">
-              Admin
-            </h1>
+            <div>
+              <h1 className="text-3xl font-mono font-bold p-6 border-b-2 bg-gray-800 text-white">
+                Admin
+              </h1>
+
+              {isSidebarOpen && (
+                <button
+                  onClick={toggleSidebar}
+                  className="px-2 py-1 bg-gray-400 text-gray-800 rounded-md absolute"
+                >
+                  <KeyboardDoubleArrowLeftIcon />
+                </button>
+              )}
+            </div>
             <ul className="font-medium">
               <Link to={"/admin"}>
                 <li
@@ -114,11 +125,7 @@ const AdminNav = () => {
           onClick={toggleSidebar}
           className="px-2 py-1 bg-gray-400 text-gray-800 rounded-md absolute"
         >
-          {isSidebarOpen ? (
-            <KeyboardDoubleArrowLeftIcon />
-          ) : (
-            <KeyboardDoubleArrowRightIcon />
-          )}
+          {!isSidebarOpen && <KeyboardDoubleArrowRightIcon />}
         </button>
         <Outlet />
       </div>
