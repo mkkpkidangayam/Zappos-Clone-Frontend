@@ -210,7 +210,14 @@ const MainPage = () => {
             }
           />
 
-          <Route path="/admin" element={<AdminNav />}>
+          <Route
+            path="/admin"
+            element={
+              <AdminProttect>
+                <AdminNav />
+              </AdminProttect>
+            }
+          >
             <Route
               index
               element={
@@ -230,17 +237,17 @@ const MainPage = () => {
             <Route
               path="/admin/products-list"
               element={
-                // <AdminProttect>
+                <AdminProttect>
                   <ProductList />
-                // </AdminProttect>
+                </AdminProttect>
               }
             />
             <Route
               path="/admin/add-products"
               element={
-                // <AdminProttect>
+                <AdminProttect>
                   <AddProductForm />
-                // </AdminProttect>
+                </AdminProttect>
               }
             />
             <Route
@@ -276,7 +283,7 @@ const MainPage = () => {
               }
             />
           </Route>
-          <Route path="*" element={<NotFoundPage/>}/>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </myContext.Provider>
     </>
