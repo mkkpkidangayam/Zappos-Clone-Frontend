@@ -327,17 +327,16 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        {showModal && (
+      </div>
+
+      
+      <div className="flex justify-center">
+      {showModal && (
         <>
           <SubMenu />
         </>
       )}
       </div>
-
-      
-      {/* <div className=""> */}
-      
-      {/* </div> */}
       <div className="flex justify-center">
         <Outlet />
       </div>
