@@ -6,19 +6,22 @@ import toast from "react-hot-toast";
 import FooterSecond from "../components/Footer/FooterSecond";
 import Cookies from "js-cookie";
 import { Axios } from "../MainPage";
-
-function capitalize(str) {
-  if (!str) return str;
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function Login() {
   const navigate = useNavigate();
   const { setIsLogin } = useContext(myContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {}, [setIsLogin]);
+
+  function capitalize(str) {
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,16 +81,27 @@ function Login() {
               </label>
               <label className="font-bold text-sm" htmlFor="password">
                 Password
-                <Link className="ml-[80px] text-sm" href="/">
+                <Link
+                  to={"/forgot-password"}
+                  className="ml-[90px] font-normal hover:underline"
+                >
                   Forgot your password?
                 </Link>
-                <input
-                  type={"password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="border pl-2 border-black w-[296px] h-[31px] rounded"
-                  autoComplete="current-password"
-                />
+                <div className="w-[296px] border border-black rounded">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mx-2 w-[245px] h-[31px] outline-none"
+                    autoComplete="current-password"
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="px-1 text-[#153e51] cursor-pointer"
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </span>
+                </div>
               </label>
               <button
                 type="submit"
