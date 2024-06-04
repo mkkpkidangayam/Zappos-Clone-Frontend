@@ -82,7 +82,7 @@ function Login() {
                   Forgot your password?
                 </Link>
                 <input
-                  type="password"
+                  type={"password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="border pl-2 border-black w-[296px] h-[31px] rounded"
