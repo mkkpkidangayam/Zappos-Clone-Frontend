@@ -70,8 +70,8 @@ const Navbar = () => {
     <>
       <TopBar />
       {/* <hr /> */}
-      <div>
-        <div className="container mx-auto pt-4">
+      <div className="container mx-auto border-b pb-2">
+        <div className="pt-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center pl-7">
               <div className="ml-3 mr-10">
@@ -327,18 +327,22 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      </div>
-      <hr className="my-2" />
-      {showModal && (
+        {showModal && (
         <>
           <SubMenu />
         </>
       )}
-      <div>
+      </div>
+
+      
+      {/* <div className=""> */}
+      
+      {/* </div> */}
+      <div className="flex justify-center">
         <Outlet />
       </div>
 
-      <div>
+      <div className="flex justify-center">
         <Footer />
       </div>
     </>

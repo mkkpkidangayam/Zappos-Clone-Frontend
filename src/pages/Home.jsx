@@ -46,7 +46,7 @@ const Home = () => {
     : [];
 
   const renderCarousel = () => (
-    <div className="container px-6">
+    <div className="container px-6 mx-auto">
       <Carousel responsive={responsive}>
         {filteredProducts ? (
           filteredProducts.map((item, index, filteredArray) => {
@@ -89,7 +89,7 @@ const Home = () => {
     <div className="container my-6">
       <div className="flex justify-center">
         <img
-          className="h-full w-[95%] object-center"
+          className="h-full md:w-[95%] object-center"
           src={images[currentImageIndex]}
           alt={`img${currentImageIndex + 1}`}
         />

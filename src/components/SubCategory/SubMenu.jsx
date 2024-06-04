@@ -30,18 +30,18 @@ export default function Menu() {
   };
 
   return (
-    <div>
+    <div className="mx-auto">
       {showModal && (
         <div
           ref={modalRef}
           id="static-modal"
           data-modal-backdrop="static"
           onClick={closeModal}
-          className="absolute top-40 pt-2 right-0 left-0 z-50 w-full h-screen bg-[#242424df] bg-opacity-50"
+          className="absolute top-40 pt-2 right-0 left-2 z-50 bg-opacity-100"
         >
           <div
             onMouseLeave={() => toggleModal()}
-            className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow "
+            className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow-md"
           >
             <button
               onClick={toggleModal}
