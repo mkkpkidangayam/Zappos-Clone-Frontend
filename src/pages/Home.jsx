@@ -46,7 +46,7 @@ const Home = () => {
     : [];
 
   const renderCarousel = () => (
-    <div className="container px-6 mx-auto">
+    <div className="h-full px-6 mx-auto">
       <Carousel responsive={responsive}>
         {filteredProducts ? (
           filteredProducts.map((item, index, filteredArray) => {

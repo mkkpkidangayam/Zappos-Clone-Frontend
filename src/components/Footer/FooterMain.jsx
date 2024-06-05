@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="min-w-full bg-gray-900 mt-10">
-      <footer className="min-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-gray-300">
+      <footer className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-gray-300">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="mb-8">
             <h3 className="text-xl font-bold mb-4">Explore Zappos</h3>
