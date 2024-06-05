@@ -42,7 +42,7 @@ const ManageOrders = () => {
     return `${formattedDate} ${formattedTime}`;
   };
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-4">
       <h1 className="text-2xl text-center font-bold pb-4 border-b">
         Manage Orders
       </h1>
