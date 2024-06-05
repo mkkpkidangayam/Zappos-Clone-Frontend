@@ -270,31 +270,32 @@ function AddressesPage() {
                   value={addr._id}
                   checked={selectedAddressId === addr._id}
                   onChange={() => handleSelectAddress(addr._id)}
-                  className="mr-2"
+                  className="mr-4"
                 />
-                <div>
-                  <b>{addr.label}</b>
-                  <br />
-                  {`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}
+                <div className="flex-1">
+                  <div className="font-bold">{addr.label}</div>
+                  <div>{`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}</div>
+                  <div>
+                    <b>Mobile Number:</b> {addr.phoneNumber}
+                  </div>
                 </div>
-                <div>
-                  <b>Mobile Number:</b> {addr.phoneNumber}
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => {
+                      setCurrentAddress(addr);
+                      setEditing(true);
+                    }}
+                    className="text-blue-500 hover:underline"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteAddress(addr._id)}
+                    className="text-red-500 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </div>
-                <button
-                  onClick={() => {
-                    setCurrentAddress(addr);
-                    setEditing(true);
-                  }}
-                  className="text-blue-500 mt-2 hover:underline"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteAddress(addr._id)}
-                  className="text-red-500 ml-2 mt-2 hover:underline"
-                >
-                  Delete
-                </button>
               </li>
             ))}
           </ul>
