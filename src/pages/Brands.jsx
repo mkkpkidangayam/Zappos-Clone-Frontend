@@ -1,7 +1,5 @@
 const Brands = () => {
-  return (
-    <div>Brands</div>
-  )
-}
+  return <div>Brands</div>;
+};
 
-export default Brands
+export default Brands;
