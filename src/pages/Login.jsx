@@ -63,7 +63,7 @@ function Login() {
       </div>
       <div className="mb-32 flex justify-center">
         <div className="w-[650px] flex justify-center">
-          <div className="w-[348px] h-[384px] rounded p-6 border border-black">
+          <div className="rounded p-6 border border-black">
             <h1 className="text-2xl mb-4">
               <b>Sign in</b>
             </h1>
@@ -80,14 +80,16 @@ function Login() {
                 />
               </label>
               <label className="font-bold text-sm" htmlFor="password">
-                Password
-                <Link
-                  to={"/forgot-password"}
-                  className="ml-[90px] font-normal hover:underline"
-                >
-                  Forgot your password?
-                </Link>
-                <div className="w-[296px] border border-black rounded">
+                <div className="flex justify-between">
+                  Password
+                  <Link
+                    to={"/forgot-password"}
+                    className=" font-normal hover:underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+                <div className="w-[296px] border border-black rounded flex justify-between">
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
@@ -97,7 +99,7 @@ function Login() {
                   />
                   <span
                     onClick={() => setShowPassword(!showPassword)}
-                    className="px-1 text-[#153e51] cursor-pointer"
+                    className="pt-1 pr-1 text-[#153e51] cursor-pointer"
                   >
                     {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                   </span>
