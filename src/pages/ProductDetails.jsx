@@ -197,7 +197,7 @@ const ProductDetails = () => {
                     key={index}
                     src={image}
                     alt={`Thumbnail ${index}`}
-                    className={`w-20 h-20 object-cover mb-2 cursor-pointer border hover:border-black ${
+                    className={`w-20 h-20 object-cover mb-2 cursor-pointer p-2 border hover:border-black ${
                       index === activeImage ? "border-2" : ""
                     }`}
                     onClick={() => handleThumbnailClick(image)}
