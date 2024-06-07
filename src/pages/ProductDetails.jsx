@@ -201,6 +201,7 @@ const ProductDetails = () => {
                       index === activeImage ? "border-2" : ""
                     }`}
                     onClick={() => handleThumbnailClick(image)}
+                    onMouseOver={() => handleThumbnailClick(image)}
                   />
                 ))}
               </div>
