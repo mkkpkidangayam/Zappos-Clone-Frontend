@@ -299,7 +299,7 @@ const Navbar = () => {
                     Brands
                   </li>
                 </button>
-                <button
+                {/* <button
                   onClick={() => {
                     setMenu("sale");
                     setShowModal(false);
@@ -314,7 +314,7 @@ const Navbar = () => {
                   >
                     Sale
                   </li>
-                </button>
+                </button> */}
               </ul>
             </div>
             <div className="flex items-center mr-3 pr-6">
