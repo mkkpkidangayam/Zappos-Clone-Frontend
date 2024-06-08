@@ -104,7 +104,7 @@ const ProductsListing = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 px-4 md:px-10">
         {/* Sidebar */}
-        <div className="w-48 md:block">
+        <div className="w-48 md:block sm:hidden">
           <Sidebar />
         </div>
 

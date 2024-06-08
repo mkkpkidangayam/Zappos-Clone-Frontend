@@ -38,6 +38,8 @@ import ManageOrders from "./components/Admin section/ManageOrders";
 import OrderDetailsAdmin from "./components/Admin section/OrderDetailsAdmin";
 import OrderDetails from "./pages/OrderDetails";
 import NotFoundPage from "./components/Assets/PageNotFond";
+import { useMediaQuery } from "react-responsive";
+import MobileNavbar from "./components/Navbar/MobileNavbar";
 
 export const Axios = axios.create({
   baseURL: "https://zappos-clone-backend.onrender.com/api",
@@ -106,12 +108,15 @@ const MainPage = () => {
     setFilteredProducts,
   };
 
+    // Use react-responsive to detect screen size
+    const isMobileOrTablet = useMediaQuery({ query: "(max-width: 768px)" });
+
   return (
     <>
       <Toaster />
       <myContext.Provider value={details}>
         <Routes>
-          <Route path="/" element={<Navbar />}>
+          <Route path="/" element={isMobileOrTablet ? <MobileNavbar /> : <Navbar />}>
             <Route index element={<Home />} />
             <Route path="/women" element={<Products />} />
             <Route path="/men" element={<Products />} />
