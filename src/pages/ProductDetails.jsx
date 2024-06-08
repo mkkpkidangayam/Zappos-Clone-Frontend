@@ -160,7 +160,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-[#f5f5f5]">
+    <div className="container mx-auto px-4 py-8">
       {productById ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative md:col-span-2">
@@ -209,7 +209,7 @@ const ProductDetails = () => {
                 <img
                   src={activeImage}
                   alt={productById.title}
-                  className="w-full h-auto mb-4 object-cover"
+                  className="w-full h-auto mb-4 p-2 object-cover brder-2 border-black"
                 />
                 <div className="absolute top-4 right-4">
                   <button
