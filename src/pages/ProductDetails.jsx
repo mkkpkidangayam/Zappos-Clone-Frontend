@@ -209,7 +209,7 @@ const ProductDetails = () => {
                 <img
                   src={activeImage}
                   alt={productById.title}
-                  className="w-full h-auto mb-4 p-2 object-cover border-2 border-black"
+                  className="w-full h-auto mb-4 p-2 object-cover border border-black"
                 />
                 <div className="absolute top-4 right-4">
                   <button
