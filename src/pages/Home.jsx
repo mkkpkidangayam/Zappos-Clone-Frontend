@@ -56,17 +56,22 @@ const Home = () => {
             if (isDuplicate) return null;
             return (
               <article key={index} className="w-[95%] m-5 border p-2">
-                <picture>
-                  {item.images ? (
-                    <img
-                      src={item.images[0]}
-                      alt=""
-                      className="w-full h-auto"
-                    />
-                  ) : (
-                    <LoadingSpinner />
-                  )}
-                </picture>
+                <Link
+                  to={`/category/${encodeURIComponent(item.category.sub)}`}
+                  className="block font-semibold hover:underline"
+                >
+                  <picture>
+                    {item.images ? (
+                      <img
+                        src={item.images[0]}
+                        alt=""
+                        className="w-full h-auto"
+                      />
+                    ) : (
+                      <LoadingSpinner />
+                    )}
+                  </picture>
+                </Link>
                 <div className="text-center">
                   <Link
                     to={`/category/${encodeURIComponent(item.category.sub)}`}
@@ -94,45 +99,47 @@ const Home = () => {
           alt={`img${currentImageIndex + 1}`}
         />
       </div>
-      <div className="m-4">
-        <h1 className="text-3xl text-center font-bold">
-          Shop Popular Categories
-        </h1>
+      <div className="border">
+        <div className="m-4">
+          <h1 className="text-3xl text-center font-bold">
+            Shop Popular Categories
+          </h1>
+        </div>
+        <hr className="m-auto w-1/5 border-black" />
+        <div className="flex justify-center space-x-4 my-4">
+          <button
+            className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
+              selectedCategory === "shoe"
+                ? "bg-blue-600 text-white"
+                : "bg-slate-200"
+            } `}
+            onClick={() => setSelectedCategory("shoe")}
+          >
+            Shoes
+          </button>
+          <button
+            className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
+              selectedCategory === "cloth"
+                ? "bg-blue-600 text-white"
+                : "bg-slate-200"
+            } `}
+            onClick={() => setSelectedCategory("cloth")}
+          >
+            Clothes
+          </button>
+          <button
+            className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
+              selectedCategory === "accessories"
+                ? "bg-blue-600 text-white"
+                : "bg-slate-200"
+            } `}
+            onClick={() => setSelectedCategory("accessories")}
+          >
+            Accessories
+          </button>
+        </div>
+        <div>{renderCarousel()}</div>
       </div>
-      <hr className="m-auto w-1/5 border-black" />
-      <div className="flex justify-center space-x-4 my-4">
-        <button
-          className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
-            selectedCategory === "shoe"
-              ? "bg-blue-600 text-white"
-              : "bg-slate-200"
-          } `}
-          onClick={() => setSelectedCategory("shoe")}
-        >
-          Shoes
-        </button>
-        <button
-          className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
-            selectedCategory === "cloth"
-              ? "bg-blue-600 text-white"
-              : "bg-slate-200"
-          } `}
-          onClick={() => setSelectedCategory("cloth")}
-        >
-          Clothes
-        </button>
-        <button
-          className={`py-2 px-4 border rounded-lg font-bold hover:bg-blue-500 ${
-            selectedCategory === "accessories"
-              ? "bg-blue-600 text-white"
-              : "bg-slate-200"
-          } `}
-          onClick={() => setSelectedCategory("accessories")}
-        >
-          Accessories
-        </button>
-      </div>
-      <div>{renderCarousel()}</div>
 
       <div className="cursor-default border mx-5">
         <h1 className="text-center sm:text-4xl md:text-5xl lg:text-7xl xl:text-[300px] text-transparent bg-clip-text font-extrabold bg-cover bg-[url('https://m.media-amazon.com/images/G/01/Zappos/2024/Homepage/4.22/CROCS-STARWARS-AOE-1920x1000._FMwebp_.jpg')]">
