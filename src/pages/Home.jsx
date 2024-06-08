@@ -99,7 +99,7 @@ const Home = () => {
           alt={`img${currentImageIndex + 1}`}
         />
       </div>
-      <div className="border">
+      <div className="m-2 border">
         <div className="m-4">
           <h1 className="text-3xl text-center font-bold">
             Shop Popular Categories
