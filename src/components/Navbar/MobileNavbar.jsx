@@ -7,7 +7,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import myContext from "../../context/myContextxt";
 // import DropdownLogin from "./DropdownLogin";
 import SubMenu from "../SubCategory/SubMenu";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
 
@@ -70,7 +70,7 @@ const MobileNavbar = () => {
 
   return (
     <div className="lg:hidden">
-        <TopBar/>
+      <TopBar />
       {/* Hide on large screens */}
       <div className="flex justify-between items-center p-4 border-b">
         <div className="flex items-center">
@@ -101,7 +101,18 @@ const MobileNavbar = () => {
               />
             </svg>
           </button>
-          <Link to="/cart">
+          <button
+            onClick={() => {
+              userData ? (
+                navigate(`/user/${userData._id}/bag`)
+              ) : (
+                <>
+                  {toast.error("Please login first")}
+                  {navigate("/login")}
+                </>
+              );
+            }}
+          >
             <svg
               className="h-8 w-8"
               viewBox="0 0 32 34"
@@ -116,7 +127,7 @@ const MobileNavbar = () => {
                 strokeLinejoin="round"
               ></path>
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
       {isNavOpen && (
@@ -247,9 +258,7 @@ const MobileNavbar = () => {
           </nav>
         </div>
       )}
-       <div className="flex justify-center">
-          {showModal && <SubMenu />}
-        </div>
+      <div className="flex justify-center">{showModal && <SubMenu />}</div>
       {/* {showModal && <SubMenu />} */}
       <div className="flex justify-center">
         <Outlet />
