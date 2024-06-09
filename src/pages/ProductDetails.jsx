@@ -216,7 +216,7 @@ const ProductDetails = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-row md:flex-col md:order-1 md:w-1/4 md:mr-4">
+              <div className="flex flex-row md:flex-col md:order-1 md:mr-4 overflow-x-scroll">
                 {productById.images.map((image, index) => (
                   <img
                     key={index}
