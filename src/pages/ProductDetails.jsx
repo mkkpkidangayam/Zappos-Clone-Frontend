@@ -190,8 +190,8 @@ const ProductDetails = () => {
               </Link>{" "}
               /<span className="font-medium">{productById.title}</span>
             </div>
-            <div className="flex">
-              <div className="flex flex-col justify-normal mr-4 md:hidden">
+            <div className="flex sm:flex-col-reverse">
+              <div className="flex flex-col sm:flex-row justify-normal mr-4">
                 {productById.images.map((image, index) => (
                   <img
                     key={index}
