@@ -63,7 +63,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="mx-auto md:w-full h-full px-4 pt-10 pb-14">
+    <div className="mx-auto md:w-full min-h-screen px-4 pt-10 pb-14">
       <div className="flex justify-between mx-3 ">
         <h1 className="text-3xl font-bold mb-6">My Bag</h1>
         <Link
