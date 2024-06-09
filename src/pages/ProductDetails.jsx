@@ -190,47 +190,48 @@ const ProductDetails = () => {
               </Link>{" "}
               /<span className="font-medium">{productById.title}</span>
             </div>
-            <div className="flex sm:flex-col-reverse">
-              <div className="flex flex-col sm:flex-row justify-normal mr-4">
-                {productById.images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Thumbnail ${index}`}
-                    className={`w-20 h-20 object-cover mb-2 cursor-pointer p-2 border hover:border-black ${
-                      index === activeImage ? "border-2" : ""
-                    }`}
-                    onClick={() => handleThumbnailClick(image)}
-                    onMouseOver={() => handleThumbnailClick(image)}
-                  />
-                ))}
-              </div>
-              <div className="relative">
-                <img
-                  src={activeImage}
-                  alt={productById.title}
-                  className="w-full h-auto mb-4 p-2 object-cover border border-black"
-                />
-                <div className="absolute top-4 right-4">
-                  <button
-                    type="button"
-                    onClick={addToWishlist}
-                    className={`border rounded-3xl border-blue-400 hover:border-4 ${
-                      isInWishlist && "bg-blue-500 text-white"
-                    }`}
-                  >
-                    <svg
-                      className="h-8 w-8 m-2 cursor-pointer rounded-full"
-                      viewBox="0 0 32 32"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M23.5143 21.5031C25.1357 20.1174 26.539 18.7679 27.1262 17.8205C28.0184 16.3801 28.6486 14.8035 28.5435 12.7233C28.3578 9.04119 25.5203 6 22.0454 6C18.6268 6 15.9446 10.045 15.9446 10.045C15.9446 10.045 15.9445 10.0447 15.9441 10.0442C15.9438 10.0447 15.9436 10.045 15.9436 10.045C15.9436 10.045 13.2614 6 9.84275 6C6.36787 6 3.53038 9.04119 3.34469 12.7233C3.23963 14.8035 3.8698 16.3801 4.76202 17.8205C6.55297 20.7103 15.9362 27.3396 15.9441 27.3333C15.9473 27.3358 17.4365 26.2865 19.3409 24.8402" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <div className="flex flex-col sm:flex-row sm:flex-col-reverse">
+  <div className="flex flex-row sm:flex-col justify-start sm:justify-normal mr-0 sm:mr-4">
+    {productById.images.map((image, index) => (
+      <img
+        key={index}
+        src={image}
+        alt={`Thumbnail ${index}`}
+        className={`w-20 h-20 object-cover mb-2 cursor-pointer p-2 border hover:border-black ${
+          index === activeImage ? "border-2" : ""
+        }`}
+        onClick={() => handleThumbnailClick(image)}
+        onMouseOver={() => handleThumbnailClick(image)}
+      />
+    ))}
+  </div>
+  <div className="relative">
+    <img
+      src={activeImage}
+      alt={productById.title}
+      className="w-full h-auto mb-4 p-2 object-cover border border-black"
+    />
+    <div className="absolute top-4 right-4">
+      <button
+        type="button"
+        onClick={addToWishlist}
+        className={`border rounded-3xl border-blue-400 hover:border-4 ${
+          isInWishlist && "bg-blue-500 text-white"
+        }`}
+      >
+        <svg
+          className="h-8 w-8 m-2 cursor-pointer rounded-full"
+          viewBox="0 0 32 32"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path d="M23.5143 21.5031C25.1357 20.1174 26.539 18.7679 27.1262 17.8205C28.0184 16.3801 28.6486 14.8035 28.5435 12.7233C28.3578 9.04119 25.5203 6 22.0454 6C18.6268 6 15.9446 10.045 15.9446 10.045C15.9446 10.045 15.9445 10.0447 15.9441 10.0442C15.9438 10.0447 15.9436 10.045 15.9436 10.045C15.9436 10.045 13.2614 6 9.84275 6C6.36787 6 3.53038 9.04119 3.34469 12.7233C3.23963 14.8035 3.8698 16.3801 4.76202 17.8205C6.55297 20.7103 15.9362 27.3396 15.9441 27.3333C15.9473 27.3358 17.4365 26.2865 19.3409 24.8402" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
           </div>
 
           <div className="md:col-span-1">
