@@ -160,7 +160,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto px-4 py-8">
       {productById ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative md:col-span-2">
@@ -190,22 +190,8 @@ const ProductDetails = () => {
               </Link>{" "}
               /<span className="font-medium">{productById.title}</span>
             </div>
-            <div className="flex flex-col sm:flex-row md:flex-col-reverse">
-              <div className="flex flex-row sm:flex-col justify-start sm:justify-normal mr-0 sm:mr-4">
-                {productById.images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Thumbnail ${index}`}
-                    className={`w-20 h-20 object-cover mb-2 cursor-pointer p-2 border hover:border-black ${
-                      index === activeImage ? "border-2" : ""
-                    }`}
-                    onClick={() => handleThumbnailClick(image)}
-                    onMouseOver={() => handleThumbnailClick(image)}
-                  />
-                ))}
-              </div>
-              <div className="relative">
+            <div className="flex flex-col md:flex-row md:justify-start">
+              <div className="relative md:order-2 md:w-3/4">
                 <img
                   src={activeImage}
                   alt={productById.title}
@@ -229,6 +215,20 @@ const ProductDetails = () => {
                     </svg>
                   </button>
                 </div>
+              </div>
+              <div className="flex flex-row md:flex-col md:order-1 md:w-1/4 md:mr-4">
+                {productById.images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Thumbnail ${index}`}
+                    className={`w-20 h-20 object-cover mb-2 cursor-pointer p-2 border hover:border-black ${
+                      index === activeImage ? "border-2" : ""
+                    }`}
+                    onClick={() => handleThumbnailClick(image)}
+                    onMouseOver={() => handleThumbnailClick(image)}
+                  />
+                ))}
               </div>
             </div>
           </div>
