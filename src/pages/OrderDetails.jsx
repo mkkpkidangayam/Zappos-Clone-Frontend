@@ -87,7 +87,7 @@ const OrderDetails = () => {
 
   return (
     <div className="container md:px-10 mt-8">
-      <h1 className="text-3xl font-bold text-emerald-800 pb-4 mb-4 border-b">
+      <h1 className="md:text-3xl text-2xl text-center md:text-left font-bold text-emerald-800 pb-4 mb-4 border-b">
         My Orders
       </h1>
 
@@ -95,15 +95,15 @@ const OrderDetails = () => {
         <LoadingSpinner />
       ) : orders.length > 0 ? (
         <div className="space-y-6">
-          {orders.map((order) => (
+          {orders.map((order, index) => (
             <div
               key={order._id}
-              className="bg-white shadow-md rounded-lg md:p-4 border border-gray-200"
+              className="bg-white shadow-md rounded-lg md:p-4 border border-gray-200 flex-col" 
             >
-              <div className="flex justify-between">
-                <div className="mb-4">
+              <div className="md:flex md:justify-between my-2">
+                <div className="mb-2 px-2">
                   <h2 className="text-xl font-semibold">
-                    Order ID: {order._id}
+                    Order: {index + 1}
                   </h2>
                   <p className="text-gray-500">
                     Order Date: {formatDateTime(order.createdAt)}
@@ -120,7 +120,7 @@ const OrderDetails = () => {
                     </p>
                   )}
 
-                  <div className="mt-10">
+                  <div className="lg:mt-10 my-2">
                     <h3 className="text-lg font-semibold">Shipping Address:</h3>
                     <p>{order.address?.street}</p>
                     <p>
@@ -136,14 +136,12 @@ const OrderDetails = () => {
                     {getStatusTimelineItems(order)}
                   </Timeline>
                 </div>
-
-                
-                  <div className="space-y-2 w-1/3">
+                  <div className="space-y-2 lg:w-1/3 px-2">
                   <h3 className="text-lg font-semibold mb-2">Items:</h3>
                     {order.items.map((item, index) => (
                       <div
                         key={index}
-                        className="p-2 border  border-gray-300 rounded-lg flex"
+                        className="p-2 border border-gray-300 rounded-lg flex"
                       >
                         <Link to={`/product/${item.item._id}`}>
                           <img

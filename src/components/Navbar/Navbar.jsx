@@ -145,7 +145,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     userData ? (
-                      navigate(`/user/${userData._id}/bag`)
+                      navigate(`/user/${userData?._id}/bag`)
                     ) : (
                       <>
                         {toast.error("Please login first")}

@@ -79,19 +79,19 @@ function Register() {
   };
   return (
     <>
-      <div className="h-24  flex justify-center items-center ">
+      <div className="h-24 flex justify-center items-center ">
         <Link to="/">
           <img src={logo} alt="Logo" />
         </Link>
       </div>
       <div className="mb-10 flex justify-center">
-        <div className="w-[650px] flex justify-center  ">
-          <div className="w-[348px] rounded p-6 border border-black">
+        <div className="md:w-[650px] flex justify-center ">
+          <div className="md:w-[348px] w-[300px] rounded p-6 border border-black">
             <h1 className="text-2xl mb-4">
               <b>Create account </b>
             </h1>
             <form onSubmit={handleSubmit}>
-              <label className="font-bold text-sm" htmlFor="email">
+              <label className="font-bold text-sm w-full" htmlFor="email">
                 Your name
                 <input
                   type="text"
@@ -100,7 +100,7 @@ function Register() {
                   placeholder="First and last name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="border pl-2 border-black w-[296px] h-[31px] rounded "
+                  className="border pl-2 border-black md:w-[296px] min-w-64 h-[31px] rounded "
                 />
               </label>
 
@@ -111,12 +111,12 @@ function Register() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="border pl-2 mb-5 border-black w-[296px] h-[31px] rounded"
+                  className="border pl-2 mb-5 border-black min-w-64 md:w-[296px] h-[31px] rounded"
                 />
               </label>
               <label className="font-bold text-sm" htmlFor="password">
                 Password
-                <div className="w-[296px] border border-black rounded">
+                <div className="md:w-[296px] border w-64 border-black rounded flex justify-between">
                   <input
                     type={showPassword ? "text" : "password"}
                     minLength="6"
@@ -124,11 +124,11 @@ function Register() {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="At least 6 characters"
-                    className="mx-2 w-[245px] h-[31px] outline-none"
+                    className="mx-2 md:w-[245px] h-[31px] outline-none"
                   />
                   <span
                     onClick={() => setShowPassword(!showPassword)}
-                    className="pb-1 text-[#153e51] cursor-pointer"
+                    className="p-1 text-[#153e51] cursor-pointer"
                   >
                     {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                   </span>
@@ -136,17 +136,18 @@ function Register() {
               </label>
               <label className="font-bold text-sm" htmlFor="password">
                 Re-enter password
-                <div className="w-[296px] border border-black rounded">
+                <div className="w-64 md:w-[296px] border border-black rounded flex justify-between">
+                  
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="mx-2 w-[245px] h-[31px] outline-none"
+                    className="mx-2 md:w-[245px]  h-[31px] outline-none"
                   />
                   <span
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="pb-1 text-[#153e51] cursor-pointer"
+                    className="p-1 text-[#153e51] cursor-pointer"
                   >
                     {showConfirmPassword ? (
                       <VisibilityOffIcon />
@@ -158,7 +159,7 @@ function Register() {
               </label>
               <button
                 type="submit"
-                className="bg-[#153e51] text-white text-sm font-semibold my-5 w-[296px] h-[31px] rounded"
+                className="bg-[#153e51] text-white text-sm font-semibold my-5 md:w-[296px] w-full h-[31px] rounded"
               >
                 {isLoading ? "Sending OTP..." : "Create your Zappose account"}
               </button>
@@ -181,7 +182,7 @@ function Register() {
             </p>
             <br />
             <hr className="border border-black-300" />
-            <div className="translate-y-3 flex justify-center w-[296px]">
+            <div className="translate-y-3 flex justify-center min-w-64 md:w-[296px]">
               <p className="text-[12px]">
                 Already have an account?
                 <Link to="/login">

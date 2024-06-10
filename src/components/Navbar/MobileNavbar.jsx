@@ -5,11 +5,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import myContext from "../../context/myContextxt";
-// import DropdownLogin from "./DropdownLogin";
+import DropdownLogin from "./DropdownLogin";
 import SubMenu from "../SubCategory/SubMenu";
 import toast from "react-hot-toast";
-import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
+import MobileFooter from "../Footer/MobileFooter";
 
 const MobileNavbar = () => {
   const navigate = useNavigate();
@@ -23,9 +23,10 @@ const MobileNavbar = () => {
     menu,
     setMenu,
     setSubMenu,
+    isMenuOpen,
+    SetIsMenuOpen,
   } = useContext(myContext);
   const [search, setSearch] = useState("");
-  const [isMenuOpen, SetIsMenuOpen] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   useEffect(() => {
@@ -101,6 +102,7 @@ const MobileNavbar = () => {
               />
             </svg>
           </button>
+          {isMenuOpen && <DropdownLogin />}
           <button
             onClick={() => {
               userData ? (
@@ -264,7 +266,7 @@ const MobileNavbar = () => {
         <Outlet />
       </div>
       <div className="flex justify-center">
-        <Footer />
+        <MobileFooter />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ function AddressesPage() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [addressLoding, setAddressesLoding] = useState(true);
+  const [addressLoading, setAddressLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [couponCode, setCouponCode] = useState("");
@@ -68,7 +68,7 @@ function AddressesPage() {
         const fetchedAddresses = addressResponse.data;
         if (!isEqual(addresses, fetchedAddresses)) {
           setAddresses(fetchedAddresses);
-          setAddressesLoding(false);
+          setAddressLoading(false);
         }
         if (fetchedAddresses.length > 0) {
           const defaultAddressId = fetchedAddresses[0]._id;
@@ -176,142 +176,141 @@ function AddressesPage() {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-8">
-      <div className="w-3/4 mx-auto">
-        <h2 className="text-3xl font-semibold my-10">My Addresses</h2>
-        <form
-          onSubmit={handleSubmit}
-          className="mb-4"
-          key={currentAddress._id || "new"}
-        >
-          <input
-            type="text"
-            name="street"
-            value={currentAddress.street}
-            onChange={handleInputChange}
-            placeholder="Street"
-            className="block w-full mb-2 px-4 py-2 border rounded"
-          />
-          <input
-            type="text"
-            name="city"
-            value={currentAddress.city}
-            onChange={handleInputChange}
-            placeholder="City"
-            className="block w-full mb-2 px-4 py-2 border rounded"
-          />
-          <input
-            type="text"
-            name="state"
-            value={currentAddress.state}
-            onChange={handleInputChange}
-            placeholder="State"
-            className="block w-full mb-2 px-4 py-2 border rounded"
-          />
-          <input
-            type="text"
-            name="zipCode"
-            value={currentAddress.zipCode}
-            onChange={handleInputChange}
-            placeholder="Zip Code"
-            className="block w-full mb-2 px-4 py-2 border rounded"
-          />
-
-          <input
-            type="text"
-            name="phoneNumber"
-            value={currentAddress.phoneNumber}
-            onChange={handleInputChange}
-            placeholder="Mobile Number"
-            className="block w-full mb-4 px-4 py-2 border rounded"
-          />
-
-          <label className="inline-flex items-center mr-4">
-            <input
-              type="radio"
-              name="label"
-              value="Home"
-              checked={currentAddress.label === "Home"}
-              onChange={handleInputChange}
-              className="mr-2"
-            />
-            Home
-          </label>
-
-          <label className="inline-flex items-center mr-4">
-            <input
-              type="radio"
-              name="label"
-              value="Office"
-              checked={currentAddress.label === "Office"}
-              onChange={handleInputChange}
-              className="mr-2"
-            />
-            Office
-          </label>
-          <br />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white mt-2 px-4 py-2 rounded hover:bg-blue-600"
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6">My Addresses</h2>
+          <form
+            onSubmit={handleSubmit}
+            className="mb-4"
+            key={currentAddress._id || "new"}
           >
-            {editing ? "Update Address" : "Add Address"}
-          </button>
-        </form>
-        {addressLoding ? (
+            <input
+              type="text"
+              name="street"
+              value={currentAddress.street}
+              onChange={handleInputChange}
+              placeholder="Street"
+              className="block w-full mb-2 px-4 py-2 border rounded"
+            />
+            <input
+              type="text"
+              name="city"
+              value={currentAddress.city}
+              onChange={handleInputChange}
+              placeholder="City"
+              className="block w-full mb-2 px-4 py-2 border rounded"
+            />
+            <input
+              type="text"
+              name="state"
+              value={currentAddress.state}
+              onChange={handleInputChange}
+              placeholder="State"
+              className="block w-full mb-2 px-4 py-2 border rounded"
+            />
+            <input
+              type="text"
+              name="zipCode"
+              value={currentAddress.zipCode}
+              onChange={handleInputChange}
+              placeholder="Zip Code"
+              className="block w-full mb-2 px-4 py-2 border rounded"
+            />
+            <input
+              type="text"
+              name="phoneNumber"
+              value={currentAddress.phoneNumber}
+              onChange={handleInputChange}
+              placeholder="Mobile Number"
+              className="block w-full mb-4 px-4 py-2 border rounded"
+            />
+
+            <label className="inline-flex items-center mr-4">
+              <input
+                type="radio"
+                name="label"
+                value="Home"
+                checked={currentAddress.label === "Home"}
+                onChange={handleInputChange}
+                className="mr-2"
+              />
+              Home
+            </label>
+
+            <label className="inline-flex items-center mr-4">
+              <input
+                type="radio"
+                name="label"
+                value="Office"
+                checked={currentAddress.label === "Office"}
+                onChange={handleInputChange}
+                className="mr-2"
+              />
+              Office
+            </label>
+            <br />
+            <button
+              type="submit"
+              className="bg-blue-500 text-white mt-2 px-4 py-2 rounded hover:bg-blue-600"
+            >
+              {editing ? "Update Address" : "Add Address"}
+            </button>
+          </form>
+          {addressLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <ul>
+              {addresses.map((addr) => (
+                <li key={addr._id} className="border-b flex items-center py-4">
+                  <input
+                    type="radio"
+                    id={addr._id}
+                    name="selectedAddress"
+                    value={addr._id}
+                    checked={selectedAddressId === addr._id}
+                    onChange={() => handleSelectAddress(addr._id)}
+                    className="mr-4"
+                  />
+                  <div className="flex-1">
+                    <div className="font-bold">{addr.label}</div>
+                    <div>{`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}</div>
+                    <div>
+                      <b>Mobile Number:</b> {addr.phoneNumber}
+                    </div>
+                  </div>
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={() => {
+                        setCurrentAddress(addr);
+                        setEditing(true);
+                      }}
+                      className="text-blue-500 hover:underline"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deleteAddress(addr._id)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <ul>
-            {addresses.map((addr) => (
-              <li key={addr._id} className="border-b flex items-center py-4">
-                <input
-                  type="radio"
-                  id={addr._id}
-                  name="selectedAddress"
-                  value={addr._id}
-                  checked={selectedAddressId === addr._id}
-                  onChange={() => handleSelectAddress(addr._id)}
-                  className="mr-4"
-                />
-                <div className="flex-1">
-                  <div className="font-bold">{addr.label}</div>
-                  <div>{`${addr.street}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}</div>
-                  <div>
-                    <b>Mobile Number:</b> {addr.phoneNumber}
-                  </div>
-                </div>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => {
-                      setCurrentAddress(addr);
-                      setEditing(true);
-                    }}
-                    className="text-blue-500 hover:underline"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteAddress(addr._id)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div className="w-3/4 mx-auto">
-          <h2 className="text-3xl font-semibold my-10">Bag</h2>
-          <hr />
-          <ul>
-            {cartItems.map((item) => (
-              <li key={item._id} className="border-b py-4">
-                <div className="flex justify-between">
-                  <div>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-6">Bag</h2>
+            <hr />
+            <ul>
+              {cartItems.map((item) => (
+                <li key={item._id} className="border-b py-4 flex flex-col md:flex-row justify-between">
+                  <div className="flex-1">
                     <h3 className="text-lg font-semibold">{item.title}</h3>
                     <p className="font-medium"> {item.product.title}</p>
                     <p>Color: {item.product.color}</p>
@@ -324,62 +323,61 @@ function AddressesPage() {
                       Total: ₹{(item.product.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
 
-          <div className="sticky bottom-10 right-10 flex justify-between items-center">
-            <div className="mt-5">
-              <input
-                type="text"
-                placeholder="Enter coupon code"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                className="border border-gray-300 rounded-md p-2 mb-2"
-              />
-              {/* Apply coupon button */}
-              <button
-                onClick={applyCoupon}
-                className="bg-blue-500 text-white px-4 py-2 mx-3 rounded hover:bg-blue-600 mb-4"
-              >
-                Apply Coupon
-              </button>
-              <p
-                className={`${
-                  couponMessageType === "success"
-                    ? "text-green-500"
-                    : "text-red-500"
-                } font-medium`}
-              >
-                {couponMessage}
-              </p>
-            </div>
-            <div>
-              {appliedDiscount ? (
-                <div>
-                  <span className="text-gray-500">
-                    Items: {itemTotal.toFixed(2)}
-                  </span>
-                  <p className="text-gray-500">
-                    Promotion: -{discountAmount.toFixed(2)}
-                  </p>
-                </div>
-              ) : null}
-              <p className="text-xl text-blue-700 font-semibold border-t my-2">
-                Total: <sup>₹</sup>
-                {total.toFixed(2)}
-              </p>
-              <button
-                onClick={placeOrder}
-                className=" bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Go to Payment
-              </button>
+            <div className=" md:sticky bottom-10 right-10 flex flex-col md:flex-row justify-between items-center">
+              <div className="mt-5">
+                <input
+                  type="text"
+                  placeholder="Enter coupon code"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  className="border border-gray-300 rounded-md p-2 mb-2"
+                />
+                <button
+                  onClick={applyCoupon}
+                  className="bg-blue-500 text-white px-4 py-2 mx-3 rounded hover:bg-blue-600 mb-4"
+                >
+                  Apply Coupon
+                </button>
+                <p
+                  className={`${
+                    couponMessageType === "success"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  } font-medium`}
+                >
+                  {couponMessage}
+                </p>
+              </div>
+              <div>
+                {appliedDiscount ? (
+                  <div>
+                    <span className="text-gray-500">
+                      Items: {itemTotal.toFixed(2)}
+                    </span>
+                    <p className="text-gray-500">
+                      Promotion: -{discountAmount.toFixed(2)}
+                    </p>
+                  </div>
+                ) : null}
+                <p className="text-xl text-blue-700 font-semibold border-t my-2">
+                  Total: <sup>₹</sup>
+                  {total.toFixed(2)}
+                </p>
+                <button
+                  onClick={placeOrder}
+                  className="bg-black text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Go to Payment
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

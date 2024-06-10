@@ -62,7 +62,7 @@ function Login() {
         </Link>
       </div>
       <div className="mb-32 flex justify-center">
-        <div className="w-[650px] flex justify-center">
+        <div className="md:w-[650px] flex justify-center">
           <div className="rounded p-6 border border-black">
             <h1 className="text-2xl mb-4">
               <b>Sign in</b>
@@ -75,7 +75,7 @@ function Login() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="border mb-5 pl-2 border-black w-[296px] h-[31px] rounded"
+                  className="border mb-5 pl-2 border-black min-w-64 md:w-[296px] h-[31px] rounded"
                   autoComplete="current-email"
                 />
               </label>
@@ -89,12 +89,12 @@ function Login() {
                     Forgot your password?
                   </Link>
                 </div>
-                <div className="w-[296px] border border-black rounded flex justify-between">
+                <div className="md:w-[296px] min-w-64 border border-black rounded flex justify-between">
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="mx-2 w-[245px] h-[31px] outline-none"
+                    className="mx-2 md:w-[245px] h-[31px] outline-none"
                     autoComplete="current-password"
                   />
                   <span
@@ -107,19 +107,19 @@ function Login() {
               </label>
               <button
                 type="submit"
-                className="bg-[#153e51] text-white font-bold my-5 w-[296px] h-[31px] rounded"
+                className="bg-[#153e51] text-white font-bold my-5 md:w-[296px] min-w-64 h-[31px] rounded"
               >
                 Sign in
               </button>
             </form>
             <hr className="border border-black-300" />
-            <div className="translate-y-7 flex justify-center w-[296px]">
+            <div className="translate-y-7 flex justify-center min-w-64 md:w-[296px]">
               <p className="text-[12px]">New to Zappoz?</p>
             </div>
             <br />
             <button
               onClick={() => navigate("/register")}
-              className="w-[296px] h-[31px] mt-3 border-2 font-bold rounded text-[#003953] border-[#003953]"
+              className="md:w-[296px] min-w-64 h-[31px] mt-3 border-2 font-bold rounded text-[#003953] border-[#003953]"
             >
               Create your Zappos account
             </button>
