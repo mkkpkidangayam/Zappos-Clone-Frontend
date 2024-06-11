@@ -102,9 +102,9 @@ const ProductsListing = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 px-4 md:px-10">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:px-5">
         {/* Sidebar */}
-        <div className="w-48 md:block sm:hidden">
+        <div className="md:block">
           <Sidebar />
         </div>
 
@@ -121,7 +121,7 @@ const ProductsListing = () => {
                 className="block font-semibold mb-4 relative"
                 to={`/product/${product._id}`}
               >
-                <article className="bg-white shadow-md border flex flex-col justify-evenly min-h-[550px] rounded-lg p-6 mb-4 ">
+                <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] rounded-lg p-6 mb-4 ">
                   <img
                     src={product.images[0]}
                     alt={product.title}

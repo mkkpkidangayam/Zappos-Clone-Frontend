@@ -84,7 +84,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 md:block bg-gray-100 p-4">
+    <div className="md:block bg-gray-100 p-4">
       <h2 className="text-lg font-semibold mb-4">Filter By</h2>
 
       {/* Genders */}
@@ -105,7 +105,7 @@ const Sidebar = () => {
       </div>
 
       {/* Main Categories */}
-      {filterOptions.selectedGender && (
+      {/* {filterOptions.selectedGender && ( */}
         <div className="mb-4">
           <h3 className="font-semibold mb-2">Main Categories</h3>
           <select
@@ -121,16 +121,16 @@ const Sidebar = () => {
             ))}
           </select>
         </div>
-      )}
+      {/* // )} */}
 
       {/* Sub Categories */}
-      {filterOptions.selectedMainCategory && (
+      {/* {filterOptions.selectedMainCategory && ( */}
         <div className="mb-4">
           <h3 className="font-semibold mb-2">Sub Categories</h3>
           <select
             value={filterOptions.selectedSubCategory}
             onChange={handleSubCategoryChange}
-            className="border rounded-2xl px-2 py-1"
+            className="border rounded-2xl px-2 py-1 max-w-11/12"
           >
             <option value="">Select Sub Category</option>
             {filterOptions.subCategories.map((subCategory) => (
@@ -140,7 +140,7 @@ const Sidebar = () => {
             ))}
           </select>
         </div>
-      )}
+      {/* )} */}
 
 
 
@@ -153,7 +153,7 @@ const Sidebar = () => {
             name="minPrice"
             value={filterOptions.minPrice}
             onChange={handlePriceChange}
-            className="mr-2 px-2 w-24 py-1 border rounded"
+            className="mr-2 px-2 w-2/5 py-1 border rounded"
             placeholder="Min"
           />
           -
@@ -162,7 +162,7 @@ const Sidebar = () => {
             name="maxPrice"
             value={filterOptions.maxPrice}
             onChange={handlePriceChange}
-            className="ml-2 px-2 w-24 py-1 border rounded"
+            className="ml-2 px-2 w-2/5 py-1 border rounded"
             placeholder="Max"
           />
         </div>
@@ -173,7 +173,7 @@ const Sidebar = () => {
           max={filterOptions.priceRange.max}
           value={filterOptions.minPrice}
           onChange={handlePriceChange}
-          className="w-full"
+          className="w-11/12"
         />
       </div>
     </div>
