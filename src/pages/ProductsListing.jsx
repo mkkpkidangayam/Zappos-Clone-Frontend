@@ -125,7 +125,7 @@ const ProductsListing = () => {
                   <img
                     src={product.images[0]}
                     alt={product.title}
-                    className="w-full"
+                    className="w-full hover:opacity-0"
                   />
                   <img
                     src={product.images[1]}
@@ -180,7 +180,7 @@ const ProductsListing = () => {
                   <img
                     src={product.images[0]}
                     alt={product.title}
-                    className="w-full"
+                    className="w-full hover:opacity-0"
                   />
                   <img
                     src={product.images[1]}
