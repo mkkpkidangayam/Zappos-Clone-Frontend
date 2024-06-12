@@ -22,7 +22,7 @@ const UserAccount = () => {
   const userAddress = userData?.address;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen py-6">
       {userData ? (
         <div className="max-w-4xl px-4 py-8 bg-white shadow-md rounded-lg">
           <div className="mb-8">

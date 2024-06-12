@@ -29,6 +29,21 @@ function AddressesPage() {
     phoneNumber: "",
   });
 
+  useEffect(() => {
+    Axios.get(`/get-cart/${userId}`)
+      .then((cartResponse) => {
+        const fetchedCartItems = cartResponse.data;
+        if (!isEqual(cartItems, fetchedCartItems)) {
+          setCartItems(fetchedCartItems);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching Cart Data:", error);
+        setIsLoading(false);
+      });
+  }, [userId, cartItems]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const apiEndpoint = editing
@@ -75,21 +90,17 @@ function AddressesPage() {
           setSelectedAddressId(defaultAddressId);
           localStorage.setItem("selectedAddressId", defaultAddressId);
         }
-
-        const cartResponse = await Axios.get(`/get-cart/${userId}`);
-        const fetchedCartItems = cartResponse.data;
-        if (!isEqual(cartItems, fetchedCartItems)) {
-          setCartItems(fetchedCartItems);
-          setIsLoading(false);
+        if (fetchedAddresses.length === 0) {
+          setAddressLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
+        console.error("Error fetching address:", error);
+        setAddressLoading(false);
       }
     };
 
     fetchData();
-  }, [userId, addresses, cartItems]);
+  }, [userId, addresses]);
 
   const handleSelectAddress = (addressId) => {
     setSelectedAddressId(addressId);
@@ -179,7 +190,9 @@ function AddressesPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6">My Addresses</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6">
+            My Addresses
+          </h2>
           <form
             onSubmit={handleSubmit}
             className="mb-4"
@@ -259,6 +272,10 @@ function AddressesPage() {
           </form>
           {addressLoading ? (
             <LoadingSpinner />
+          ) : addresses.length === 0 ? (
+            <div>
+              <p className="text-lg font-normal"> Add shipping address</p>
+            </div>
           ) : (
             <ul>
               {addresses.map((addr) => (
@@ -309,7 +326,10 @@ function AddressesPage() {
             <hr />
             <ul>
               {cartItems.map((item) => (
-                <li key={item._id} className="border-b py-4 flex flex-col md:flex-row justify-between">
+                <li
+                  key={item._id}
+                  className="border-b py-4 flex flex-col md:flex-row justify-between"
+                >
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold">{item.title}</h3>
                     <p className="font-medium"> {item.product.title}</p>
