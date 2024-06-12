@@ -49,7 +49,7 @@ const DesktopHome = () => {
     : [];
 
   const renderCarousel = () => (
-    <div className="h-full px-6 mx-auto max-w-[1280px]">
+    <div className="h-full px-6 max-w-[1280px]">
       <Carousel responsive={responsive}>
         {filteredProducts ? (
           filteredProducts.map((item, index, filteredArray) => {
@@ -58,7 +58,7 @@ const DesktopHome = () => {
               .some((prevItem) => prevItem.category.sub === item.category.sub);
             if (isDuplicate) return null;
             return (
-              <article key={index} className="w-full m-5 border p-2">
+              <article key={index} className="w-full border p-2">
                 <Link
                   to={`/category/${encodeURIComponent(item.category.sub)}`}
                   className="block font-semibold hover:underline"
