@@ -218,17 +218,17 @@ const MainPage = () => {
           <Route
             path="/admin"
             element={
-              <AdminProttect>
+              // <AdminProttect>
                 <AdminNav />
-              </AdminProttect>
+              // </AdminProttect>
             }
           >
             <Route
               index
               element={
-                <AdminProttect>
+                // <AdminProttect>
                   <AdminHome />
-                </AdminProttect>
+                // </AdminProttect>
               }
             />
             <Route
