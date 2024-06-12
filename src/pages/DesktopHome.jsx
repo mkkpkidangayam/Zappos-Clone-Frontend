@@ -49,7 +49,7 @@ const DesktopHome = () => {
     : [];
 
   const renderCarousel = () => (
-    <div className="h-full px-6 max-w-[1280px]">
+    <div className="h-full px-6 ">
       <Carousel responsive={responsive}>
         {filteredProducts ? (
           filteredProducts.map((item, index, filteredArray) => {
@@ -61,13 +61,12 @@ const DesktopHome = () => {
               <article key={index} className="w-full border p-2">
                 <Link
                   to={`/category/${encodeURIComponent(item.category.sub)}`}
-                  className="block font-semibold hover:underline"
                 >
                   <picture>
                     {item.images ? (
                       <img
                         src={item.images[0]}
-                        alt=""
+                        alt={item.title}
                         className="w-full h-auto"
                       />
                     ) : (

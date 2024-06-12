@@ -78,7 +78,7 @@ const MobileNavbar = () => {
           <button onClick={toggleNav}>
             {isNavOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
-          <Link to="/" className="ml-3">
+          <Link to="/" className="ml-3 mt-2">
             <img
               src={logo}
               alt="Welcome! Go to Zappos Homepage!"
@@ -133,7 +133,7 @@ const MobileNavbar = () => {
         </div>
       </div>
       {isNavOpen && (
-        <div className="p-4 border-b">
+        <div className="p-4 border-b opacity-90 absolute">
           <form
             onSubmit={handleSearchSubmit}
             className="flex items-center mb-4"
@@ -223,6 +223,7 @@ const MobileNavbar = () => {
                     setMenu("collections");
                     navigate("/products");
                     setShowModal(false);
+                    toggleNav();
                   }}
                   className={`block w-full text-left px-4 py-2 ${
                     menu === "collections"

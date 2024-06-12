@@ -9,7 +9,7 @@ import "react-multi-carousel/lib/styles.css";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const MobileHome = () => {
-  const { product } = useContext(myContext);
+  const { product, isLoading } = useContext(myContext);
   const images = [img1, img2, img3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("shoe");
@@ -90,9 +90,9 @@ const MobileHome = () => {
           alt={`img${currentImageIndex + 1}`}
         />
       </div>
-      <div className="m-5 border">
-        <div className="m-4">
-          <h1 className="text-xl text-center font-bold">
+      <div className="m-2">
+        <div className="">
+          <h1 className="text-xl text-teal-800 text-center font-bold">
             Shop Popular Categories
           </h1>
         </div>
@@ -129,11 +129,11 @@ const MobileHome = () => {
             Accessories
           </button>
         </div>
-        <div>{renderCarousel()}</div>
+        <div>{isLoading ? <LoadingSpinner/> : renderCarousel()}</div>
       </div>
 
-      <div className="cursor-default border mx-5">
-        <h1 className="text-center text-6xl text-transparent bg-clip-text font-extrabold bg-cover bg-[url('https://m.media-amazon.com/images/G/01/Zappos/2024/Homepage/4.22/CROCS-STARWARS-AOE-1920x1000._FMwebp_.jpg')]">
+      <div className="cursor-default border mx-2">
+        <h1 className="text-center text-7xl text-transparent bg-clip-text font-extrabold bg-cover bg-[url('https://m.media-amazon.com/images/G/01/Zappos/2024/Homepage/4.22/CROCS-STARWARS-AOE-1920x1000._FMwebp_.jpg')]">
           ZAPPOS
         </h1>
       </div>

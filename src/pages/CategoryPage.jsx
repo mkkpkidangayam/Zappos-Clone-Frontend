@@ -24,20 +24,27 @@ const SubCategoryPage = () => {
   }
 
   return (
-    <div className="w-full px-10">
-      <h1 className="ml-10 text-4xl capitalize font-bold">{category}</h1>
+    <div className="md:px-10">
+      <h1 className="md:ml-10 text-center md:text-left text-4xl capitalize font-bold">
+        {category}
+      </h1>
       <hr className="my-5" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {subCategoryItems.map((item) => (
           <Link
             key={item._id}
-            className="block rounded-lg w-80 overflow-hidden shadow-md hover:shadow-xl border"
+            className="block rounded-lg w-72 overflow-hidden shadow-md hover:shadow-xl border"
             to={`/product/${item._id}`}
           >
             <img
               src={item.images[0]}
               alt={item.title}
-              className="w-full object-cover"
+              className="w-full object-cover hover:opacity-0"
+            />
+            <img
+              src={product.images[1]}
+              alt={product.title}
+              className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
             />
 
             <div className="p-4 bg-slate-100">
