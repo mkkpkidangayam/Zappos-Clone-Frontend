@@ -9,7 +9,7 @@ import "react-multi-carousel/lib/styles.css";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const DesktopHome = () => {
-  const { product } = useContext(myContext);
+  const { product, isLoading } = useContext(myContext);
   const images = [img1, img2, img3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("shoe");
@@ -141,7 +141,7 @@ const DesktopHome = () => {
             Accessories
           </button>
         </div>
-        <div>{renderCarousel()}</div>
+        <div>{isLoading ? <LoadingSpinner /> : renderCarousel()}</div>
       </div>
 
       <div className="cursor-default border mx-5">
