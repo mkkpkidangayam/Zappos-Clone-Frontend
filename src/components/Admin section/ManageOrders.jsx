@@ -101,7 +101,7 @@ const ManageOrders = () => {
             </tr>
           </thead>
           <tbody className="text-gray-700">
-            {filteredOrders.map((order, index) => (
+            {filteredOrders?.map((order, index) => (
               <tr
                 key={order._id}
                 onClick={() => navigate(`/admin/order/${order._id}`)}
@@ -110,7 +110,7 @@ const ManageOrders = () => {
                 <td className="w-auto p-2 text-center">{index + 1}</td>
                 <td className="w-auto p-2 text-center">{order._id}</td>
                 <td className="w-auto p-2 text-center capitalize">
-                  {order.customer.name}
+                  {order?.customer?.name}
                 </td>
                 {/* <td className="w-auto p-2 text-center">{order.customer.email}</td> */}
                 <td className="w-auto p-2 text-center">
