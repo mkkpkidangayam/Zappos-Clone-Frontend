@@ -133,7 +133,7 @@ const MobileNavbar = () => {
         </div>
       </div>
       {isNavOpen && (
-        <div className="p-4 border-b opacity-90 absolute">
+        <div className="p-4 border-b absolute">
           <form
             onSubmit={handleSearchSubmit}
             className="flex items-center mb-4"

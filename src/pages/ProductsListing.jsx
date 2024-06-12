@@ -84,7 +84,7 @@ const ProductsListing = () => {
           <p className="text-gray-600">({productCount}) items found</p>
         </div>
         <div className="md:w-full md:h-24 mr-7 py-5 sm:flex justify-center md:justify-end">
-          <label htmlFor="sort" className="mb-2 mr-2 md:pt-2 font-semibold">
+          <label htmlFor="sort" className="mb-2 mr-2 md:pt-3 font-semibold">
             Sort By
           </label>
           <select
