@@ -108,15 +108,18 @@ const MainPage = () => {
     setFilteredProducts,
   };
 
-    // Use react-responsive to detect screen size
-    const isMobileOrTablet = useMediaQuery({ query: "(max-width: 1024px)" });
+  // Use react-responsive to detect screen size
+  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 1024px)" });
 
   return (
     <>
       <Toaster />
       <myContext.Provider value={details}>
         <Routes>
-          <Route path="/" element={isMobileOrTablet ? <MobileNavbar /> : <Navbar />}>
+          <Route
+            path="/"
+            element={isMobileOrTablet ? <MobileNavbar /> : <Navbar />}
+          >
             <Route index element={<Home />} />
             <Route path="/women" element={<Products />} />
             <Route path="/men" element={<Products />} />
@@ -218,17 +221,17 @@ const MainPage = () => {
           <Route
             path="/admin"
             element={
-              // <AdminProttect>
+              <AdminProttect>
                 <AdminNav />
-              // </AdminProttect>
+              </AdminProttect>
             }
           >
             <Route
               index
               element={
-                // <AdminProttect>
+                <AdminProttect>
                   <AdminHome />
-                // </AdminProttect>
+                </AdminProttect>
               }
             />
             <Route
