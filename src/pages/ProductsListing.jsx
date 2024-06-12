@@ -88,7 +88,7 @@ const ProductsListing = () => {
             Sort By
           </label>
           <select
-            className="p-2 rounded-2xl border"
+            className="px-2 rounded-2xl border"
             name="sort"
             id="sort"
             value={sortOrder}
