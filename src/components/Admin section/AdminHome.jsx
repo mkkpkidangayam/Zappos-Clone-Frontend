@@ -15,10 +15,10 @@ const AdminHome = () => {
               ZAPPOS
             </p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center w-11/12">
             <RevenueChart />
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center w-11/12">
             <SecondChart />
           </div>
         </div>
