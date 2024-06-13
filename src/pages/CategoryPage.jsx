@@ -36,6 +36,7 @@ const SubCategoryPage = () => {
             className="block rounded-lg w-72 overflow-hidden shadow-md hover:shadow-xl border"
             to={`/product/${item._id}`}
           >
+             <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] rounded-lg p-6 mb-4 ">
             <img
               src={item.images[0]}
               alt={item.title}
@@ -53,6 +54,7 @@ const SubCategoryPage = () => {
               <p className="text-gray-800 font-bold">₹{item.price}</p>
               <p className="text-gray-700">Color: {item.color}</p>
             </div>
+            </article>
           </Link>
         ))}
       </div>
