@@ -33,10 +33,10 @@ const SubCategoryPage = () => {
         {subCategoryItems.map((item) => (
           <Link
             key={item._id}
-            className="block rounded-lg w-72 overflow-hidden shadow-md hover:shadow-xl border"
+            className="block font-semibold mb-4 relative"
             to={`/product/${item._id}`}
           >
-            <article className="bg-white shadow-md border flex flex-col justify-evenly rounded-lg p-6 mb-4 ">
+            <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] rounded-lg p-6 mb-4">
               <img
                 src={item.images[0]}
                 alt={item.title}
