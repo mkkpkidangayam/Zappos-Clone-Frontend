@@ -42,8 +42,8 @@ const SubCategoryPage = () => {
               className="w-full object-cover hover:opacity-0"
             />
             <img
-              src={product.images[1]}
-              alt={product.title}
+              src={item.images[1]}
+              alt={item.title}
               className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
             />
 
