@@ -36,7 +36,7 @@ const SubCategoryPage = () => {
             className="block font-semibold mb-4 relative"
             to={`/product/${item._id}`}
           >
-            <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] overflow-y-scroll rounded-lg p-6 mb-4">
+            <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] rounded-lg p-6 mb-4">
               <img
                 src={item.images[0]}
                 alt={item.title}
