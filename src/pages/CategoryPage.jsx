@@ -36,24 +36,24 @@ const SubCategoryPage = () => {
             className="block rounded-lg w-72 overflow-hidden shadow-md hover:shadow-xl border"
             to={`/product/${item._id}`}
           >
-             <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] rounded-lg p-6 mb-4 ">
-            <img
-              src={item.images[0]}
-              alt={item.title}
-              className="w-full object-cover hover:opacity-0"
-            />
-            <img
-              src={item.images[1]}
-              alt={item.title}
-              className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
-            />
+            <article className="bg-white shadow-md border flex flex-col justify-evenly rounded-lg p-6 mb-4 ">
+              <img
+                src={item.images[0]}
+                alt={item.title}
+                className="w-full object-cover hover:opacity-0"
+              />
+              <img
+                src={item.images[1]}
+                alt={item.title}
+                className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
+              />
 
-            <div className="p-4 bg-slate-100">
-              <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-              <p className="text-gray-700 mb-2">{item.brand}</p>
-              <p className="text-gray-800 font-bold">₹{item.price}</p>
-              <p className="text-gray-700">Color: {item.color}</p>
-            </div>
+              <div className="p-4 bg-slate-100">
+                <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+                <p className="text-gray-700 mb-2">{item.brand}</p>
+                <p className="text-gray-800 font-bold">₹{item.price}</p>
+                <p className="text-gray-700">Color: {item.color}</p>
+              </div>
             </article>
           </Link>
         ))}
