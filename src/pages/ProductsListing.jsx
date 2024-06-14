@@ -82,10 +82,10 @@ const ProductsListing = () => {
           <p className="text-gray-600">({productCount}) items found</p>
         </div>
         <div className="md:w-full md:h-24 mr-7 py-5 sm:flex justify-center md:justify-end">
-          <label htmlFor="sort" className="md:py-2 font-semibold">
+          <label htmlFor="sort" className="md:m-2 font-semibold">
             Sort By
             <select
-              className="px-2 rounded-xl border"
+              className="ml-2 p-2 rounded-xl border"
               name="sort"
               id="sort"
               value={sortOrder}
