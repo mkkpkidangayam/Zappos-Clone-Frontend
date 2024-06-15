@@ -49,7 +49,7 @@ const DesktopHome = () => {
     : [];
 
   const renderCarousel = () => (
-    <div className="h-full px-6 ">
+    <div className="h-full p-6 ">
       <Carousel responsive={responsive}>
         {filteredProducts ? (
           filteredProducts.map((item, index, filteredArray) => {
