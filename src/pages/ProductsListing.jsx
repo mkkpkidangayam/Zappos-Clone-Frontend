@@ -56,7 +56,7 @@ const ProductsListing = () => {
           sortedProducts.sort((a, b) => b.price - a.price);
           break;
         default:
-          sortedProducts.sort((a, b) => b.timestamp - a.timestamp);
+          sortedProducts.sort((a, b) => b.createdAt - a.createdAt);
           break;
       }
       setFilteredProducts(sortedProducts);
