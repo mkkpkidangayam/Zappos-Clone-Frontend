@@ -188,7 +188,7 @@ const ProductDetails = () => {
               >
                 {productById.category.sub}
               </Link>{" "}
-              /<span className="font-medium">{productById.title}</span>
+              {/* /<span className="font-medium">{productById.title}</span> */}
             </div>
             <div className="flex flex-col md:flex-row md:justify-start">
               <div className="relative md:order-2 md:w-3/4">
