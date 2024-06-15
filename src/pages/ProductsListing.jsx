@@ -79,7 +79,7 @@ const ProductsListing = () => {
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         <div className="md:w-60 md:ml-10 mb-4 md:mb-0">
           <h1 className="font-bold text-4xl capitalize">{"Collections"}</h1>
-          <p className="text-gray-600">({productCount}) items found</p>
+          <p className="text-gray-600 text-center sm:text-left">({productCount}) items found</p>
         </div>
         <div className="md:w-full md:h-24 mr-7 py-5 sm:flex justify-center md:justify-end">
           <label htmlFor="sort" className="md:m-2 font-semibold">
