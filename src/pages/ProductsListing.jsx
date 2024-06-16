@@ -81,7 +81,7 @@ const ProductsListing = () => {
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         <div className="md:w-60 md:ml-10 mb-4 md:mb-0">
           <h1 className="font-bold text-4xl capitalize">{"Collections"}</h1>
-          <p className="text-gray-600 text-center sm:text-left">
+          <p className="text-gray-600 text-center md:text-left">
             ({productCount}) items found
           </p>
         </div>
