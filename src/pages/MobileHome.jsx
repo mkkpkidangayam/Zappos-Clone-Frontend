@@ -133,7 +133,7 @@ const MobileHome = () => {
       </div>
 
       <div className="cursor-default border mx-2">
-        <h1 className="text-center text-[100px] sm:[150px] text-transparent bg-clip-text font-extrabold bg-cover bg-[url('https://m.media-amazon.com/images/G/01/Zappos/2024/Homepage/4.22/CROCS-STARWARS-AOE-1920x1000._FMwebp_.jpg')]">
+        <h1 className="text-center text-7xl sm:[150px] text-transparent bg-clip-text font-extrabold bg-cover bg-[url('https://m.media-amazon.com/images/G/01/Zappos/2024/Homepage/4.22/CROCS-STARWARS-AOE-1920x1000._FMwebp_.jpg')]">
           ZAPPOS
         </h1>
       </div>
