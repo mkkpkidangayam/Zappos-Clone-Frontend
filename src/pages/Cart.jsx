@@ -151,7 +151,7 @@ const CartPage = () => {
         </div>
       )}
       {cartItems.length > 0 && (
-        <div className="sticky bottom-10 right-10 float-right">
+        <div className="sticky bottom-5 right-10 float-right">
           <p className="text-2xl text-blue-700 font-semibold">
             Total: <sup>₹</sup>
             {calculateTotal().toFixed(2)}
