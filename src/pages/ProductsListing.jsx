@@ -127,12 +127,12 @@ const ProductsListing = () => {
                   <img
                     src={product.images[0]}
                     alt={product.title}
-                    className="w-full hover:opacity-0 focus:opacity-0"
+                    className="w-full hover:opacity-0"
                   />
                   <img
                     src={product.images[1]}
                     alt={product.title}
-                    className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity duration-1000"
+                    className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
                   />
                   <div className="">
                     <span className="block mt-2 font-semibold hover:underline mb-2">
