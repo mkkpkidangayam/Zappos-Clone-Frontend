@@ -25,7 +25,7 @@ const SubCategoryPage = () => {
 
   return (
     <div className="md:px-10">
-      <h1 className="md:ml-10 text-center md:text-left text-4xl capitalize font-bold">
+      <h1 className="md:ml-10 my-5 text-center md:text-left text-4xl capitalize font-bold">
         {category}
       </h1>
       <hr className="my-5" />
