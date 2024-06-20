@@ -51,7 +51,11 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     if (isLogin) {
-      SetIsMenuOpen(true);
+      if (isMenuOpen) {
+        SetIsMenuOpen(false);
+      } else {
+        SetIsMenuOpen(true);
+      }
     } else {
       navigate("/login");
     }
@@ -68,7 +72,9 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="hidden lg:block"> {/* Hide on small and medium screens */}
+      <div className="hidden lg:block">
+        {" "}
+        {/* Hide on small and medium screens */}
         <TopBar />
         <div className="mx-auto border-b pb-2">
           <div className="pt-4">
@@ -312,14 +318,10 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
-        <div className="flex justify-center">
-          {showModal && <SubMenu />}
-        </div>
+        <div className="flex justify-center">{showModal && <SubMenu />}</div>
         <div className="flex justify-center">
           <Outlet />
         </div>
-
         <div className="flex justify-center">
           <Footer />
         </div>
