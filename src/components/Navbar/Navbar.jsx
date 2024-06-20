@@ -51,11 +51,11 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     if (isLogin) {
-      if (isMenuOpen) {
-        SetIsMenuOpen(false);
-      } else {
-        SetIsMenuOpen(true);
-      }
+      SetIsMenuOpen(false);
+      // if (isMenuOpen) {
+      // } else {
+      //   SetIsMenuOpen(true);
+      // }
     } else {
       navigate("/login");
     }
