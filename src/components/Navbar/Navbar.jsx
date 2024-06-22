@@ -211,7 +211,7 @@ const Navbar = () => {
                       setSubMenu("men");
                       toggleModal();
                     }}
-                  > 
+                  >
                     <li
                       className={`cursor-pointer duration-500 relative rounded-full px-4 py-1 ${
                         menu === "men"
