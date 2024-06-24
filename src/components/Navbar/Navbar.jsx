@@ -286,6 +286,7 @@ const Navbar = () => {
                   <button
                     onClick={() => {
                       setMenu("brands");
+                      navigate("/brands");
                       setShowModal(false);
                     }}
                   >
