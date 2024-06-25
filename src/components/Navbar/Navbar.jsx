@@ -8,6 +8,7 @@ import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
 import SubMenu from "../SubCategory/SubMenu";
 import toast from "react-hot-toast";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -197,7 +198,7 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Women
+                      Women<KeyboardArrowDownIcon/>
                     </li>
                   </button>
                   <button
@@ -219,7 +220,7 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Men
+                      Men<KeyboardArrowDownIcon/>
                     </li>
                   </button>
                   <button
@@ -241,7 +242,7 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Girls
+                      Girls<KeyboardArrowDownIcon/>
                     </li>
                   </button>
                   <button
@@ -263,7 +264,7 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Boys
+                      Boys<KeyboardArrowDownIcon/>
                     </li>
                   </button>
                   <button
