@@ -10,6 +10,7 @@ import SubMenu from "../SubCategory/SubMenu";
 import toast from "react-hot-toast";
 import TopBar from "./TopBar";
 import MobileFooter from "../Footer/MobileFooter";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const MobileNavbar = () => {
   const navigate = useNavigate();
@@ -180,7 +181,7 @@ const MobileNavbar = () => {
                       : "hover:bg-gray-200"
                   }`}
                 >
-                  Women
+                  Women <ArrowForwardIosIcon />
                 </button>
               </li>
               <li>
@@ -194,7 +195,7 @@ const MobileNavbar = () => {
                     menu === "men" ? "bg-black text-white" : "hover:bg-gray-200"
                   }`}
                 >
-                  Men
+                  Men <ArrowForwardIosIcon />
                 </button>
               </li>
               <li>
@@ -210,7 +211,7 @@ const MobileNavbar = () => {
                       : "hover:bg-gray-200"
                   }`}
                 >
-                  Girls
+                  Girls <ArrowForwardIosIcon />
                 </button>
               </li>
               <li>
@@ -226,7 +227,7 @@ const MobileNavbar = () => {
                       : "hover:bg-gray-200"
                   }`}
                 >
-                  Boys
+                  Boys <ArrowForwardIosIcon />
                 </button>
               </li>
               <li>
