@@ -146,7 +146,7 @@ const MobileNavbar = () => {
         </div>
       </div>
       {isNavOpen && (
-        <div className="p-4 border-b absolute bg-slate-200 z-50">
+        <div className="p-4 border-b absolute font-medium bg-slate-200 z-50 bg-opacity-95">
           <form
             onSubmit={handleSearchSubmit}
             className="flex items-center mb-4"
@@ -175,7 +175,7 @@ const MobileNavbar = () => {
                     setSubMenu("women");
                     toggleNav();
                   }}
-                  className={`block w-full text-left px-4 py-2 ${
+                  className={`w-full flex justify-between px-4 py-2 ${
                     menu === "women"
                       ? "bg-black text-white"
                       : "hover:bg-gray-200"
@@ -191,7 +191,7 @@ const MobileNavbar = () => {
                     setSubMenu("men");
                     toggleNav();
                   }}
-                  className={`block w-full text-left px-4 py-2 ${
+                  className={`flex justify-between w-full text-left px-4 py-2 ${
                     menu === "men" ? "bg-black text-white" : "hover:bg-gray-200"
                   }`}
                 >
@@ -205,7 +205,7 @@ const MobileNavbar = () => {
                     setSubMenu("girls");
                     toggleNav();
                   }}
-                  className={`block w-full text-left px-4 py-2 ${
+                  className={`flex justify-between w-full text-left px-4 py-2 ${
                     menu === "girls"
                       ? "bg-black text-white"
                       : "hover:bg-gray-200"
@@ -221,7 +221,7 @@ const MobileNavbar = () => {
                     setSubMenu("boys");
                     toggleNav();
                   }}
-                  className={`block w-full text-left px-4 py-2 ${
+                  className={`flex justify-between w-full text-left px-4 py-2 ${
                     menu === "boys"
                       ? "bg-black text-white"
                       : "hover:bg-gray-200"
