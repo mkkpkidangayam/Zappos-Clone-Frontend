@@ -193,7 +193,7 @@ const MainPage = () => {
             }
           />
           <Route
-            path="//user/:userId/shipping-address"
+            path="/user/:userId/shipping-address"
             element={
               <ProtectedRoute>
                 <UserAddress />
