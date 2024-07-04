@@ -8,7 +8,7 @@ import Footer from "../Footer/FooterMain";
 import TopBar from "./TopBar";
 import SubMenu from "../SubCategory/SubMenu";
 import toast from "react-hot-toast";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -69,7 +69,9 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="hidden lg:block"> {/* Hide on small and medium screens */}
+      <div className="hidden lg:block">
+        {" "}
+        {/* Hide on small and medium screens */}
         <TopBar />
         <div className="mx-auto border-b pb-2">
           <div className="pt-4">
@@ -190,6 +192,10 @@ const Navbar = () => {
                       setSubMenu("women");
                       toggleModal();
                     }}
+                    onMouseLeave={() => {
+                      setMenu("");
+                      setSubMenu("");
+                    }}
                   >
                     <li
                       className={`cursor-pointer relative rounded-full px-4  py-1  ${
@@ -198,7 +204,8 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Women<KeyboardArrowDownIcon/>
+                      Women
+                      <KeyboardArrowDownIcon />
                     </li>
                   </button>
                   <button
@@ -211,6 +218,10 @@ const Navbar = () => {
                       setMenu("men");
                       setSubMenu("men");
                       toggleModal();
+                    }}
+                    onMouseLeave={() => {
+                      setMenu("");
+                      setSubMenu("");
                     }}
                   >
                     <li
@@ -220,7 +231,8 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Men<KeyboardArrowDownIcon/>
+                      Men
+                      <KeyboardArrowDownIcon />
                     </li>
                   </button>
                   <button
@@ -233,6 +245,10 @@ const Navbar = () => {
                       setMenu("girls");
                       setSubMenu("girls");
                       toggleModal();
+                    }}
+                    onMouseLeave={() => {
+                      setMenu("");
+                      setSubMenu("");
                     }}
                   >
                     <li
@@ -242,7 +258,8 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Girls<KeyboardArrowDownIcon/>
+                      Girls
+                      <KeyboardArrowDownIcon />
                     </li>
                   </button>
                   <button
@@ -256,6 +273,10 @@ const Navbar = () => {
                       setSubMenu("boys");
                       toggleModal();
                     }}
+                    onMouseLeave={() => {
+                      setMenu("");
+                      setSubMenu("");
+                    }}
                   >
                     <li
                       className={`cursor-pointer relative rounded-full px-4  py-1  ${
@@ -264,7 +285,8 @@ const Navbar = () => {
                           : "hover:bg-zinc-300"
                       }`}
                     >
-                      Boys<KeyboardArrowDownIcon/>
+                      Boys
+                      <KeyboardArrowDownIcon />
                     </li>
                   </button>
                   <button
@@ -314,14 +336,10 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
-        <div className="flex justify-center">
-          {showModal && <SubMenu />}
-        </div>
+        <div className="flex justify-center">{showModal && <SubMenu />}</div>
         <div className="flex justify-center">
           <Outlet />
         </div>
-
         <div className="flex justify-center">
           <Footer />
         </div>
