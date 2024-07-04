@@ -41,7 +41,6 @@ import NotFoundPage from "./components/Assets/PageNotFond";
 import { useMediaQuery } from "react-responsive";
 import MobileNavbar from "./components/Navbar/MobileNavbar";
 
-
 export const Axios = axios.create({
   baseURL: "https://zappos-clone-backend.onrender.com/api",
   // baseURL: "http://localhost:4323/api",
@@ -61,8 +60,6 @@ const MainPage = () => {
   const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
-
 
   useEffect(() => {
     Axios.get("/products")
