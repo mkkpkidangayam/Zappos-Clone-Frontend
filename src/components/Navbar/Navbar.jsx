@@ -192,9 +192,6 @@ const Navbar = () => {
                       setSubMenu("women");
                       toggleModal();
                     }}
-                    onMouseLeave={() => {
-                      setMenu("");
-                    }}
                   >
                     <li
                       className={`cursor-pointer relative rounded-full px-4  py-1  ${
@@ -217,9 +214,6 @@ const Navbar = () => {
                       setMenu("men");
                       setSubMenu("men");
                       toggleModal();
-                    }}
-                    onMouseLeave={() => {
-                      setMenu("");
                     }}
                   >
                     <li
@@ -244,9 +238,6 @@ const Navbar = () => {
                       setSubMenu("girls");
                       toggleModal();
                     }}
-                    onMouseLeave={() => {
-                      setMenu("");
-                    }}
                   >
                     <li
                       className={`cursor-pointer relative rounded-full px-4 py-1 ${
@@ -269,9 +260,6 @@ const Navbar = () => {
                       setMenu("boys");
                       setSubMenu("boys");
                       toggleModal();
-                    }}
-                    onMouseLeave={() => {
-                      setMenu("");
                     }}
                   >
                     <li
