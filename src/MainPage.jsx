@@ -62,8 +62,7 @@ const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const Client_ID = process.env
-  console.log("Client_ID:", Client_ID);
+
 
   useEffect(() => {
     Axios.get("/products")
