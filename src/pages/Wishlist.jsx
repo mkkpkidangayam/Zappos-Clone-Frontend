@@ -11,6 +11,8 @@ const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [isLoding, setIsLoding] = useState(true);
 
+  
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {

@@ -8,6 +8,9 @@ import Cookies from "js-cookie";
 import { Axios } from "../MainPage";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -22,6 +25,47 @@ function Login() {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
+
+  // const handleSuccess = async (credentialResponse) => {
+  //   try {
+  //     const response = axios.get(
+  //       `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${credentialResponse.access_token}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${credentialResponse.access_token}`,
+  //           Accept: "application/json",
+  //         },
+  //       }
+  //     );
+
+  //   } catch (error) {}
+  // };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log("Google token response:", tokenResponse); // Log token response
+      try {
+        const response = await Axios.post("/google-login", {
+          token: tokenResponse.access_token,
+        });
+        console.log("Login response:", response); // Log server response
+        const { token, userData } = response.data;
+        Cookies.set("token", token, { expires: 1 });
+        localStorage.setItem("token", token);
+        const userInfo = JSON.stringify(userData);
+        localStorage.setItem("userInfo", userInfo);
+        setIsLogin(true);
+        navigate(-1);
+        const userDetails = userData;
+        toast.success(
+          `${capitalize(userDetails?.name)}, ${response.data.message}`
+        );
+      } catch (error) {
+        toast.error("Can't login using google");
+        console.error("Google login error:", error);
+      }
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +107,7 @@ function Login() {
       </div>
       <div className="mb-32 flex justify-center">
         <div className="md:w-[650px] flex justify-center">
-          <div className="rounded p-6 border border-black">
+          <div className="rounded p-6 border border-black flex flex-col">
             <h1 className="text-2xl mb-4">
               <b>Sign in</b>
             </h1>
@@ -113,15 +157,26 @@ function Login() {
               </button>
             </form>
             <hr className="border border-black-300" />
-            <div className="translate-y-7 flex justify-center min-w-64 md:w-[296px]">
+            <div className="flex justify-center min-w-64 md:w-[296px]">
               <p className="text-[12px]">New to Zappoz?</p>
             </div>
-            <br />
+
             <button
               onClick={() => navigate("/register")}
               className="md:w-[296px] min-w-64 h-[31px] mt-3 border-2 font-bold rounded text-[#003953] border-[#003953]"
             >
               Create your Zappos account
+            </button>
+
+            <span className="text-center">or</span>
+
+            <button
+              onClick={() => googleLogin()}
+              className="md:w-[296px] min-w-64 h-10 mt-3 border font-bold rounded text-[#003953] border-[#003953]"
+            >
+              <div className="flex justify-around w-52 mx-auto">
+                <FcGoogle className="mt-1 text-xl" /> <p>Login with Google</p>
+              </div>
             </button>
           </div>
         </div>

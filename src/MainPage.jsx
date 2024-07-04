@@ -41,8 +41,10 @@ import NotFoundPage from "./components/Assets/PageNotFond";
 import { useMediaQuery } from "react-responsive";
 import MobileNavbar from "./components/Navbar/MobileNavbar";
 
+
 export const Axios = axios.create({
   baseURL: "https://zappos-clone-backend.onrender.com/api",
+  // baseURL: "http://localhost:4323/api",
   headers: {
     Authorization: Cookies.get("token"),
   },
@@ -59,6 +61,9 @@ const MainPage = () => {
   const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const Client_ID = process.env
+  console.log("Client_ID:", Client_ID);
 
   useEffect(() => {
     Axios.get("/products")
