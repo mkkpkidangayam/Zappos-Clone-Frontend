@@ -194,7 +194,6 @@ const Navbar = () => {
                     }}
                     onMouseLeave={() => {
                       setMenu("");
-                      setSubMenu("");
                     }}
                   >
                     <li
@@ -221,7 +220,6 @@ const Navbar = () => {
                     }}
                     onMouseLeave={() => {
                       setMenu("");
-                      setSubMenu("");
                     }}
                   >
                     <li
@@ -248,7 +246,6 @@ const Navbar = () => {
                     }}
                     onMouseLeave={() => {
                       setMenu("");
-                      setSubMenu("");
                     }}
                   >
                     <li
@@ -275,7 +272,6 @@ const Navbar = () => {
                     }}
                     onMouseLeave={() => {
                       setMenu("");
-                      setSubMenu("");
                     }}
                   >
                     <li
