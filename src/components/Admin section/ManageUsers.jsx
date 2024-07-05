@@ -190,6 +190,12 @@ const ManageUsers = () => {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                       >
+                        Login type
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                      >
                         Status
                       </th>
                       <th scope="col" className="relative px-6 py-3">
@@ -208,6 +214,9 @@ const ManageUsers = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {user.email}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {user.loginType}
                         </td>
                         <td
                           className={`px-6 py-4 whitespace-nowrap ${
