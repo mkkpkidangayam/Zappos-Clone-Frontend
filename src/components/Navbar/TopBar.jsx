@@ -46,7 +46,7 @@ const TopBar = () => {
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
 
   useEffect(() => {
-    Axios.get("/admin/get-contents")
+    Axios?.get("/admin/get-contents")
       .then((response) => {
         setTopBarContents(response.data);
       })

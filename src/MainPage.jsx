@@ -40,6 +40,8 @@ import OrderDetails from "./pages/OrderDetails";
 import NotFoundPage from "./components/Assets/PageNotFond";
 import { useMediaQuery } from "react-responsive";
 import MobileNavbar from "./components/Navbar/MobileNavbar";
+import PasswordResetRequest from "./pages/ForgotPassword";
+import PasswordReset from "./pages/PasswordReset";
 
 export const Axios = axios.create({
   baseURL: "https://zappos-clone-backend.onrender.com/api",
@@ -130,6 +132,7 @@ const MainPage = () => {
             <Route path="/brands" element={<Brands />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/products" element={<Products />} />
+
             <Route
               path="/p/:gender/:mainCategory/:subCategory"
               element={<Filteredproduct />}
@@ -176,7 +179,23 @@ const MainPage = () => {
               </LoginProtect>
             }
           />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <LoginProtect>
+                <PasswordResetRequest />
+              </LoginProtect>
+            }
+          />
+          <Route
+            path="/reset-password/:token"
+            element={
+              <LoginProtect>
+                <PasswordReset />
+              </LoginProtect>
+            }
+          />
           <Route
             path="/register"
             element={
