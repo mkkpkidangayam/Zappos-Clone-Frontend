@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../MainPage";
+import LoadingSpinner from "../components/Assets/LoadingSpinner";
 
 const SuccessPage = () => {
+  const [orderId, setOrderId] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { userId } = useParams();
-  const [orderId, setOrderId] = useState("");
   const selectedAddressId = localStorage.getItem("selectedAddressId");
   const couponCode = localStorage.getItem("cpo");
   const hasExecuted = useRef(false);
@@ -24,11 +26,16 @@ const SuccessPage = () => {
         toast.success(response.data.message);
         localStorage.removeItem("selectedAddressId");
         localStorage.removeItem("cpo");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error processing order:", error);
       });
   }, [userId, selectedAddressId, couponCode]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="flex items-center justify-center h-screen bg-green-100">
