@@ -26,29 +26,12 @@ function Login() {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
-  // const handleSuccess = async (credentialResponse) => {
-  //   try {
-  //     const response = axios.get(
-  //       `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${credentialResponse.access_token}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${credentialResponse.access_token}`,
-  //           Accept: "application/json",
-  //         },
-  //       }
-  //     );
-
-  //   } catch (error) {}
-  // };
-
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log("Google token response:", tokenResponse); // Log token response
       try {
         const response = await Axios.post("/google-login", {
           token: tokenResponse.access_token,
         });
-        console.log("Login response:", response); // Log server response
         const { token, userData } = response.data;
         Cookies.set("token", token, { expires: 1 });
         localStorage.setItem("token", token);
@@ -61,7 +44,7 @@ function Login() {
           `${capitalize(userDetails?.name)}, ${response.data.message}`
         );
       } catch (error) {
-        toast.error("Can't login using google");
+        toast.error(error.response.data.message);
         console.error("Google login error:", error);
       }
     },

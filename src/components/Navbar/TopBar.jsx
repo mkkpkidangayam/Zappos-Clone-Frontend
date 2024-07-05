@@ -8,9 +8,11 @@ const ScrollingText = ({ text }) => {
     const textWidth = textRef.current.scrollWidth;
     const containerWidth = textRef.current.offsetWidth;
     const scrollAmount = textWidth + containerWidth;
-    
+
     const animateScroll = () => {
-      textRef.current.style.transition = `transform ${scrollAmount / 100}s linear`;
+      textRef.current.style.transition = `transform ${
+        scrollAmount / 100
+      }s linear`;
       textRef.current.style.transform = `translateX(-${textWidth}px)`;
     };
 
@@ -73,7 +75,7 @@ const TopBar = () => {
             {topBarContents.length > 0 ? (
               <ScrollingText text={topBarContents[currentContentIndex].text} />
             ) : (
-              "Coming soon..."
+              "Loading..."
             )}
           </div>
         </div>
