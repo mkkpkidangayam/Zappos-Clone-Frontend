@@ -28,6 +28,7 @@ function AddressesPage() {
     label: "",
     phoneNumber: "",
   });
+  useEffect(() => {}, []);
 
   useEffect(() => {
     Axios.get(`/get-cart/${userId}`)
@@ -40,7 +41,6 @@ function AddressesPage() {
       })
       .catch((error) => {
         console.error("Error fetching Cart Data:", error);
-        setIsLoading(false);
       });
   }, [userId, cartItems]);
 
