@@ -215,7 +215,7 @@ const ManageUsers = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {user.email}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-nowrap capitalize">
                           {user.loginType}
                         </td>
                         <td
