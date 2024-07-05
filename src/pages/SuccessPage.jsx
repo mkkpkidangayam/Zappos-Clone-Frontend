@@ -34,7 +34,11 @@ const SuccessPage = () => {
   }, [userId, selectedAddressId, couponCode]);
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />;
+      </div>
+    );
   }
 
   return (

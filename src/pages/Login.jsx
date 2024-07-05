@@ -10,7 +10,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -82,13 +81,13 @@ function Login() {
   };
 
   return (
-    <div>
-      <div className="h-24 flex justify-center items-center ">
+    <div className="h-screen flex flex-col justify-between">
+      <div className="h-24 flex justify-center items-end ">
         <Link to="/">
           <img src={logo} alt="Logo" />
         </Link>
       </div>
-      <div className="mb-32 flex justify-center">
+      <div className="flex justify-center">
         <div className="md:w-[650px] flex justify-center">
           <div className="rounded p-6 border border-black flex flex-col">
             <h1 className="text-2xl mb-4">
