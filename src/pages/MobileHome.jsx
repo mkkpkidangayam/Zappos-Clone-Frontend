@@ -92,7 +92,7 @@ const MobileHome = () => {
       </div>
       <div className="m-2">
         <div className="">
-          <h1 className="text-xl text-teal-800 text-center font-bold">
+          <h1 className="text-2xl text-teal-800 text-center font-bold">
             Shop Popular Categories
           </h1>
         </div>
