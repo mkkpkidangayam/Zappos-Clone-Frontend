@@ -80,7 +80,7 @@ const UserProfile = () => {
             </a>
           </div> */}
           <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md">
-            <Link to={`/user/${userData._id}/profile`}>
+            <Link to={`/c/${userData._id}/orders`}>
               <h2 className="text-2xl font-semibold mb-4 hover:underline">
                 Order History
               </h2>
