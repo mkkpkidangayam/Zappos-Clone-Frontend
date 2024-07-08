@@ -36,12 +36,18 @@ const UserProfile = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="p-6 bg-gray-50 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold mb-4">Account Details</h2>
-              <p className="text-gray-600 capitalize">
-                <strong>Email:</strong> {userData?.email}
-                <strong>Login Type:</strong> {userData?.loginType}
-                <strong>Join Date:</strong>{" "}
-                {new Date(userData?.createdAt).toLocaleString()}
-              </p>
+              <ul className="text-gray-600 capitalize">
+                <li>
+                  <strong>Email:</strong> {userData?.email}
+                </li>
+                <li>
+                  <strong>Login Type:</strong> {userData?.loginType}
+                </li>
+                <li>
+                  <strong>Join Date:</strong>
+                  {new Date(userData?.createdAt).toLocaleString()}
+                </li>
+              </ul>
             </div>
             <div className="p-6 bg-gray-50 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold mb-4">
