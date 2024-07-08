@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
 import Cookies from "js-cookie";
+import myContext from "../context/myContextxt";
 
 const UserProfile = () => {
+  const { orderCount } = useContext(myContext);
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Axios.get(`/user/profile/${userId}`, {
@@ -23,7 +26,7 @@ const UserProfile = () => {
   const userAddress = userData?.address;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-6">
+    <div className="flex flex-col items-center justify-center min-h-screen py-6">
       {userData ? (
         <div className="w-full max-w-4xl px-4 py-8 bg-white shadow-lg rounded-lg">
           <div className="text-center mb-8">
@@ -38,7 +41,9 @@ const UserProfile = () => {
               </p>
             </div>
             <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-              <h2 className="text-2xl font-semibold mb-4">Shipping Addresses</h2>
+              <h2 className="text-2xl font-semibold mb-4">
+                Shipping Addresses
+              </h2>
               {userAddress && userAddress.length > 0 ? (
                 userAddress.map((address, index) => (
                   <div key={address._id} className="mb-4">
@@ -50,7 +55,10 @@ const UserProfile = () => {
               ) : (
                 <p className="text-gray-600">No addresses available.</p>
               )}
-              <a href="/addresses/new" className="text-blue-600 hover:underline">
+              <a
+                href="/addresses/new"
+                className="text-blue-600 hover:underline"
+              >
                 Add a new address
               </a>
             </div>
@@ -64,7 +72,16 @@ const UserProfile = () => {
           </div>
           <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-            <p className="text-gray-600">No order history available.</p>
+            <p className="text-gray-600">
+              {orderCount === 1
+                ? `${orderCount} order available`
+                : orderCount > 1
+                ? `${orderCount} orders available`
+                : "No order history available."}
+            </p>
+            <button className="p-3 bg-blue-700" onClick={() => navigate(`/user/${userData._id}/profile`)}>
+              Goto Order
+            </button>
           </div>
         </div>
       ) : (

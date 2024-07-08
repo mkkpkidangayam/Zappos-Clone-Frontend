@@ -9,7 +9,6 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import myContext from "./context/myContextxt";
 import UserProfile from "./pages/UserProfile";
-import ForgotPassword from "./pages/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import Registeration from "./pages/Registration";
 import OtpVerification from "./pages/otpVerification";
@@ -61,6 +60,7 @@ const MainPage = () => {
   const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [orderCount, setOrderCount] = useState(0)
 
   useEffect(() => {
     Axios.get("/products")
@@ -108,6 +108,7 @@ const MainPage = () => {
     setSubMenu,
     filteredProducts,
     setFilteredProducts,
+    orderCount, setOrderCount
   };
 
   // Use react-responsive to detect screen size
