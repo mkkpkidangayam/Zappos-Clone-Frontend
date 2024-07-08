@@ -44,7 +44,7 @@ const UserProfile = () => {
                   <strong>Login Type:</strong> {userData?.loginType}
                 </li>
                 <li>
-                  <strong>Join Date:</strong>
+                  <strong>Join Date: </strong>
                   {new Date(userData?.createdAt).toLocaleString()}
                 </li>
               </ul>
@@ -81,7 +81,9 @@ const UserProfile = () => {
           </div> */}
           <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md">
             <Link to={`/user/${userData._id}/profile`}>
-              <h2 className="text-2xl font-semibold mb-4">Order History</h2>
+              <h2 className="text-2xl font-semibold mb-4 hover:underline">
+                Order History
+              </h2>
             </Link>
           </div>
         </div>
