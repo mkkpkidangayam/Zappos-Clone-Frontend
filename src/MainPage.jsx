@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Products from "./pages/ProductsListing";
 import Brands from "./pages/Brands";
-import Sale from "./pages/Sale";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar/Navbar";
 import Cart from "./pages/Cart";
@@ -130,7 +129,6 @@ const MainPage = () => {
             <Route path="/collections" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/brands" element={<Brands />} />
-            <Route path="/sale" element={<Sale />} />
             <Route path="/products" element={<Products />} />
 
             <Route
