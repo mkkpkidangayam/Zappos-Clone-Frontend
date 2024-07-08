@@ -125,7 +125,7 @@ const ProductsListing = () => {
         </div>
 
         {/* Product listings */}
-        <div className="col-span-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
+        <div className="col-span-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-[2px] md:gap-4">
           {isLoading ? (
             <div className="mx-auto col-span-4   ">
               <LoadingSpinner />
