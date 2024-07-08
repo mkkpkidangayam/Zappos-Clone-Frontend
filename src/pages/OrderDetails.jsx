@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Axios } from "../MainPage";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
@@ -8,10 +8,8 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import myContext from "../context/myContextxt";
 
 const OrderDetails = () => {
-  const { setOrderCount } = useContext(myContext);
   const { userId } = useParams();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +19,6 @@ const OrderDetails = () => {
       .then((response) => {
         setOrders(response.data);
         setLoading(false);
-        setOrderCount(orders.length)
       })
       .catch((error) => {
         console.error("Error fetching order details:", error);

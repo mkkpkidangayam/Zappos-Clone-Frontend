@@ -3,12 +3,15 @@ import myContext from "../context/myContextxt";
 import { Link, useLocation } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import Sidebar from "./Sidebar";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const ProductsListing = () => {
   const { product, isLoading, menu } = useContext(myContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [sortOrder, setSortOrder] = useState("newArrivals");
+  const [sortOrder, setSortOrder] = useState("");
+  const [showFilter, setshowFilter] = useState(false);
 
   const location = useLocation();
   useEffect(() => {
@@ -76,6 +79,11 @@ const ProductsListing = () => {
       ? product.length
       : 0;
 
+  // const isMobileOrTablet = useMediaQuery({ query: "(max-width: 768px)" });
+  // if (isMobileOrTablet) {
+  //   setshowFilter(true);
+  // }
+
   return (
     <div className="container my-6">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
@@ -85,7 +93,7 @@ const ProductsListing = () => {
             ({productCount}) items found
           </p>
         </div>
-        <div className="md:w-full md:h-24 mr-7 py-5 sm:flex justify-center md:justify-end">
+        <div className="md:w-full md:h-24 mr-7 py-5 sm:flex justify-around space-x-8 md:justify-end">
           <label htmlFor="sort" className="md:m-2 font-semibold">
             Sort By
             <select
@@ -101,17 +109,23 @@ const ProductsListing = () => {
               <option value="highToLow">Price: High to Low</option>
             </select>
           </label>
+          <button
+            onClick={() => setshowFilter(!showFilter)}
+            className="p-2 border rounded-xl lg:hidden"
+          >
+            Filter
+            {showFilter ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:px-5">
-        {/* Sidebar */}
-        <div className="md:block">
+        <div className={`${!showFilter ? `hidden` : `block`} lg:block`}>
           <Sidebar />
         </div>
 
         {/* Product listings */}
-        <div className="col-span-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="col-span-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
           {isLoading ? (
             <div className="mx-auto col-span-4   ">
               <LoadingSpinner />
@@ -123,7 +137,7 @@ const ProductsListing = () => {
                 className="block font-semibold mb-4 relative"
                 to={`/product/${product._id}`}
               >
-                <article className="bg-white shadow-md border flex flex-col justify-evenly lg:min-h-[550px] rounded-lg p-6 mb-4 ">
+                <article className="bg-white shadow-md border flex flex-col md:overflow-auto overflow-y-auto min-h-96 max-h-[400px] md:max-h-[550px] justify-evenly md:min-h-[550px] rounded-lg p-6 mb-4 ">
                   <img
                     src={product.images[0]}
                     alt={product.title}
@@ -132,7 +146,7 @@ const ProductsListing = () => {
                   <img
                     src={product.images[1]}
                     alt={product.title}
-                    className="w-full absolute top-3 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
+                    className="absolute top-2 left-0 opacity-0 hover:opacity-100 transition-opacity duration-1000"
                   />
                   <div className="">
                     <span className="block mt-2 font-semibold hover:underline mb-2">
@@ -150,23 +164,6 @@ const ProductsListing = () => {
                       <span className="font-semibold">Price: </span>₹
                       {product.price}
                     </p>
-                    <p className="mb-2">
-                      <span className="flex items-center">
-                        <svg
-                          className="w-4 h-4 fill-current text-yellow-500 mr-1"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                        </svg>
-                        5.0 out of 5 stars
-                      </span>
-                    </p>
                   </div>
                 </article>
               </Link>
@@ -178,7 +175,7 @@ const ProductsListing = () => {
                 className="block font-semibold mb-4 relative"
                 to={`/product/${product._id}`}
               >
-                <article className="bg-white shadow-md border flex flex-col justify-evenly min-h-[550px] rounded-lg p-6 mb-4">
+                <article className="bg-white shadow-md border flex flex-col justify-evenly min-h-[500px] rounded-lg p-6 mb-4">
                   <img
                     src={product.images[0]}
                     alt={product.title}

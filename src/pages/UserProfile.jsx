@@ -1,15 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
 import Cookies from "js-cookie";
-import myContext from "../context/myContextxt";
 
 const UserProfile = () => {
-  const { orderCount } = useContext(myContext);
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     Axios.get(`/user/profile/${userId}`, {

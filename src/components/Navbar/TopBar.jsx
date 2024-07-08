@@ -79,7 +79,7 @@ const TopBar = () => {
               <ColorRing
                 visible={true}
                 height="40"
-                width="50"
+                width="40"
                 ariaLabel="color-ring-loading"
                 wrapperStyle={{}}
                 wrapperClass="color-ring-wrapper"
