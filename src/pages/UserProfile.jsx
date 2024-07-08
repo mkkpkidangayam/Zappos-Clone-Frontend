@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
 import Cookies from "js-cookie";
@@ -36,8 +36,11 @@ const UserProfile = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="p-6 bg-gray-50 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold mb-4">Account Details</h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 capitalize">
                 <strong>Email:</strong> {userData?.email}
+                <strong>Login Type:</strong> {userData?.loginType}
+                <strong>Join Date:</strong>{" "}
+                {new Date(userData?.createdAt).toLocaleString()}
               </p>
             </div>
             <div className="p-6 bg-gray-50 rounded-lg shadow-md">
@@ -55,33 +58,25 @@ const UserProfile = () => {
               ) : (
                 <p className="text-gray-600">No addresses available.</p>
               )}
-              <a
+              {/* <a
                 href="/addresses/new"
                 className="text-blue-600 hover:underline"
               >
                 Add a new address
-              </a>
+              </a> */}
             </div>
           </div>
-          <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md">
+          {/* <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Payment Information</h2>
             <p className="text-gray-600">No primary payment method set.</p>
             <a href="/payments/new" className="text-blue-600 hover:underline">
               Add a new card
             </a>
-          </div>
+          </div> */}
           <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-            <p className="text-gray-600">
-              {orderCount === 1
-                ? `${orderCount} order available`
-                : orderCount > 1
-                ? `${orderCount} orders available`
-                : "No order history available."}
-            </p>
-            <button className="p-3 bg-blue-700" onClick={() => navigate(`/user/${userData._id}/profile`)}>
-              Goto Order
-            </button>
+            <Link to={`/user/${userData._id}/profile`}>
+              <h2 className="text-2xl font-semibold mb-4">Order History</h2>
+            </Link>
           </div>
         </div>
       ) : (
