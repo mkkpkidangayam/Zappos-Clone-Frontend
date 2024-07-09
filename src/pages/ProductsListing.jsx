@@ -49,9 +49,6 @@ const ProductsListing = () => {
     if (Array.isArray(product)) {
       let sortedProducts = [...product];
       switch (sortOrder) {
-        //   case "customerRating":
-        //     sortedProducts.sort((a, b) => a.rating - b.rating);
-        //     break;
         case "lowToHigh":
           sortedProducts.sort((a, b) => a.price - b.price);
           break;
