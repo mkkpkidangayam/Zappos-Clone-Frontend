@@ -76,11 +76,6 @@ const ProductsListing = () => {
       ? product.length
       : 0;
 
-  // const isMobileOrTablet = useMediaQuery({ query: "(max-width: 768px)" });
-  // if (isMobileOrTablet) {
-  //   setshowFilter(true);
-  // }
-
   return (
     <div className="container my-6">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
