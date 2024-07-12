@@ -110,7 +110,7 @@ const MainPage = () => {
   };
 
   // Use react-responsive to detect screen size
-  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 900px)" });
+  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 1000px)" });
 
   return (
     <>
