@@ -60,7 +60,6 @@ const MainPage = () => {
   const [subMenu, setSubMenu] = useState(""); // For menu bar
   const [isLoading, setIsLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  
 
   useEffect(() => {
     Axios.get("/products")
@@ -108,11 +107,10 @@ const MainPage = () => {
     setSubMenu,
     filteredProducts,
     setFilteredProducts,
-    
   };
 
   // Use react-responsive to detect screen size
-  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 1024px)" });
+  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 900px)" });
 
   return (
     <>

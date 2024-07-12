@@ -5,7 +5,7 @@ import MobileHome from "./MobileHome";
 import DesktopHome from "./DesktopHome";
 
 const Home = () => {
-  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 1024px)" });
+  const isMobileOrTablet = useMediaQuery({ query: "(max-width: 768px)" });
 
   return isMobileOrTablet ? <MobileHome /> : <DesktopHome />;
 };
