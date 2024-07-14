@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Axios } from "../MainPage";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
@@ -92,7 +92,9 @@ const OrderDetails = () => {
       </h1>
 
       {loading ? (
-        <LoadingSpinner />
+        <div className="h-screen flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
       ) : orders.length > 0 ? (
         <div className="space-y-6">
           {orders.map((order, index) => (
