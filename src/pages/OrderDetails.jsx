@@ -92,7 +92,7 @@ const OrderDetails = () => {
       </h1>
 
       {loading ? (
-        <div className="h-screen flex justify-center items-center">
+        <div className="h-screen flex justify-center">
           <LoadingSpinner />
         </div>
       ) : orders.length > 0 ? (
