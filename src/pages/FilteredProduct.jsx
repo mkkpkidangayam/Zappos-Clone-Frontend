@@ -62,8 +62,8 @@ const Filteredproduct = () => {
             {filteredProducts?.length > 0 && (
               <p className="font-semibold text-gray-600">
                 {filteredProducts?.length === 1
-                  ? `(${filteredProducts?.length}) item found`
-                  : `(${filteredProducts?.length}) items found`}
+                  ? `( ${filteredProducts?.length} ) item found`
+                  : `( ${filteredProducts?.length} ) items found`}
               </p>
             )}
           </div>
