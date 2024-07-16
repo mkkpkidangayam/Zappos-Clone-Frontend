@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import LoadingSpinner from "../components/Assets/LoadingSpinner";
 import { Axios } from "../MainPage";
 import Cookies from "js-cookie";
-// import DeleteIcon from "@mui/icons-material/Delete";
 
 const WishlistPage = () => {
   const { userId } = useParams();
