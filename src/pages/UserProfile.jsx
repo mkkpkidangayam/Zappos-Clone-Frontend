@@ -21,7 +21,6 @@ const UserProfile = () => {
   }, [userId]);
 
   const userAddress = userData?.address;
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-6">
       {userData ? (
