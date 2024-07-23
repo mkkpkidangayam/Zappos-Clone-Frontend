@@ -44,7 +44,7 @@ const AdminNav = () => {
                   onClick={toggleSidebar}
                   className="px-2 py-1 bg-gray-200 m-2 text-gray-800 rounded-md float-right"
                 >
-                  <MenuIcon />
+                  <CloseIcon />
                 </button>
               )}
               <h1 className="text-3xl font-mono font-bold p-6 border-b-2 bg-gray-800 text-white">
@@ -125,7 +125,7 @@ const AdminNav = () => {
             onClick={toggleSidebar}
             className="px-2 py-1 bg-gray-400 text-gray-800 rounded-md absolute"
           >
-            <CloseIcon />
+            <MenuIcon />
           </button>
         )}
         <Outlet />
