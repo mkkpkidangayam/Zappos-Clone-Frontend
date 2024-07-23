@@ -10,8 +10,6 @@ const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [isLoding, setIsLoding] = useState(true);
 
-  
-
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -54,9 +52,7 @@ const WishlistPage = () => {
           Continue Shopping
         </Link>
       </div>
-
       <hr className="mb-3" />
-
       {isLoding ? (
         <LoadingSpinner />
       ) : wishlist.length === 0 ? (
