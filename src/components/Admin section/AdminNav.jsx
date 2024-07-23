@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -11,6 +9,8 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from '@mui/icons-material/Close';
 
 const AdminNav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -44,7 +44,7 @@ const AdminNav = () => {
                   onClick={toggleSidebar}
                   className="px-2 py-1 bg-gray-200 m-2 text-gray-800 rounded-md float-right"
                 >
-                  <KeyboardDoubleArrowLeftIcon />
+                  <MenuIcon />
                 </button>
               )}
               <h1 className="text-3xl font-mono font-bold p-6 border-b-2 bg-gray-800 text-white">
@@ -125,7 +125,7 @@ const AdminNav = () => {
             onClick={toggleSidebar}
             className="px-2 py-1 bg-gray-400 text-gray-800 rounded-md absolute"
           >
-            <KeyboardDoubleArrowRightIcon />
+            <CloseIcon />
           </button>
         )}
         <Outlet />
