@@ -13,12 +13,12 @@ import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const navigate = useNavigate();
-  const { setIsLogin } = useContext(myContext);
+  const { isLogin, setIsLogin } = useContext(myContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {}, [setIsLogin]);
+  useEffect(() => {}, [isLogin]);
 
   function capitalize(str) {
     if (!str) return str;
