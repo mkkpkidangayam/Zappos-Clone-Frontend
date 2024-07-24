@@ -45,9 +45,7 @@ const CartPage = () => {
 
   const handleRemoveItem = async (itemId) => {
     try {
-      await Axios.delete(
-        `/remove-from-cart/${userId}/${itemId}`
-      );
+      await Axios.delete(`/remove-from-cart/${userId}/${itemId}`);
       const updatedCartItems = cartItems.filter((item) => item._id !== itemId);
       setCartItems(updatedCartItems);
     } catch (error) {
