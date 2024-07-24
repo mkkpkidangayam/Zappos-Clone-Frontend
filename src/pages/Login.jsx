@@ -63,7 +63,7 @@ function Login() {
     })
       .then((response) => {
         const { token, userData } = response.data;
-        Cookies.set("token", token, { expires: 1 });
+        Cookies.set("token", token);
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(userData);
         localStorage.setItem("userInfo", userInfo);
