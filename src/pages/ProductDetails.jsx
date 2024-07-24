@@ -107,7 +107,7 @@ const ProductDetails = () => {
 
     if (existingCartItem) {
       const totalQuantity = existingCartItem.quantity + 1;
-      if (totalQuantity > 4 || totalQuantity > availableStock) {
+      if (totalQuantity > 5 || totalQuantity > availableStock) {
         toast.error(
           "You cannot add more than 4 units of the same item and size."
         );

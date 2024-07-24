@@ -126,7 +126,7 @@ const CartPage = () => {
                           item.product.sizes.find(
                             (size) => size.size === item.size
                           )?.quantity || 0,
-                          4
+                          5
                         ),
                       },
                       (_, i) => i + 1
