@@ -37,11 +37,11 @@ export default function Menu() {
           id="static-modal"
           data-modal-backdrop="static"
           onClick={closeModal}
-          className="absolute top-40 pt-2 right-0 left-2 z-50 bg-opacity-100"
+          className="absolute top-9 pt-2 left-0 z-50 bg-opacity-100 w-full"
         >
           <div
             onMouseLeave={() => toggleModal()}
-            className="relative left-14 p-2 w-full max-w-2xl bg-white rounded-lg shadow-md"
+            className="relative p-2 w-full max-w-2xl bg-white rounded-lg shadow-md"
           >
             <button
               onClick={toggleModal}
@@ -105,7 +105,9 @@ export default function Menu() {
                 )}
               </div>
             ) : (
-              <LoadingSpinner />
+              <div className="w- flex justify-center">
+                <LoadingSpinner />
+              </div>
             )}
           </div>
         </div>

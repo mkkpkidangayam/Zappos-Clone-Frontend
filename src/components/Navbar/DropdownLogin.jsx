@@ -17,7 +17,7 @@ const DropdownLogin = () => {
   };
 
   useClickAway(ref, handleClickAway);
-  
+
   function capitalize(str) {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -49,15 +49,13 @@ const DropdownLogin = () => {
       aria-labelledby="radix-1"
       className="
         absolute
-        top-24
-        right-5
-        isolate
+        top-10
+        left-1
         z-50
        bg-slate-100
         border border-black
         overflow-hidden
         rounded-xl
-        bg-default-minimal
         p-1
         shadow-[2px_8px_16px_rgba(0,0,0,0.12)]
       "

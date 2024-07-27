@@ -139,8 +139,8 @@ const Navbar = () => {
                 {firstName && (
                   <span className="text-sm font-bold">{firstName}</span>
                 )}
-              </button>
               {isMenuOpen && <DropdownLogin />}
+              </button>
 
               <button
                 onClick={() => {
@@ -176,7 +176,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex justify-between mt-4 pl-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center relative">
               <ul className="flex text-dark font-bold">
                 <button
                   onMouseEnter={() => {
@@ -278,7 +278,7 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                    className={`cursor-pointer relative rounded-full px-4 py-1 ${
                       menu === "collections"
                         ? "bg-black text-white"
                         : "hover:bg-zinc-300"
@@ -295,7 +295,7 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                    className={`cursor-pointer relative rounded-full px-4  py-1  ${
+                    className={`cursor-pointer relative rounded-full px-4 py-1 ${
                       menu === "brands"
                         ? "bg-black text-white"
                         : "hover:bg-zinc-300"
@@ -305,11 +305,12 @@ const Navbar = () => {
                   </li>
                 </button>
               </ul>
+              <div className="flex justify-center">{showModal && <SubMenu />}</div>
             </div>
             <div className="flex items-center mr-3 pr-6">
               <a
                 href="*"
-                className="text-black font-bold hover:bg-zinc-300 p-1  rounded-full"
+                className="text-black font-bold hover:bg-zinc-300 p-1 rounded-full"
               >
                 Help & Support
               </a>
@@ -317,7 +318,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">{showModal && <SubMenu />}</div>
+      
       <div className="flex justify-center">
         <Outlet />
       </div>
