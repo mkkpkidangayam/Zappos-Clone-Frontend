@@ -38,15 +38,6 @@ const DropdownLogin = () => {
   return (
     <div
       ref={ref}
-      data-side="bottom"
-      data-align="end"
-      role="menu"
-      aria-orientation="vertical"
-      data-state="open"
-      data-radix-menu-content=""
-      dir="ltr"
-      id="radix-3"
-      aria-labelledby="radix-1"
       className="
         absolute
         top-10
@@ -57,24 +48,7 @@ const DropdownLogin = () => {
         overflow-hidden
         rounded-xl
         p-1
-        shadow-[2px_8px_16px_rgba(0,0,0,0.12)]
-      "
-      tabIndex="-1"
-      data-orientation="vertical"
-      style={{
-        outline: "none",
-        "--radix-dropdown-menu-content-transform-origin":
-          "var(--radix-popper-transform-origin)",
-        "--radix-dropdown-menu-content-available-width":
-          "var(--radix-popper-available-width)",
-        "--radix-dropdown-menu-content-available-height":
-          "var(--radix-popper-available-height)",
-        "--radix-dropdown-menu-trigger-width":
-          "var(--radix-popper-anchor-width)",
-        "--radix-dropdown-menu-trigger-height":
-          "var(--radix-popper-anchor-height)",
-        pointerEvents: "auto",
-      }}
+        shadow-[2px_8px_16px_rgba(0,0,0,0.12)]"
     >
       <div role="group" className="flex flex-col gap-y-1">
         <h2 className="flex w-40 items-center p-2 justify-start gap-1 capitalize rounded-xl font-bold transition-colors ">
