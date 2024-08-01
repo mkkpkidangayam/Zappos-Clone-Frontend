@@ -38,17 +38,7 @@ const DropdownLogin = () => {
   return (
     <div
       ref={ref}
-      className="
-        absolute
-        top-10
-        left-1
-        z-50
-       bg-slate-100
-        border border-black
-        overflow-hidden
-        rounded-xl
-        p-1
-        shadow-[2px_8px_16px_rgba(0,0,0,0.12)]"
+      className="absolute top-10 left-1 z-50 bg-slate-100 border border-black overflow-hidden rounded-xl p-1 shadow-[2px_8px_16px_rgba(0,0,0,0.12)]"
     >
       <div role="group" className="flex flex-col gap-y-1">
         <h2 className="flex w-40 items-center p-2 justify-start gap-1 capitalize rounded-xl font-bold transition-colors ">
